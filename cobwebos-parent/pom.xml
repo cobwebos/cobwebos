@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.cobwebos</groupId>
+  <artifactId>cobwebos-parent</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>cobwebos-parent</name>
+  <description>cobwebos-parent</description>
+  <modules>
+    <module>cobwebos-messagegrid</module>
+    <module>cobwebos-datagrid</module>
+    <module>cobwebos-rest</module>
+    <module>cobwebos-ssh</module>
+    <module>cobwebos-sftp</module>
+    <module>cobwebos-http</module>
+    <module>cobwebos-webapp</module>
+    <module>cobwebos-hbase</module>
+    <module>cobwebos-elasticsearch</module>
+    <module>cobwebos-monitor</module>
+    <module>cobwebos-inventory</module>
+    <module>cobwebos-topology</module>
+    <module>cobwebos-alarm</module>
+    <module>cobwebos-logger</module>
+    <module>cobwebos-e2e</module>
+    <module>cobwebos-ems</module>
+    <module>cobwebos-mysql</module>
+    <module>cobwebos-postgresql</module>
+    <module>cobwebos-devops</module>
+    <module>cobwebos-autotest</module>
+    <module>cobwebos-deploy</module>
+    <module>cobwebos-codecheck</module>
+    <module>cobwebos-review</module>
+    <module>cobwebos-plugin</module>
+    <module>cobwebos-aaa</module>
+    <module>cobwebos-configure</module>
+  </modules>
+</project>
