@@ -21,15 +21,36 @@
     <feature name='${project.artifactId}' description='${project.name}' version='${project.version}'>
         <details>${project.description}</details>
         <!-- <config>foo=bar</config> -->
-       <bundle start-level="81" start="true">mvn:com.raisecom/inventory</bundle>
-       <bundle start-level="83" start="true">mvn:com.raisecom/topo</bundle>
-       <bundle start-level="85" start="true">mvn:com.raisecom/alarm</bundle>
-       <bundle start-level="87" start="true">mvn:com.raisecom/logger</bundle>
-       <bundle start-level="89" start="true">mvn:com.raisecom/pm</bundle>
-       <bundle start-level="91" start="true">mvn:com.raisecom/e2e</bundle>
-       <bundle start-level="93" start="true">mvn:com.raisecom/ems</bundle>
-       <bundle start-level="95" start="true">mvn:com.raisecom/dbtools</bundle>
-       <bundle start-level="97" start="true">mvn:com.raisecom/msgtools</bundle>
+       <bundle start-level="81" start="true">mvn:com.cobwebos/cobwebos-inventory</bundle>
+       <bundle start-level="83" start="true">mvn:com.cobwebos/cobwebos-topology</bundle>
+       <bundle start-level="85" start="true">mvn:com.cobwebos/cobwebos-alarm</bundle>
+       <bundle start-level="87" start="true">mvn:com.cobwebos/cobwebos-logger</bundle>
+       <bundle start-level="89" start="true">mvn:com.cobwebos/cobwebos-monitor</bundle>
+       <bundle start-level="91" start="true">mvn:com.cobwebos/cobwebos-e2e</bundle>
+       <bundle start-level="93" start="true">mvn:com.cobwebos/cobwebos-ems</bundle>
+       <bundle start-level="95" start="true">mvn:com.cobwebos/cobwebos-messagegrid</bundle>
+       <bundle start-level="97" start="true">mvn:com.cobwebos/cobwebos-datagrid</bundle>
+       
+       <bundle start-level="81" start="true">mvn:com.cobwebos/cobwebos-aaa</bundle>
+       <bundle start-level="83" start="true">mvn:com.cobwebos/cobwebos-autotest</bundle>
+       <bundle start-level="85" start="true">mvn:com.cobwebos/cobwebos-configure</bundle>
+       <bundle start-level="87" start="true">mvn:com.cobwebos/cobwebos-devops</bundle>
+       <bundle start-level="89" start="true">mvn:com.cobwebos/cobwebos-autotest</bundle>
+       <bundle start-level="91" start="true">mvn:com.cobwebos/cobwebos-deploy</bundle>
+       <bundle start-level="93" start="true">mvn:com.cobwebos/cobwebos-ssh</bundle>
+       <bundle start-level="95" start="true">mvn:com.cobwebos/cobwebos-sftp</bundle>
+       <bundle start-level="97" start="true">mvn:com.cobwebos/cobwebos-http</bundle>
+       
+       <bundle start-level="81" start="true">mvn:com.cobwebos/cobwebos-hbase</bundle>
+       <bundle start-level="83" start="true">mvn:com.cobwebos/cobwebos-mysql</bundle>
+       <bundle start-level="85" start="true">mvn:com.cobwebos/cobwebos-postgresql</bundle>
+       <bundle start-level="87" start="true">mvn:com.cobwebos/cobwebos-plugin</bundle>
+       <bundle start-level="89" start="true">mvn:com.cobwebos/cobwebos-review</bundle>
+       <bundle start-level="91" start="true">mvn:com.cobwebos/cobwebos-webapp</bundle>
+       <bundle start-level="93" start="true">mvn:com.cobwebos/cobwebos-elasticsearch</bundle>
+       <bundle start-level="95" start="true">mvn:com.cobwebos/cobwebos-rest</bundle>
+       <bundle start-level="97" start="true">mvn:com.cobwebos/cobwebos-codecheck</bundle>
+       
     </feature>
 
 </features>
