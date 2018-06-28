@@ -34,5 +34,6 @@
     <module>cobwebos-plugin</module>
     <module>cobwebos-aaa</module>
     <module>cobwebos-configure</module>
+    <module>cobwebos-features</module>
   </modules>
 </project>
