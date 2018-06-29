@@ -35,5 +35,57 @@
     <module>cobwebos-aaa</module>
     <module>cobwebos-configure</module>
     <module>cobwebos-features</module>
+    <module>cobwebos-repository</module>
+    <module>cobwebos-upgrage</module>
+    <module>cobwebos-nbi</module>
+    <module>cobwebos-sbi</module>
+    <module>cobwebos-cluster</module>
+    <module>cobwebos-security</module>
+    <module>cobwebos-gateway</module>
+    <module>cobwebos-loadbalance</module>
+    <module>cobwebos-microservice</module>
+    <module>cobwebos-sdnc</module>
+    <module>cobwebos-mano</module>
+    <module>cobwebos-boss</module>
+    <module>cobwebos-oss</module>
+    <module>cobwebos-nms</module>
+    <module>cobweb-sc</module>
+    <module>cobwebos-public-cloud</module>
+    <module>cobwebos-publiccloud</module>
+    <module>cobwebos-privatecloud</module>
+    <module>cobwebos-edgecloud</module>
+    <module>cobwebos-hybridcloud</module>
+    <module>cobwebos-iot</module>
+    <module>cobwebos-blockchain</module>
+    <module>cobwebos-ai</module>
+    <module>cobwebos-appserver</module>
+    <module>cobwebos-appc</module>
+    <module>cobwebos-nfv</module>
+    <module>cobwebos-vnfm</module>
+    <module>cobweb-vnf</module>
+    <module>cobwebos-route</module>
+    <module>cobwebos-nat</module>
+    <module>cobwebos-firewall</module>
+    <module>cobwebos-faas</module>
+    <module>cobwebos-iaas</module>
+    <module>cobwebos-paas</module>
+    <module>cobwebos-saas</module>
+    <module>cobwebos-baas</module>
+    <module>cobwebos-daas</module>
+    <module>cobwebos-aaas</module>
+    <module>cobwebos-ha</module>
+    <module>cobwebos-proxy</module>
+    <module>cobwebos-bpm</module>
+    <module>cobwebos-netconf</module>
+    <module>cobwebos-openflow</module>
+    <module>cobwebos-ovsdb</module>
+    <module>cobwebos-snmp</module>
+    <module>cobwebos-restconf</module>
+    <module>cobwebos-host</module>
+    <module>cobwebos-vm</module>
+    <module>cobwebos-cpe</module>
+    <module>cobwebos-hub</module>
+    <module>cobwebos-container</module>
+    <module>cobwebos-hadoop</module>
   </modules>
 </project>
