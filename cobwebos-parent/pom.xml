@@ -36,7 +36,7 @@
     <module>cobwebos-configure</module>
     <module>cobwebos-features</module>
     <module>cobwebos-repository</module>
-    <module>cobwebos-upgrage</module>
+    
     <module>cobwebos-nbi</module>
     <module>cobwebos-sbi</module>
     <module>cobwebos-cluster</module>
@@ -49,7 +49,7 @@
     <module>cobwebos-boss</module>
     <module>cobwebos-oss</module>
     <module>cobwebos-nms</module>
-    <module>cobweb-sc</module>
+    
     
     <module>cobwebos-publiccloud</module>
     <module>cobwebos-privatecloud</module>
@@ -62,7 +62,7 @@
     <module>cobwebos-appc</module>
     <module>cobwebos-nfv</module>
     <module>cobwebos-vnfm</module>
-    <module>cobweb-vnf</module>
+    
     <module>cobwebos-route</module>
     <module>cobwebos-nat</module>
     <module>cobwebos-firewall</module>
@@ -87,5 +87,9 @@
     <module>cobwebos-hub</module>
     <module>cobwebos-container</module>
     <module>cobwebos-hadoop</module>
+    <module>cobwebos-sc</module>
+    <module>cobwebos-vnf</module>
+    <module>cobwebos-upgrade</module>
+    <module>cobwebos-bss</module>
   </modules>
 </project>
