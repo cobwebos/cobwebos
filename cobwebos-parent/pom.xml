@@ -50,7 +50,7 @@
     <module>cobwebos-oss</module>
     <module>cobwebos-nms</module>
     <module>cobweb-sc</module>
-    <module>cobwebos-public-cloud</module>
+    
     <module>cobwebos-publiccloud</module>
     <module>cobwebos-privatecloud</module>
     <module>cobwebos-edgecloud</module>
