@@ -91,5 +91,6 @@
     <module>cobwebos-vnf</module>
     <module>cobwebos-upgrade</module>
     <module>cobwebos-bss</module>
+    <module>cobwebos-client</module>
   </modules>
 </project>

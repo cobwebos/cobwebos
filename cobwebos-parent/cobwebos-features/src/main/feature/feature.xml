@@ -102,6 +102,9 @@
        <bundle start-level="80" start="true">mvn:com.cobwebos/cobwebos-nbi</bundle>
        <bundle start-level="80" start="true">mvn:com.cobwebos/cobwebos-repository</bundle>
  	   <bundle start-level="80" start="true">mvn:com.cobwebos/cobwebos-microservice</bundle>
+ 	   <bundle start-level="80" start="true">mvn:com.cobwebos/cobwebos-client</bundle>
+ 	   
+ 	   
     </feature>
 
 </features>
