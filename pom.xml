@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.cobwebos</groupId>
+  <artifactId>cobwebos</artifactId>
+  <version>0.0.1</version>
+  <packaging>pom</packaging>
+  <name>cobwebos</name>
+  <description>www.cobwebos.com</description>
+  <modules>
+    <module>cobwebos-dapp-server</module>
+    <module>cobwebos-dapp-server-feature</module>
+  </modules>
+</project>
