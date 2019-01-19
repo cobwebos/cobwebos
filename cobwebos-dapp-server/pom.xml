@@ -71,7 +71,18 @@
 			<artifactId>zookeeper</artifactId>
 			<version>3.4.13</version>
 		</dependency>
-		
+
+        <dependency>
+            <groupId>org.glassfish.jersey.containers</groupId>
+            <artifactId>jersey-container-netty-http</artifactId>
+            <version>2.27</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.jersey.inject</groupId>
+            <artifactId>jersey-hk2</artifactId>
+            <version>2.27</version>
+        </dependency>
 		
     </dependencies>
 
@@ -88,7 +99,10 @@
                         <Bundle-Version>${project.version}</Bundle-Version>
                         <Bundle-Activator>com.cobwebos.dapp.server.Activator</Bundle-Activator>
                         <Export-Package>com.cobwebos.dapp.server*;version=${project.version}</Export-Package>
-                        <Import-Package>*</Import-Package>
+                        <Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
+                        <Embed-Directory>target/dependency</Embed-Directory>
+                        <Embed-Transitive>true</Embed-Transitive>
+                        <Import-Package>*;resolution:=optional</Import-Package>
                     </instructions>
                 </configuration>
             </plugin>

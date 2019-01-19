@@ -16,23 +16,33 @@
  */
 package com.cobwebos.dapp.server;
 
+
+import com.cobwebos.dapp.server.rest.RestServer;
+import org.apache.log4j.PropertyConfigurator;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.FileInputStream;
+
 public class Activator implements BundleActivator {
     private static final Logger log = LoggerFactory.getLogger("dapp-server");
+    static {
+        String logPath = System.getProperty("user.dir")+ File.separator+"etc"+File.separator+"log4j.properties";
+        PropertyConfigurator.configure(logPath);
+    }
 
     public void start(BundleContext context) {
         log.info("Starting the dapp-server bundle...");
-        System.out.println("Starting the bundle");
+        RestServer.startRestServer();
         log.info("Starting the dapp-server bundle end...");
     }
 
     public void stop(BundleContext context) {
         log.info("Stopping the dapp-server bundle...");
-        System.out.println("Stopping the bundle");
+        RestServer.stopRestServer();
         log.info("Stopping the dapp-server bundle end...");
     }
 
