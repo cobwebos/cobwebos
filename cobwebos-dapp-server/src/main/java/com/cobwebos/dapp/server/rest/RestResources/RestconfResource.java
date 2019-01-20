@@ -30,7 +30,7 @@ public class RestconfResource {
 	public String createNodeByPath(@PathParam("path") String path, @QueryParam("data") String data) {
 		log.info("path:{},data:{}", path, data);
 		JSONObject json = new JSONObject();
-		if (path != null && data!= null) {
+		if (path != null && data != null) {
 			json = createBlockNodeByPath(path, data);
 		}
 		return json.toString();
@@ -50,15 +50,15 @@ public class RestconfResource {
 
 	@PUT
 	public String PutPathNode(@PathParam("path") String path, @QueryParam("data") String data) {
-		log.info("path:{}, data:{}", path, data );
+		log.info("path:{}, data:{}", path, data);
 		String result = null;
 		if (path != null) {
 			result = setBlockNodeByPath(path, data).toString();
 		}
 		result = getBlockNodeValueByPath(path).toString();
-		log.info("path:{}, data:{},result:{}", path, data ,result);
+		log.info("path:{}, data:{},result:{}", path, data, result);
 		return result;
-	
+
 	}
 
 	@GET
@@ -86,18 +86,16 @@ public class RestconfResource {
 	}
 
 	public JSONObject getBlockNodeValueByPath(String path) {
-		JSONObject blockNode = null;
+		JSONObject stat = null;
 		try {
-			blockNode = new JSONObject();
-			blockNode.put("path", path);
-			blockNode.put("data", RestServer.zk.getNodeValue(path));
-			blockNode.put("stat",  RestServer.zk.getNodeStat(path));
+			stat = new JSONObject(RestServer.zk.getNode(path));
 		} catch (InterruptedException e) {
 			log.error(e.getMessage(), e);
 		} catch (KeeperException e) {
 			log.error(e.getMessage(), e);
 		}
-		return blockNode;
+
+		return stat;
 	}
 
 	public JSONObject lsBlockNodeByPath(String path) {
@@ -113,15 +111,11 @@ public class RestconfResource {
 		}
 		return blockNode;
 	}
-	
-	public JSONObject createBlockNodeByPath(String path,String data) {
-		JSONObject blockNode = null;
-		blockNode = new JSONObject();		
-		RestServer.zk.createNode(path, data);
-		blockNode.put("data", getBlockNodeValueByPath(path));		
-		return blockNode;
-	}
 
+	public JSONObject createBlockNodeByPath(String path, String data) {		
+		RestServer.zk.createNode(path, data);		
+		return getBlockNodeValueByPath(path);
+	}
 
 	public JSONObject deleteBlockNodeByPath(String path) {
 		JSONObject blockNode = null;
@@ -139,12 +133,9 @@ public class RestconfResource {
 		return blockNode;
 	}
 
-	public JSONObject setBlockNodeByPath(String path, String data) {
-		JSONObject blockNode = null;
-		blockNode = new JSONObject();
-		blockNode.put("path", path);
-		blockNode.put("data", RestServer.zk.setNodeValue(path, data));
-		return blockNode;
+	public JSONObject setBlockNodeByPath(String path, String data) {		
+		 RestServer.zk.setNodeValue(path, data);
+		 return getBlockNodeValueByPath(path);
 	}
 
 }

@@ -3,6 +3,7 @@ package com.cobwebos.dapp.server.common;
 import org.apache.zookeeper.*;
 import org.apache.zookeeper.Watcher.Event.KeeperState;
 import org.apache.zookeeper.data.Stat;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -148,12 +149,30 @@ public class ZookeeperUtils {
 		return data;
 	}
 
-	public static Stat getNodeStat(String path) throws InterruptedException, KeeperException {
-		Stat stat = null;
+
+	public static JSONObject getNode(String path) throws InterruptedException, KeeperException {
+		JSONObject statJSON = new JSONObject();
 		try {
-			stat = isExistsNode(path);
+			Stat stat = isExistsNode(path);
 			if (stat != null) {
-				log.info("get path:{},stat:{}", path, stat);
+				byte[] b = zk.getData(path, true, isExistsNode(path));
+				String data = new String(b, "UTF-8");			
+				statJSON.put("path", path);
+				statJSON.put("data", data);
+				
+				statJSON.put("cZxid", stat.getCzxid());
+				statJSON.put("ctime", stat.getCtime());
+				statJSON.put("mZxid", stat.getMzxid());
+				statJSON.put("mtime", stat.getMtime());
+				statJSON.put("pZxid", stat.getPzxid());
+				statJSON.put("cversion", stat.getCversion());
+				statJSON.put("dataVersion", stat.getVersion());
+				statJSON.put("aclVersion", stat.getAversion());
+				statJSON.put("ephemeralOwner ", stat.getEphemeralOwner());
+				statJSON.put("dataLength", stat.getDataLength());
+				statJSON.put("numChildren", stat.getNumChildren());
+				
+				log.info("get path:{},node:{}", path, statJSON.toString());
 			} else {
 				log.warn("node path:{} does not exists ! ", path);
 
@@ -161,7 +180,7 @@ public class ZookeeperUtils {
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
-		return stat;
+		return statJSON;
 	}
 
 	public static List<String> getChildrenNode(String path) throws InterruptedException, KeeperException {
