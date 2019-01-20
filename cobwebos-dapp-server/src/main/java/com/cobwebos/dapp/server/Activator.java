@@ -25,23 +25,25 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.FileInputStream;
 
 public class Activator implements BundleActivator {
     private static final Logger log = LoggerFactory.getLogger("dapp-server");
     static {
         String logPath = System.getProperty("user.dir")+ File.separator+"etc"+File.separator+"log4j.properties";
         PropertyConfigurator.configure(logPath);
+        System.setProperty("jute.maxbuffer", 41943040 + "");
     }
 
     public void start(BundleContext context) {
         log.info("Starting the dapp-server bundle...");
+        RestServer.startZKClient();
         RestServer.startRestServer();
         log.info("Starting the dapp-server bundle end...");
     }
 
     public void stop(BundleContext context) {
         log.info("Stopping the dapp-server bundle...");
+        RestServer.stopZKClient();
         RestServer.stopRestServer();
         log.info("Stopping the dapp-server bundle end...");
     }
