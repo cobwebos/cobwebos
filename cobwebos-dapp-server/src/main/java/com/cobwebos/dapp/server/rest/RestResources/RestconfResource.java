@@ -88,7 +88,7 @@ public class RestconfResource {
 	public JSONObject getBlockNodeValueByPath(String path) {
 		JSONObject stat =new JSONObject();
 		try {
-			stat.put("node", RestServer.zk.getNode(path).toString());
+			stat.put("node", RestServer.zk.getNode(path));
 		} catch (InterruptedException e) {
 			log.error(e.getMessage(), e);
 		} catch (KeeperException e) {
