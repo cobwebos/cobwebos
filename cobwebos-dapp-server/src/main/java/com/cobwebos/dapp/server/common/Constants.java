@@ -1,7 +1,5 @@
 package com.cobwebos.dapp.server.common;
 
-import javax.ws.rs.Path;
-
 public class Constants {
 
     public static final String DAPP_SERVER_REST_PATH_HELLO = "hello";

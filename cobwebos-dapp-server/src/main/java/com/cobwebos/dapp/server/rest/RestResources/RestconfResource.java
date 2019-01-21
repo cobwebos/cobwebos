@@ -2,7 +2,6 @@ package com.cobwebos.dapp.server.rest.RestResources;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -13,12 +12,14 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
+
 import org.apache.zookeeper.KeeperException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.cobwebos.dapp.server.common.Constants;
-import com.cobwebos.dapp.server.rest.RestServer;
+import com.cobwebos.dapp.server.common.ZookeeperUtils;
 
 @Path(Constants.DAPP_SERVER_REST_APP_PATH)
 public class RestconfResource {
@@ -88,7 +89,7 @@ public class RestconfResource {
 	public JSONObject getBlockNodeValueByPath(String path) {
 		JSONObject stat =new JSONObject();
 		try {
-			stat.put("node", RestServer.zk.getNode(path));
+			stat.put("node", ZookeeperUtils.getNode(path));
 		} catch (InterruptedException e) {
 			log.error(e.getMessage(), e);
 		} catch (KeeperException e) {
@@ -103,7 +104,7 @@ public class RestconfResource {
 		try {
 			blockNode = new JSONObject();
 			blockNode.put("path", path);
-			blockNode.put("children", RestServer.zk.getChildrenNode(path));
+			blockNode.put("children", ZookeeperUtils.getChildrenNode(path));
 		} catch (InterruptedException e) {
 			log.error(e.getMessage(), e);
 		} catch (KeeperException e) {
@@ -113,7 +114,7 @@ public class RestconfResource {
 	}
 
 	public JSONObject createBlockNodeByPath(String path, String data) {		
-		RestServer.zk.createNode(path, data);		
+		ZookeeperUtils.createNode(path, data);		
 		return getBlockNodeValueByPath(path);
 	}
 
@@ -121,7 +122,7 @@ public class RestconfResource {
 		JSONObject blockNode = null;
 		blockNode = new JSONObject();
 		blockNode.put("path", path);
-		blockNode.put("data", RestServer.zk.deleteNode(path));
+		blockNode.put("data", ZookeeperUtils.deleteNode(path));
 		return blockNode;
 	}
 
@@ -129,12 +130,12 @@ public class RestconfResource {
 		JSONObject blockNode = null;
 		blockNode = new JSONObject();
 		blockNode.put("path", path);
-		blockNode.put("data", RestServer.zk.rmrNode(path));
+		blockNode.put("data", ZookeeperUtils.rmrNode(path));
 		return blockNode;
 	}
 
 	public JSONObject setBlockNodeByPath(String path, String data) {		
-		 RestServer.zk.setNodeValue(path, data);
+		 ZookeeperUtils.setNodeValue(path, data);
 		 return getBlockNodeValueByPath(path);
 	}
 
