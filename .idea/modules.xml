@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/cobwebos.iml" filepath="$PROJECT_DIR$/cobwebos.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cobwebos-dapp-server/cobwebos-dapp-server.iml" filepath="$PROJECT_DIR$/cobwebos-dapp-server/cobwebos-dapp-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cobwebos-dapp-server-feature/cobwebos-dapp-server-feature.iml" filepath="$PROJECT_DIR$/cobwebos-dapp-server-feature/cobwebos-dapp-server-feature.iml" />
+    </modules>
+  </component>
+</project>
