@@ -26,9 +26,7 @@ public class RestServer {
 		//init zk
 		System.setProperty("jute.maxbuffer", com.cobwebos.dapp.server.Activator.cfg.getJuteMaxBuffer());		
 		zk.connect(com.cobwebos.dapp.server.Activator.cfg.getZkServerUrl(), com.cobwebos.dapp.server.Activator.cfg.getZkClientSessionTimeout());
-		//init RestServer()
-		startRestServer();			
-		
+				
 		log.info("started the ZK Client...");
 	}
 

@@ -1,6 +1,5 @@
 package com.cobwebos.dapp.server.entry;
 
-import org.apache.zookeeper.KeeperException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,77 +7,40 @@ import org.slf4j.LoggerFactory;
 import com.cobwebos.dapp.server.rest.RestServer;
 
 public class BlockNode {
-    /**
-     *   鍖哄潡閾捐妭鐐瑰敮涓�鏍囪瘑ID
-     */
+   
     private String BlockNodeHashId;
 
-    /**
-     *   鍓嶄竴鍖哄潡閾捐妭鐐瑰敮涓�鏍囪瘑ID
-     */
     private String BlockNodeNextHashId;
 
-    /**
-     *   鍚庝竴鍖哄潡閾捐妭鐐瑰敮涓�鏍囪瘑ID
-     */
+   
     private String BlockNodeLastHashId;
-    /**
-     *   鍖哄潡閾捐妭鐐筓UID
-     */
+   
     private String uuid;
-    /**
-     *   鍖哄潡閾捐妭鐐规墍鍦≒ATH璺緞
-     */
+  
     private String path;
-    /**
-     *   鍖哄潡閾捐妭鐐规暟鎹�
-     */
-    private String data;
-    /**
-     *   鍖哄潡閾捐妭鐐筩Zxid
-     */
+    
+    private String data;   
 
-    private String cZxid;
-    /**
-     *   鍖哄潡閾捐妭鐐� ctime
-     */
+    private String cZxid;   
 
     private String ctime;
-    /**
-     *   鍖哄潡閾捐妭鐐� mZxid
-     */
+   
     private String mZxid;
-    /**
-     *   鍖哄潡閾捐妭鐐� mtime
-     */
+   
     private String mtime;
-    /**
-     *   鍖哄潡閾捐妭鐐� pZxid
-     */
+   
     private String pZxid;
-    /**
-     *   鍖哄潡閾捐妭鐐� cversion
-     */
+  
     private String cversion;
-    /**
-     *   鍖哄潡閾捐妭鐐� dataVsersion
-     */
+   
     private String dataVsersion;
-    /**
-     *   鍖哄潡閾捐妭鐐� aclVersion
-     */
+    
     private String aclVersion;
-    /**
-     *   鍖哄潡閾捐妭鐐� ephemeralOwner
-     */
+    
     private String ephemeralOwner;
-    /**
-     *   鍖哄潡閾捐妭鐐� dataLength
-     */
+   
     private String dataLength;
-    /**
-     *   鍖哄潡閾捐妭鐐� numChildren
-     */
+   
     private String numChildren;
     
     private Logger log = LoggerFactory.getLogger(BlockNode.class);
