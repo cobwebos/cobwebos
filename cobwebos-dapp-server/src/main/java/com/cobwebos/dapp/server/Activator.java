@@ -27,27 +27,30 @@ import org.slf4j.LoggerFactory;
 import com.cobwebos.dapp.server.config.DappServerCfg;
 
 public class Activator implements BundleActivator {
-	private static final Logger log = LoggerFactory.getLogger("dapp-server");
-	public static DappServerCfg cfg;
+
 	public static String logPath = System.getProperty("user.dir") + File.separator + "etc" + File.separator
 			+ "log4j.properties";
+	public static Logger log = LoggerFactory.getLogger("dapp-server");
+	public static DappServerCfg cfg;
+
 	public static String cfgPath = System.getProperty("user.dir") + File.separator + "etc" + File.separator
-			+ "dappServer.properties";	
+			+ "dappServer.properties";
 	private DappServerMain main = new DappServerMain();
-	
+
 	static {
-	
-		cfg = new DappServerCfg(cfgPath);
+
+		PropertyConfigurator.configure(logPath);
+		log.info("cfgPath:", cfgPath);
+
 	}
 
 	public void start(BundleContext context) {
-		PropertyConfigurator.configure(logPath);
-		log.info("cfgPath:",cfgPath);
-		log.info("Starting the dapp-server bundle...");	
-		
+
+		log.info("Starting the dapp-server bundle...");
+		cfg = new DappServerCfg(cfgPath);
 		main.startHbase();
 		main.startZKClient();
-		main.startRestServer();		
+		main.startRestServer();
 		log.info("Starting the dapp-server bundle end...");
 	}
 

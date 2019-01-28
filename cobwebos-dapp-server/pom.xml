@@ -32,7 +32,6 @@
     <artifactId>cobwebos-dapp-server</artifactId>
     <version>0.0.1</version>
     <packaging>bundle</packaging>
-
     <name>cobwebos-dapp-server Bundle</name>
     <description>cobwebos-dapp-server OSGi bundle project.</description>
 
@@ -140,7 +139,7 @@
                     </instructions>
                 </configuration>
             </plugin>
-            <plugin>
+            <!-- <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
@@ -148,7 +147,7 @@
                     <target>1.8</target>
                     <maxmem>256M</maxmem>
                 </configuration>
-            </plugin>
+            </plugin> -->
 
         </plugins>
     </build>

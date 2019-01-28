@@ -30,8 +30,7 @@
     <artifactId>cobwebos-dapp-server-feature</artifactId>
     <version>0.0.1</version>
     <packaging>feature</packaging>
-
-    <name>cobwebos-dapp-server-feature-feature</name>
+    <name>cobwebos-dapp-server-feature</name>
     <description>cobwebos-dapp-server-feature details</description>
     
     <build>
@@ -39,7 +38,8 @@
             <resource>
                 <directory>src/main/feature</directory>
                 <filtering>true</filtering>
-                <targetPath>${project.build.directory}/feature</targetPath>
+                <targetPath>target/feature</targetPath>
+          <!--  <targetPath>${project.build.directory}/feature</targetPath> --> 
             </resource>
         </resources>
         
@@ -106,34 +106,7 @@
         
        
         
-    </build>
+    </build>   
 
-   <!--  <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.karaf.tooling</groupId>
-                    <artifactId>karaf-maven-plugin</artifactId>
-                    <version>4.2.2</version>
-                    <extensions>true</extensions>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.karaf.tooling</groupId>
-                <artifactId>karaf-maven-plugin</artifactId>
-
-                <configuration>
-                    <startLevel>50</startLevel>
-                    <aggregateFeatures>true</aggregateFeatures>
-                    <checkDependencyChange>true</checkDependencyChange>
-                    <failOnDependencyChange>false</failOnDependencyChange>
-                    <logDependencyChanges>true</logDependencyChanges>
-                    <overwriteChangedDependencies>true</overwriteChangedDependencies>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build> -->
-
+    <url>http://www.cobwebos.com</url>
 </project>
