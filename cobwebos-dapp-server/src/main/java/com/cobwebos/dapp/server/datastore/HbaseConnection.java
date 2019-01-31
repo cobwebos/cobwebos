@@ -28,20 +28,30 @@ import org.apache.hadoop.hbase.client.TableDescriptorBuilder;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.cobwebos.dapp.server.config.DappServerCfg;
 import com.cobwebos.dapp.server.datastore.HBaseInfo;
 
-public abstract class HbaseConnection {
+public class HbaseConnection {
+	private static final HbaseConnection hbase = new HbaseConnection();
 	private static final Logger log = LoggerFactory.getLogger(HbaseConnection.class.getName());
 	private static Configuration conf = null;
 
 	static {
 		conf = HBaseConfiguration.create();
-		conf.set("hbase.zookeeper.quorum", com.cobwebos.dapp.server.Activator.cfg.getHbaseServerIP());
-		conf.set("hbase.zookeeper.property.clientPort",
-				com.cobwebos.dapp.server.Activator.cfg.getHbaseClientPort() + "");
+		conf.set("hbase.zookeeper.quorum", DappServerCfg.getInstance().getHbaseServerIP());
+		conf.set("hbase.zookeeper.property.clientPort", DappServerCfg.getInstance().getHbaseClientPort() + "");
 	}
 
-	private static Connection getHbaseConn() {
+	private HbaseConnection() {
+
+	}
+
+	public synchronized static HbaseConnection getInstance() {
+		return hbase;
+	}
+
+	private Connection getHbaseConn() {
 		Connection conn = null;
 		try {
 			conn = ConnectionFactory.createConnection(conf);
@@ -53,7 +63,7 @@ public abstract class HbaseConnection {
 
 	}
 
-	public static void createTable(String tableName, String[] families) {
+	public void createTable(String tableName, String[] families) {
 		Connection conn = getHbaseConn();
 		try {
 			Admin admin = conn.getAdmin();
@@ -79,7 +89,7 @@ public abstract class HbaseConnection {
 		destroy(conn);
 	}
 
-	public static void createTable(String tableName, String family) {
+	public void createTable(String tableName, String family) {
 		Connection conn = getHbaseConn();
 		try {
 			Admin admin = conn.getAdmin();
@@ -104,7 +114,7 @@ public abstract class HbaseConnection {
 		destroy(conn);
 	}
 
-	public static void addColumnFamily(String tableName, String family) {
+	public  void addColumnFamily(String tableName, String family) {
 		Connection conn = getHbaseConn();
 		try {
 			Admin admin = conn.getAdmin();
@@ -120,7 +130,7 @@ public abstract class HbaseConnection {
 		destroy(conn);
 	}
 
-	public static List<HBaseInfo> getTableByTableName(String tableName) {
+	public  List<HBaseInfo> getTableByTableName(String tableName) {
 		Connection conn = getHbaseConn();
 		List<HBaseInfo> hBaseInfoList = new ArrayList<>();
 		Scan scan = new Scan();
@@ -154,7 +164,7 @@ public abstract class HbaseConnection {
 		return hBaseInfoList;
 	}
 
-	public static List<HBaseInfo> scanTable(String tableName) {
+	public  List<HBaseInfo> scanTable(String tableName) {
 		Connection conn = getHbaseConn();
 		List<HBaseInfo> hBaseInfoList = new ArrayList<>();
 		Scan scan = new Scan();
@@ -189,7 +199,7 @@ public abstract class HbaseConnection {
 		return hBaseInfoList;
 	}
 
-	public static List<HBaseInfo> scanTableByColumnFamily(String tableName, String family) {
+	public  List<HBaseInfo> scanTableByColumnFamily(String tableName, String family) {
 		Connection conn = getHbaseConn();
 		List<HBaseInfo> hBaseInfoList = new ArrayList<>();
 		Scan scan = new Scan();
@@ -224,7 +234,7 @@ public abstract class HbaseConnection {
 		return hBaseInfoList;
 	}
 
-	public static List<HBaseInfo> scanTableByColumnFamilyMoreColumns(String tableName, String family,
+	public  List<HBaseInfo> scanTableByColumnFamilyMoreColumns(String tableName, String family,
 			String[] columns) {
 		Connection conn = getHbaseConn();
 		List<HBaseInfo> hBaseInfoList = new ArrayList<>();
@@ -265,7 +275,7 @@ public abstract class HbaseConnection {
 		return hBaseInfoList;
 	}
 
-	public static List<HBaseInfo> getTableByRowKey(String tableName, String rowKey) {
+	public  List<HBaseInfo> getTableByRowKey(String tableName, String rowKey) {
 		Connection conn = getHbaseConn();
 		List<HBaseInfo> hBaseInfoList = new ArrayList<>();
 		try {
@@ -296,7 +306,7 @@ public abstract class HbaseConnection {
 		return hBaseInfoList;
 	}
 
-	public static String getTableByRowKeyAndColumnFamilyAndColumn(String tableName, String rowKey, String family,
+	public  String getTableByRowKeyAndColumnFamilyAndColumn(String tableName, String rowKey, String family,
 			String column) {
 		Connection conn = getHbaseConn();
 		try {
@@ -317,7 +327,7 @@ public abstract class HbaseConnection {
 		return null;
 	}
 
-	public static void insertAndUpdateOneRowOneColumnFamilyOneClumnValue(String tableName, String rowKey, String family,
+	public  void insertAndUpdateOneRowOneColumnFamilyOneClumnValue(String tableName, String rowKey, String family,
 			String column, String value) {
 		Connection conn = getHbaseConn();
 		try {
@@ -334,7 +344,7 @@ public abstract class HbaseConnection {
 		destroy(conn);
 	}
 
-	public static void insertAndUpdateOneRowOneColumnFamilyMoreClumnValue(String tableName, String rowKey,
+	public  void insertAndUpdateOneRowOneColumnFamilyMoreClumnValue(String tableName, String rowKey,
 			String family, HashMap<String, String> columnValue) {
 		Connection conn = getHbaseConn();
 		try {
@@ -360,7 +370,7 @@ public abstract class HbaseConnection {
 		destroy(conn);
 	}
 
-	public static void insertAndUpdateMoreRowMoreColumnFamilyMoreClumnValue(String tableName, Put put) {
+	public  void insertAndUpdateMoreRowMoreColumnFamilyMoreClumnValue(String tableName, Put put) {
 		Connection conn = getHbaseConn();
 		try {
 			HTable hTable = (HTable) conn.getTable(TableName.valueOf(tableName));
@@ -374,7 +384,7 @@ public abstract class HbaseConnection {
 		destroy(conn);
 	}
 
-	public static void deleteColumnFamily(String tableName, String family) {
+	public  void deleteColumnFamily(String tableName, String family) {
 		Connection conn = getHbaseConn();
 		try {
 			Admin admin = conn.getAdmin();
@@ -386,7 +396,7 @@ public abstract class HbaseConnection {
 		destroy(conn);
 	}
 
-	public static void deleteOneRowAll(String tableName, String rowKey) {
+	public  void deleteOneRowAll(String tableName, String rowKey) {
 		Connection conn = getHbaseConn();
 		try {
 			HTable hTable = (HTable) conn.getTable(TableName.valueOf(tableName));
@@ -398,7 +408,7 @@ public abstract class HbaseConnection {
 		destroy(conn);
 	}
 
-	public static void deleteOneRowOneColumnFamilyOneCloumn(String tableName, String rowKey, String family,
+	public  void deleteOneRowOneColumnFamilyOneCloumn(String tableName, String rowKey, String family,
 			String column) {
 		Connection conn = getHbaseConn();
 		try {
@@ -413,7 +423,7 @@ public abstract class HbaseConnection {
 		destroy(conn);
 	}
 
-	public static void deleteOneRowOneColumnFamilyMoreCloumn(String tableName, String rowKey, String family,
+	public  void deleteOneRowOneColumnFamilyMoreCloumn(String tableName, String rowKey, String family,
 			String[] columns) {
 		Connection conn = getHbaseConn();
 		try {
@@ -431,7 +441,7 @@ public abstract class HbaseConnection {
 		destroy(conn);
 	}
 
-	public static void deleteOneRowMoreColumnFamilyMoreCloumn(String tableName, Delete delete) {
+	public  void deleteOneRowMoreColumnFamilyMoreCloumn(String tableName, Delete delete) {
 		Connection conn = getHbaseConn();
 		try {
 			HTable hTable = (HTable) conn.getTable(TableName.valueOf(tableName));
@@ -443,7 +453,7 @@ public abstract class HbaseConnection {
 		destroy(conn);
 	}
 
-	public static void deleteTable(String tableName) {
+	public  void deleteTable(String tableName) {
 		Connection conn = getHbaseConn();
 		try {
 			Admin admin = conn.getAdmin();
@@ -457,7 +467,7 @@ public abstract class HbaseConnection {
 		destroy(conn);
 	}
 
-	public static void truncateTable(String tableName) {
+	public  void truncateTable(String tableName) {
 		Connection conn = getHbaseConn();
 		try {
 			Admin admin = conn.getAdmin();
@@ -469,7 +479,7 @@ public abstract class HbaseConnection {
 		destroy(conn);
 	}
 
-	public static void enableTable(String tableName) {
+	public  void enableTable(String tableName) {
 		Connection conn = getHbaseConn();
 		try {
 			Admin admin = conn.getAdmin();
@@ -484,7 +494,7 @@ public abstract class HbaseConnection {
 		destroy(conn);
 	}
 
-	public static void disableTable(String tableName) {
+	public  void disableTable(String tableName) {
 		Connection conn = getHbaseConn();
 		try {
 			Admin admin = conn.getAdmin();
@@ -501,7 +511,7 @@ public abstract class HbaseConnection {
 		destroy(conn);
 	}
 
-	public static boolean tableExists(String tableName) {
+	public  boolean tableExists(String tableName) {
 		boolean tableExists = false;
 		Connection conn = getHbaseConn();
 		try {
@@ -519,7 +529,7 @@ public abstract class HbaseConnection {
 		return tableExists;
 	}
 
-	public static List<TableDescriptor> listTableDescriptor() {
+	public List<TableDescriptor> listTableDescriptor() {
 		List<TableDescriptor> list = null;
 		Connection conn = getHbaseConn();
 		try {
@@ -535,7 +545,7 @@ public abstract class HbaseConnection {
 		return list;
 	}
 
-	public static TableDescriptor getDescriptor(String tableName) {
+	public TableDescriptor getDescriptor(String tableName) {
 		TableDescriptor desc = null;
 		Connection conn = getHbaseConn();
 		try {
@@ -549,7 +559,7 @@ public abstract class HbaseConnection {
 		return desc;
 	}
 
-	public static TableName[] listTableNames() {
+	public  TableName[] listTableNames() {
 		TableName[] list = null;
 		Connection conn = getHbaseConn();
 		try {
@@ -565,7 +575,7 @@ public abstract class HbaseConnection {
 		return list;
 	}
 
-	public static TableName[] listTableNames(String nameSpace) {
+	public  TableName[] listTableNames(String nameSpace) {
 		TableName[] list = null;
 		Connection conn = getHbaseConn();
 		try {
@@ -581,7 +591,7 @@ public abstract class HbaseConnection {
 		return list;
 	}
 
-	public static boolean isTableAvailable(String tableName) {
+	public  boolean isTableAvailable(String tableName) {
 		boolean isTableAvailable = false;
 		Connection conn = getHbaseConn();
 		try {
@@ -598,7 +608,7 @@ public abstract class HbaseConnection {
 		return isTableAvailable;
 	}
 
-	public static void destroy(Connection conn) {
+	public  void destroy(Connection conn) {
 		if (conn != null) {
 			try {
 				conn.close();
@@ -609,7 +619,7 @@ public abstract class HbaseConnection {
 
 	}
 
-	public static void shutdownHbase() {
+	public  void shutdownHbase() {
 		Connection conn = getHbaseConn();
 		try {
 			Admin admin = conn.getAdmin();

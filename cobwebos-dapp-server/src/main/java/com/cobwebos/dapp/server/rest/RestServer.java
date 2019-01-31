@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.cobwebos.dapp.server.common.ZookeeperUtils;
+import com.cobwebos.dapp.server.config.DappServerCfg;
 import com.cobwebos.dapp.server.rest.RestResources.Hello;
 import com.cobwebos.dapp.server.rest.RestResources.RestconfResource;
 
@@ -24,8 +25,8 @@ public class RestServer {
 	public static void startZKClient() {
 		log.info("starting the ZK Client...");
 		//init zk
-		System.setProperty("jute.maxbuffer", com.cobwebos.dapp.server.Activator.cfg.getJuteMaxBuffer());		
-		zk.connect(com.cobwebos.dapp.server.Activator.cfg.getZkServerUrl(), com.cobwebos.dapp.server.Activator.cfg.getZkClientSessionTimeout());
+		System.setProperty("jute.maxbuffer",DappServerCfg.getInstance().getJuteMaxBuffer());		
+		zk.connect(DappServerCfg.getInstance().getZkServerUrl(), DappServerCfg.getInstance().getZkClientSessionTimeout());
 				
 		log.info("started the ZK Client...");
 	}
@@ -33,7 +34,7 @@ public class RestServer {
 	public static void startRestServer() {
 		try {
 			log.info("starting the restconf Server...");
-			String PATH = com.cobwebos.dapp.server.Activator.cfg.getDappServerUrl();
+			String PATH = DappServerCfg.getInstance().getDappServerUrl();
 			URI uri = URI.create(PATH);
 			ResourceConfig resourceConfig = new AppResource();
 			server = NettyHttpContainerProvider.createHttp2Server(uri, resourceConfig, null);

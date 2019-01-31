@@ -24,14 +24,12 @@ import org.osgi.framework.BundleContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.cobwebos.dapp.server.config.DappServerCfg;
-
 public class Activator implements BundleActivator {
 
 	public static String logPath = System.getProperty("user.dir") + File.separator + "etc" + File.separator
 			+ "log4j.properties";
 	public static Logger log = LoggerFactory.getLogger("dapp-server");
-	public static DappServerCfg cfg;
+
 
 	public static String cfgPath = System.getProperty("user.dir") + File.separator + "etc" + File.separator
 			+ "dappServer.properties";
@@ -47,10 +45,11 @@ public class Activator implements BundleActivator {
 	public void start(BundleContext context) {
 
 		log.info("Starting the dapp-server bundle...");
-		cfg = new DappServerCfg(cfgPath);
-		main.startHbase();
+		
 		main.startZKClient();
 		main.startRestServer();
+		main.startMessageService();
+		main.startHbase();
 		log.info("Starting the dapp-server bundle end...");
 	}
 
@@ -58,6 +57,8 @@ public class Activator implements BundleActivator {
 		log.info("Stopping the dapp-server bundle...");
 		main.stopZKClient();
 		main.stopRestServer();
+		main.stopMessageService();
+		main.stopHbase();
 		log.info("Stopping the dapp-server bundle end...");
 	}
 
