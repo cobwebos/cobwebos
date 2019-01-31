@@ -28,22 +28,19 @@ public class Activator implements BundleActivator {
 
 	public static String logPath = System.getProperty("user.dir") + File.separator + "etc" + File.separator
 			+ "log4j.properties";
-	public static Logger log = LoggerFactory.getLogger("dapp-server");
+	public static Logger log = LoggerFactory.getLogger(Activator.class);
 
-
-	public static String cfgPath = System.getProperty("user.dir") + File.separator + "etc" + File.separator
-			+ "dappServer.properties";
 	private DappServerMain main = new DappServerMain();
 
-	static {
-
-		PropertyConfigurator.configure(logPath);
-		log.info("cfgPath:", cfgPath);
-
-	}
+//	static {
+//
+//		PropertyConfigurator.configure(logPath);
+//
+//	}
 
 	public void start(BundleContext context) {
-
+		PropertyConfigurator.configure(logPath);
+		
 		log.info("Starting the dapp-server bundle...");
 		
 		main.startZKClient();

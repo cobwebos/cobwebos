@@ -150,16 +150,16 @@ public class ZookeeperUtils {
 	}
 
 
-	public static JSONObject getNode(String path) throws InterruptedException, KeeperException {
+	public static String getNode(String path) throws InterruptedException, KeeperException {
 		JSONObject statJSON = new JSONObject();
 		try {
 			Stat stat = isExistsNode(path);
 			if (stat != null) {
 				byte[] b = zk.getData(path, true, isExistsNode(path));
-				String data = new String(b, "UTF-8");			
+				String data = new String(b, "UTF-8");	
+				JSONObject dataObj = new JSONObject(data);
 				statJSON.put("path", path);
-				statJSON.put("data", data);
-				
+				statJSON.put("data", dataObj);				
 				statJSON.put("cZxid", stat.getCzxid());
 				statJSON.put("ctime", stat.getCtime());
 				statJSON.put("mZxid", stat.getMzxid());
@@ -172,7 +172,7 @@ public class ZookeeperUtils {
 				statJSON.put("dataLength", stat.getDataLength());
 				statJSON.put("numChildren", stat.getNumChildren());
 				
-				log.info("get path:{},node:{}", path, statJSON.toString());
+				log.info("get path:{},node:{}", path, statJSON);
 			} else {
 				log.warn("node path:{} does not exists ! ", path);
 
@@ -180,7 +180,7 @@ public class ZookeeperUtils {
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
-		return statJSON;
+		return statJSON.toString();
 	}
 
 	public static List<String> getChildrenNode(String path) throws InterruptedException, KeeperException {

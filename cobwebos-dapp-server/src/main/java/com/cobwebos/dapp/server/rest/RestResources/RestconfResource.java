@@ -14,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.zookeeper.KeeperException;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +29,7 @@ public class RestconfResource {
 	@POST
 	@Produces({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Consumes({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public String createNodeByPath(@PathParam("path") String path, @QueryParam("data") String data) {
+	public String createNodeByPath(@PathParam("path") String path, String data) {
 		log.info("path:{},data:{}", path, data);
 		JSONObject json = new JSONObject();
 		if (path != null && data != null) {
@@ -50,7 +51,7 @@ public class RestconfResource {
 	}
 
 	@PUT
-	public String PutPathNode(@PathParam("path") String path, @QueryParam("data") String data) {
+	public String PutPathNode(@PathParam("path") String path,String data) {
 		log.info("path:{}, data:{}", path, data);
 		String result = null;
 		if (path != null) {
@@ -87,9 +88,11 @@ public class RestconfResource {
 	}
 
 	public JSONObject getBlockNodeValueByPath(String path) {
-		JSONObject stat =new JSONObject();
+		JSONObject stat = null;
 		try {
-			stat.put("node", ZookeeperUtils.getNode(path));
+			stat = new JSONObject(ZookeeperUtils.getNode(path));
+		} catch (JSONException e) {
+			log.error(e.getMessage(), e);
 		} catch (InterruptedException e) {
 			log.error(e.getMessage(), e);
 		} catch (KeeperException e) {
