@@ -114,7 +114,7 @@ public class HbaseConnection {
 		destroy(conn);
 	}
 
-	public  void addColumnFamily(String tableName, String family) {
+	public void addColumnFamily(String tableName, String family) {
 		Connection conn = getHbaseConn();
 		try {
 			Admin admin = conn.getAdmin();
@@ -130,7 +130,7 @@ public class HbaseConnection {
 		destroy(conn);
 	}
 
-	public  List<HBaseInfo> getTableByTableName(String tableName) {
+	public List<HBaseInfo> getTableByTableName(String tableName) {
 		Connection conn = getHbaseConn();
 		List<HBaseInfo> hBaseInfoList = new ArrayList<>();
 		Scan scan = new Scan();
@@ -164,7 +164,7 @@ public class HbaseConnection {
 		return hBaseInfoList;
 	}
 
-	public  List<HBaseInfo> scanTable(String tableName) {
+	public List<HBaseInfo> scanTable(String tableName) {
 		Connection conn = getHbaseConn();
 		List<HBaseInfo> hBaseInfoList = new ArrayList<>();
 		Scan scan = new Scan();
@@ -199,7 +199,7 @@ public class HbaseConnection {
 		return hBaseInfoList;
 	}
 
-	public  List<HBaseInfo> scanTableByColumnFamily(String tableName, String family) {
+	public List<HBaseInfo> scanTableByColumnFamily(String tableName, String family) {
 		Connection conn = getHbaseConn();
 		List<HBaseInfo> hBaseInfoList = new ArrayList<>();
 		Scan scan = new Scan();
@@ -234,8 +234,7 @@ public class HbaseConnection {
 		return hBaseInfoList;
 	}
 
-	public  List<HBaseInfo> scanTableByColumnFamilyMoreColumns(String tableName, String family,
-			String[] columns) {
+	public List<HBaseInfo> scanTableByColumnFamilyMoreColumns(String tableName, String family, String[] columns) {
 		Connection conn = getHbaseConn();
 		List<HBaseInfo> hBaseInfoList = new ArrayList<>();
 		Scan scan = new Scan();
@@ -275,7 +274,7 @@ public class HbaseConnection {
 		return hBaseInfoList;
 	}
 
-	public  List<HBaseInfo> getTableByRowKey(String tableName, String rowKey) {
+	public List<HBaseInfo> getTableByRowKey(String tableName, String rowKey) {
 		Connection conn = getHbaseConn();
 		List<HBaseInfo> hBaseInfoList = new ArrayList<>();
 		try {
@@ -306,7 +305,7 @@ public class HbaseConnection {
 		return hBaseInfoList;
 	}
 
-	public  String getTableByRowKeyAndColumnFamilyAndColumn(String tableName, String rowKey, String family,
+	public String getTableByRowKeyAndColumnFamilyAndColumn(String tableName, String rowKey, String family,
 			String column) {
 		Connection conn = getHbaseConn();
 		try {
@@ -327,7 +326,7 @@ public class HbaseConnection {
 		return null;
 	}
 
-	public  void insertAndUpdateOneRowOneColumnFamilyOneClumnValue(String tableName, String rowKey, String family,
+	public void insertAndUpdateOneRowOneColumnFamilyOneClumnValue(String tableName, String rowKey, String family,
 			String column, String value) {
 		Connection conn = getHbaseConn();
 		try {
@@ -344,8 +343,8 @@ public class HbaseConnection {
 		destroy(conn);
 	}
 
-	public  void insertAndUpdateOneRowOneColumnFamilyMoreClumnValue(String tableName, String rowKey,
-			String family, HashMap<String, String> columnValue) {
+	public void insertAndUpdateOneRowOneColumnFamilyMoreClumnValue(String tableName, String rowKey, String family,
+			HashMap<String, String> columnValue) {
 		Connection conn = getHbaseConn();
 		try {
 			HTable hTable = (HTable) conn.getTable(TableName.valueOf(tableName));
@@ -370,7 +369,7 @@ public class HbaseConnection {
 		destroy(conn);
 	}
 
-	public  void insertAndUpdateMoreRowMoreColumnFamilyMoreClumnValue(String tableName, Put put) {
+	public void insertAndUpdateMoreRowMoreColumnFamilyMoreClumnValue(String tableName, Put put) {
 		Connection conn = getHbaseConn();
 		try {
 			HTable hTable = (HTable) conn.getTable(TableName.valueOf(tableName));
@@ -384,7 +383,7 @@ public class HbaseConnection {
 		destroy(conn);
 	}
 
-	public  void deleteColumnFamily(String tableName, String family) {
+	public void deleteColumnFamily(String tableName, String family) {
 		Connection conn = getHbaseConn();
 		try {
 			Admin admin = conn.getAdmin();
@@ -396,7 +395,7 @@ public class HbaseConnection {
 		destroy(conn);
 	}
 
-	public  void deleteOneRowAll(String tableName, String rowKey) {
+	public void deleteOneRowAll(String tableName, String rowKey) {
 		Connection conn = getHbaseConn();
 		try {
 			HTable hTable = (HTable) conn.getTable(TableName.valueOf(tableName));
@@ -408,8 +407,7 @@ public class HbaseConnection {
 		destroy(conn);
 	}
 
-	public  void deleteOneRowOneColumnFamilyOneCloumn(String tableName, String rowKey, String family,
-			String column) {
+	public void deleteOneRowOneColumnFamilyOneCloumn(String tableName, String rowKey, String family, String column) {
 		Connection conn = getHbaseConn();
 		try {
 			HTable hTable = (HTable) conn.getTable(TableName.valueOf(tableName));
@@ -423,7 +421,7 @@ public class HbaseConnection {
 		destroy(conn);
 	}
 
-	public  void deleteOneRowOneColumnFamilyMoreCloumn(String tableName, String rowKey, String family,
+	public void deleteOneRowOneColumnFamilyMoreCloumn(String tableName, String rowKey, String family,
 			String[] columns) {
 		Connection conn = getHbaseConn();
 		try {
@@ -441,7 +439,7 @@ public class HbaseConnection {
 		destroy(conn);
 	}
 
-	public  void deleteOneRowMoreColumnFamilyMoreCloumn(String tableName, Delete delete) {
+	public void deleteOneRowMoreColumnFamilyMoreCloumn(String tableName, Delete delete) {
 		Connection conn = getHbaseConn();
 		try {
 			HTable hTable = (HTable) conn.getTable(TableName.valueOf(tableName));
@@ -453,7 +451,7 @@ public class HbaseConnection {
 		destroy(conn);
 	}
 
-	public  void deleteTable(String tableName) {
+	public void deleteTable(String tableName) {
 		Connection conn = getHbaseConn();
 		try {
 			Admin admin = conn.getAdmin();
@@ -467,7 +465,7 @@ public class HbaseConnection {
 		destroy(conn);
 	}
 
-	public  void truncateTable(String tableName) {
+	public void truncateTable(String tableName) {
 		Connection conn = getHbaseConn();
 		try {
 			Admin admin = conn.getAdmin();
@@ -479,7 +477,7 @@ public class HbaseConnection {
 		destroy(conn);
 	}
 
-	public  void enableTable(String tableName) {
+	public void enableTable(String tableName) {
 		Connection conn = getHbaseConn();
 		try {
 			Admin admin = conn.getAdmin();
@@ -494,7 +492,7 @@ public class HbaseConnection {
 		destroy(conn);
 	}
 
-	public  void disableTable(String tableName) {
+	public void disableTable(String tableName) {
 		Connection conn = getHbaseConn();
 		try {
 			Admin admin = conn.getAdmin();
@@ -511,7 +509,7 @@ public class HbaseConnection {
 		destroy(conn);
 	}
 
-	public  boolean tableExists(String tableName) {
+	public boolean tableExists(String tableName) {
 		boolean tableExists = false;
 		Connection conn = getHbaseConn();
 		try {
@@ -559,7 +557,7 @@ public class HbaseConnection {
 		return desc;
 	}
 
-	public  TableName[] listTableNames() {
+	public TableName[] listTableNames() {
 		TableName[] list = null;
 		Connection conn = getHbaseConn();
 		try {
@@ -575,7 +573,7 @@ public class HbaseConnection {
 		return list;
 	}
 
-	public  TableName[] listTableNames(String nameSpace) {
+	public TableName[] listTableNames(String nameSpace) {
 		TableName[] list = null;
 		Connection conn = getHbaseConn();
 		try {
@@ -591,7 +589,7 @@ public class HbaseConnection {
 		return list;
 	}
 
-	public  boolean isTableAvailable(String tableName) {
+	public boolean isTableAvailable(String tableName) {
 		boolean isTableAvailable = false;
 		Connection conn = getHbaseConn();
 		try {
@@ -608,7 +606,7 @@ public class HbaseConnection {
 		return isTableAvailable;
 	}
 
-	public  void destroy(Connection conn) {
+	public void destroy(Connection conn) {
 		if (conn != null) {
 			try {
 				conn.close();
@@ -619,7 +617,7 @@ public class HbaseConnection {
 
 	}
 
-	public  void shutdownHbase() {
+	public void shutdownHbase() {
 		Connection conn = getHbaseConn();
 		try {
 			Admin admin = conn.getAdmin();

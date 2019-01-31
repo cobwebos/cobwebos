@@ -1,5 +1,6 @@
 package com.cobwebos.dapp.server;
 
+import com.cobwebos.dapp.server.config.DappServerCfg;
 import com.cobwebos.dapp.server.datastore.HbaseConnection;
 import com.cobwebos.dapp.server.event.MessageConsumer;
 import com.cobwebos.dapp.server.event.MessageProducer;
@@ -9,10 +10,7 @@ public class DappServerMain {
 
 	public void startHbase() {
 		HbaseConnection.getInstance().listTableDescriptor();
-		HbaseConnection.getInstance().createTable("topo", "node");
-		HbaseConnection.getInstance().insertAndUpdateOneRowOneColumnFamilyOneClumnValue("topo", "1", "node", "source", "node1");
-		HbaseConnection.getInstance().insertAndUpdateOneRowOneColumnFamilyOneClumnValue("topo", "2", "node", "source", "node2");
-		HbaseConnection.getInstance().getTableByTableName("topo");
+		HbaseConnection.getInstance().createTable("inv", "tp");
 	}
 
 	public void startZKClient() {
@@ -36,12 +34,8 @@ public class DappServerMain {
 	}
 
 	public void startMessageService() {
-		MessageProducer.getInstance().initProducer();		
-		MessageProducer.getInstance().SendMessage("cobwebos", "URL", "http://www.cobwebos.com");
-		
-		MessageConsumer.getInstance().ReceiveMessage("topic1");
-		MessageConsumer.getInstance().ReceiveMessage("cobwebos");
-
+//		MessageProducer.getInstance().initProducer();		
+		MessageConsumer.getInstance().ReceiveMessage(DappServerCfg.getInstance().getKafkaTopic());
 		
 	}
 

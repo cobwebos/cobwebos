@@ -1,5 +1,7 @@
 package com.cobwebos.dapp.server.rest.RestResources;
 
+import java.util.List;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -21,6 +23,10 @@ import org.slf4j.LoggerFactory;
 
 import com.cobwebos.dapp.server.common.Constants;
 import com.cobwebos.dapp.server.common.ZookeeperUtils;
+import com.cobwebos.dapp.server.config.DappServerCfg;
+import com.cobwebos.dapp.server.datastore.HBaseInfo;
+import com.cobwebos.dapp.server.datastore.HbaseConnection;
+import com.cobwebos.dapp.server.event.MessageProducer;
 
 @Path(Constants.DAPP_SERVER_REST_APP_PATH)
 public class RestconfResource {
@@ -32,8 +38,19 @@ public class RestconfResource {
 	public String createNodeByPath(@PathParam("path") String path, String data) {
 		log.info("path:{},data:{}", path, data);
 		JSONObject json = new JSONObject();
+		String value = null;
+		String slave = null ;
+		JSONObject get = null;
 		if (path != null && data != null) {
 			json = createBlockNodeByPath(path, data);
+			String topic = DappServerCfg.getInstance().getKafkaTopic();
+			String key = json.getJSONObject("data").getString("key");
+			value = json.toString();
+			MessageProducer.getInstance().SendMessage(topic, key, value);
+//			slave = HbaseConnection.getInstance().getTableByRowKey("inv", key).toString();
+//			slave =getBlockNodeValueByPath(path);
+//			get = new JSONObject(slave);
+
 		}
 		return json.toString();
 	}
@@ -51,7 +68,7 @@ public class RestconfResource {
 	}
 
 	@PUT
-	public String PutPathNode(@PathParam("path") String path,String data) {
+	public String PutPathNode(@PathParam("path") String path, String data) {
 		log.info("path:{}, data:{}", path, data);
 		String result = null;
 		if (path != null) {
@@ -89,8 +106,18 @@ public class RestconfResource {
 
 	public JSONObject getBlockNodeValueByPath(String path) {
 		JSONObject stat = null;
+		JSONObject get = null;
+		JSONObject v = null;
 		try {
 			stat = new JSONObject(ZookeeperUtils.getNode(path));
+			
+			List<HBaseInfo> nodes = HbaseConnection.getInstance().getTableByRowKey("inv", stat.getJSONObject("data").getString("key"));
+			for(int i=0;i<nodes.size();i++) {
+				v= new JSONObject(nodes.get(i).getValue());
+				get = new JSONObject(v.toString());
+			}			
+			
+			
 		} catch (JSONException e) {
 			log.error(e.getMessage(), e);
 		} catch (InterruptedException e) {
@@ -99,7 +126,7 @@ public class RestconfResource {
 			log.error(e.getMessage(), e);
 		}
 
-		return stat;
+		return get;
 	}
 
 	public JSONObject lsBlockNodeByPath(String path) {
@@ -116,8 +143,8 @@ public class RestconfResource {
 		return blockNode;
 	}
 
-	public JSONObject createBlockNodeByPath(String path, String data) {		
-		ZookeeperUtils.createNode(path, data);		
+	public JSONObject createBlockNodeByPath(String path, String data) {
+		ZookeeperUtils.createNode(path, data);
 		return getBlockNodeValueByPath(path);
 	}
 
@@ -137,9 +164,9 @@ public class RestconfResource {
 		return blockNode;
 	}
 
-	public JSONObject setBlockNodeByPath(String path, String data) {		
-		 ZookeeperUtils.setNodeValue(path, data);
-		 return getBlockNodeValueByPath(path);
+	public JSONObject setBlockNodeByPath(String path, String data) {
+		ZookeeperUtils.setNodeValue(path, data);
+		return getBlockNodeValueByPath(path);
 	}
 
 }
