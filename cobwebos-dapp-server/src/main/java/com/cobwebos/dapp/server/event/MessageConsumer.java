@@ -90,6 +90,8 @@ class MessageConsumerImpl implements Runnable{
 	}
 	
 	
+	
+	
 //	public void ReceiveMessage(String topic) {
 //		Thread.currentThread().setContextClassLoader(null);
 //		try {

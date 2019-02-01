@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import com.cobwebos.dapp.server.common.Constants;
 import com.cobwebos.dapp.server.common.ZookeeperUtils;
 import com.cobwebos.dapp.server.config.DappServerCfg;
+import com.cobwebos.dapp.server.datastore.HbaseConnection;
 import com.cobwebos.dapp.server.event.MessageProducer;
 
 @Path(Constants.DAPP_SERVER_REST_APP_PATH)
@@ -47,13 +48,21 @@ public class RestconfResource {
 	}
 
 	@DELETE
-	public void deletePathNode(@PathParam("path") String path, @QueryParam("op") String op) {
+	public void deletePathNode(@PathParam("path") String path, @QueryParam("op") String op, String data) {
 		String result = null;
-		log.info("operation:{}, path:{}", op, path);
+		log.info("operation:{}, path:{},data:{}", op, path, data);
+
+		JSONObject dataObj = new JSONObject(data);
+		String key = dataObj.getJSONObject("data").getString("key");
+
 		if (path != null && op.equalsIgnoreCase("rmr")) {
 			result = rmrBlockNodeByPath(path).toString();
-		} else if (path != null && op.equalsIgnoreCase("delete")) {
+		} else if (path != null && op.equalsIgnoreCase("delete") && key != null) {
+
 			result = deleteBlockNodeByPath(path).toString();
+
+			MessageProducer.getInstance().SendMessage(DappServerCfg.getInstance().getKafkaTopic(), key);
+
 		}
 		log.info("operation:{}, path:{},result:{}", op, path, result);
 	}
@@ -68,7 +77,7 @@ public class RestconfResource {
 //		result = getBlockNodeValueByPath(path).toString();
 //		log.info("path:{}, data:{},result:{}", path, data, result);
 //		return result;
-		
+
 		JSONObject value = null;
 		JSONObject json = null;
 		if (path != null && data != null) {
@@ -80,31 +89,65 @@ public class RestconfResource {
 
 		}
 		return json.toString();
-		
 
 	}
 
 	@GET
 	@Produces({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON })
 	@Consumes({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON })
-	public String getNodeByPath(@PathParam("path") String path, @QueryParam("op") String op, @Context UriInfo ui) {
-		log.info("path:{},operation:{}", path, op);
+	public String getNodeByPath(@PathParam("path") String path, String data) {
+		log.info("path:{},data:{}", path, data);
 		String get = null;
-		if (path != null && op.equalsIgnoreCase("get")) {
+		JSONObject input = new JSONObject(data);
+		JSONObject output = new JSONObject();
+		JSONObject nodes = new JSONObject();
+		JSONObject result = new JSONObject();
+		result.put("errorCode", 200);
+		result.put("errorDesc", "success");
+
+		JSONObject masterNode = null;
+		JSONObject slaveNode = null;
+		if (path != null && data != null && input.getString("cmd").equalsIgnoreCase("get")) {
 			get = getBlockNodeValueByPath(path).toString();
-		} else if (path != null && op.equalsIgnoreCase("ls")) {
-			get = lsBlockNodeByPath(path).toString();
-		} else if ((path.equalsIgnoreCase("") && op.equalsIgnoreCase("ls"))
-				|| (path.isEmpty() && op.equalsIgnoreCase("ls")) || (path == null && op.equalsIgnoreCase("ls"))) {
-			get = lsBlockNodeByPath(path).toString();
-		} else if ((path.equalsIgnoreCase("") && op.equalsIgnoreCase("get"))
-				|| (path.isEmpty() && op.equalsIgnoreCase("get")) || (path == null && op.equalsIgnoreCase("get"))) {
+			masterNode = new JSONObject(get);
+			slaveNode = getBlockNodeValueByRowKey(input.getString("key"));
+			nodes.put("master", masterNode);
+			nodes.put("slave", slaveNode);
+			output.put("input", input);
+			output.put("output", nodes);
+			output.put("result", result);
+		} else if ((path.equalsIgnoreCase("") && data != null && input.getString("cmd").equalsIgnoreCase("get"))
+				|| (path.isEmpty() && data != null && input.getString("cmd").equalsIgnoreCase("get"))
+				|| (path == null && data != null && input.getString("cmd").equalsIgnoreCase("get"))) {
 			get = getBlockNodeValueByPath(path).toString();
+			masterNode = new JSONObject(get);
+			slaveNode = getBlockNodeValueByRowKey(input.getString("key"));
+			nodes.put("master", masterNode);
+			nodes.put("slave", slaveNode);
+			output.put("input", input);
+			output.put("output", nodes);
+			output.put("result", result);
+		} else if (path != null && data != null && input.getString("cmd").equalsIgnoreCase("ls")) {
+			get = lsBlockNodeByPath(path).toString();
+			masterNode = new JSONObject(get);
+			nodes.put("master", masterNode);
+			output.put("input", input);
+			output.put("output", nodes);
+			output.put("result", result);
+		} else if ((path.equalsIgnoreCase("") && data != null && input.getString("cmd").equalsIgnoreCase("ls"))
+				|| (path.isEmpty() && data != null && input.getString("cmd").equalsIgnoreCase("ls"))
+				|| (path == null && data != null && input.getString("cmd").equalsIgnoreCase("ls"))) {
+			get = lsBlockNodeByPath(path).toString();
+			masterNode = new JSONObject(get);
+			nodes.put("master", masterNode);
+			output.put("input", input);
+			output.put("output", nodes);
+			output.put("result", result);
 		} else {
 			log.warn(" path is error!!!");
 		}
 
-		return get;
+		return output.toString();
 
 	}
 
@@ -118,6 +161,18 @@ public class RestconfResource {
 		} catch (InterruptedException e) {
 			log.error(e.getMessage(), e);
 		} catch (KeeperException e) {
+			log.error(e.getMessage(), e);
+		}
+
+		return stat;
+	}
+
+	public JSONObject getBlockNodeValueByRowKey(String rowkey) {
+		JSONObject stat = null;
+		try {
+			stat =HbaseConnection.getInstance().getCellValueByRowKey("inv", rowkey, "tp", "source");
+
+		} catch (JSONException e) {
 			log.error(e.getMessage(), e);
 		}
 
@@ -147,7 +202,7 @@ public class RestconfResource {
 		JSONObject blockNode = null;
 		blockNode = new JSONObject();
 		blockNode.put("path", path);
-		blockNode.put("data", ZookeeperUtils.deleteNode(path));		
+		blockNode.put("data", ZookeeperUtils.deleteNode(path));
 		return blockNode;
 	}
 

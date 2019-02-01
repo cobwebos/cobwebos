@@ -26,6 +26,7 @@ import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.client.TableDescriptor;
 import org.apache.hadoop.hbase.client.TableDescriptorBuilder;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -317,6 +318,29 @@ public class HbaseConnection {
 				byte[] resByte = res.getValue(Bytes.toBytes(family), Bytes.toBytes(column));
 				log.info("tableName:{},family:{},column:{},value:{} ", tableName, family, column, new String(resByte));
 				return new String(resByte);
+			}
+		} catch (IOException e) {
+			log.error("get tableName:{},rowKey:{}", tableName, rowKey, e);
+		} finally {
+			destroy(conn);
+		}
+		return null;
+	}
+	
+	public JSONObject getCellValueByRowKey(String tableName, String rowKey, String family,String column) {
+		JSONObject cell = null;
+		Connection conn = getHbaseConn();
+		try {
+			Table table = conn.getTable(TableName.valueOf(tableName));
+			Get get = new Get(rowKey.getBytes());
+			if (!get.isCheckExistenceOnly()) {
+				get.addColumn(Bytes.toBytes(family), Bytes.toBytes(column));
+				Result res = table.get(get);
+				byte[] resByte = res.getValue(Bytes.toBytes(family), Bytes.toBytes(column));
+				String value = new String(resByte);
+				cell = new JSONObject(value);				
+				log.info("tableName:{},family:{},column:{},value:{} ", tableName, family, column, cell.toString());
+				return cell;
 			}
 		} catch (IOException e) {
 			log.error("get tableName:{},rowKey:{}", tableName, rowKey, e);
