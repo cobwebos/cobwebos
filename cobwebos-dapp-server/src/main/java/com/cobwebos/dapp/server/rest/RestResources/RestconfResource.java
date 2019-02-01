@@ -8,10 +8,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.UriInfo;
 
 import org.apache.zookeeper.KeeperException;
 import org.json.JSONException;
@@ -48,36 +45,27 @@ public class RestconfResource {
 	}
 
 	@DELETE
-	public void deletePathNode(@PathParam("path") String path, @QueryParam("op") String op, String data) {
+	public String deletePathNode(@PathParam("path") String path, String data) {
 		String result = null;
-		log.info("operation:{}, path:{},data:{}", op, path, data);
-
+		log.info("path:{},data:{}", path, data);
 		JSONObject dataObj = new JSONObject(data);
-		String key = dataObj.getJSONObject("data").getString("key");
-
-		if (path != null && op.equalsIgnoreCase("rmr")) {
+		String cmd = dataObj.getString("cmd");
+		String key = dataObj.getString("key");
+		if (path != null && cmd.equalsIgnoreCase("rmr")) {
 			result = rmrBlockNodeByPath(path).toString();
-		} else if (path != null && op.equalsIgnoreCase("delete") && key != null) {
-
+			HbaseConnection.getInstance().deleteOneRowAll("inv", key);
+		} else if (path != null && cmd.equalsIgnoreCase("delete") && key != null) {
 			result = deleteBlockNodeByPath(path).toString();
-
-			MessageProducer.getInstance().SendMessage(DappServerCfg.getInstance().getKafkaTopic(), key);
-
+			HbaseConnection.getInstance().deleteOneRowAll("inv", key);
 		}
-		log.info("operation:{}, path:{},result:{}", op, path, result);
+		log.info("delete path:{},result:{}", path, result);
+
+		return "200";
 	}
 
 	@PUT
 	public String PutPathNode(@PathParam("path") String path, String data) {
 		log.info("path:{}, data:{}", path, data);
-//		String result = null;
-//		if (path != null) {
-//			result = setBlockNodeByPath(path, data).toString();
-//		}
-//		result = getBlockNodeValueByPath(path).toString();
-//		log.info("path:{}, data:{},result:{}", path, data, result);
-//		return result;
-
 		JSONObject value = null;
 		JSONObject json = null;
 		if (path != null && data != null) {
@@ -170,7 +158,7 @@ public class RestconfResource {
 	public JSONObject getBlockNodeValueByRowKey(String rowkey) {
 		JSONObject stat = null;
 		try {
-			stat =HbaseConnection.getInstance().getCellValueByRowKey("inv", rowkey, "tp", "source");
+			stat = HbaseConnection.getInstance().getCellValueByRowKey("inv", rowkey, "tp", "source");
 
 		} catch (JSONException e) {
 			log.error(e.getMessage(), e);
