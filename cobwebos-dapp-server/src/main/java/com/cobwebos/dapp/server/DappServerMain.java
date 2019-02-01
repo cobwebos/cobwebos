@@ -34,7 +34,7 @@ public class DappServerMain {
 	}
 
 	public void startMessageService() {
-		MessageProducer.getInstance().initProducer();		
+//		MessageProducer.getInstance().initProducer();		
 		MessageConsumer.getInstance().ReceiveMessage(DappServerCfg.getInstance().getKafkaTopic());
 		
 	}

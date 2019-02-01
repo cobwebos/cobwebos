@@ -19,7 +19,7 @@ public class MessageProducer {
 
 	private MessageProducer() {
 		props.put("bootstrap.servers", DappServerCfg.getInstance().getKafkaServerUrl());
-		props.put("acks", "all");// DappServerCfg.getInstance().getAcks());
+		props.put("acks", DappServerCfg.getInstance().getAcks());
 		props.put("retries", DappServerCfg.getInstance().getRetries());
 		props.put("batch.size", DappServerCfg.getInstance().getBatchSize());
 		props.put("linger.ms", DappServerCfg.getInstance().getLingerMs());
