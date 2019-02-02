@@ -67,6 +67,7 @@ public class ZookeeperUtils {
 		boolean result = false;
 		try {
 			zk.delete(path, zk.exists(path, true).getVersion());
+//			zk.delete(path, -1);
 			log.info("delete node path:{}", path);
 			result = true;
 		} catch (Exception e) {

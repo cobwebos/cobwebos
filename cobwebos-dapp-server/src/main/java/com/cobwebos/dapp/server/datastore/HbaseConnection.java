@@ -37,6 +37,7 @@ public class HbaseConnection {
 	private static final HbaseConnection hbase = new HbaseConnection();
 	private static final Logger log = LoggerFactory.getLogger(HbaseConnection.class.getName());
 	private static Configuration conf = null;
+	private static Connection conn = null;
 
 	static {
 		conf = HBaseConfiguration.create();
@@ -53,9 +54,10 @@ public class HbaseConnection {
 	}
 
 	private Connection getHbaseConn() {
-		Connection conn = null;
 		try {
-			conn = ConnectionFactory.createConnection(conf);
+			if (conn == null) {
+				conn = ConnectionFactory.createConnection(conf);
+			}
 		} catch (IOException e) {
 			log.error("hbase connection init faild conf:{}", conf, e);
 
@@ -87,7 +89,7 @@ public class HbaseConnection {
 
 		}
 
-		destroy(conn);
+		// destroy(conn);
 	}
 
 	public void createTable(String tableName, String family) {
@@ -112,7 +114,7 @@ public class HbaseConnection {
 
 		}
 
-		destroy(conn);
+		// destroy(conn);
 	}
 
 	public void addColumnFamily(String tableName, String family) {
@@ -128,7 +130,7 @@ public class HbaseConnection {
 		} catch (IOException e) {
 			log.error("add faild, tableName:{},family:{}", tableName, family, e);
 		}
-		destroy(conn);
+		// destroy(conn);
 	}
 
 	public List<HBaseInfo> getTableByTableName(String tableName) {
@@ -160,7 +162,7 @@ public class HbaseConnection {
 		} catch (IOException e) {
 			log.error("query faild, tableName:{}", tableName, e);
 		} finally {
-			destroy(conn);
+			// destroy(conn);
 		}
 		return hBaseInfoList;
 	}
@@ -195,7 +197,7 @@ public class HbaseConnection {
 		} catch (IOException e) {
 			log.error("query faild, tableName:{}", tableName, e);
 		} finally {
-			destroy(conn);
+			// destroy(conn);
 		}
 		return hBaseInfoList;
 	}
@@ -230,7 +232,7 @@ public class HbaseConnection {
 		} catch (IOException e) {
 			log.error("get tableName:{},family:{}", tableName, family, e);
 		} finally {
-			destroy(conn);
+			// destroy(conn);
 		}
 		return hBaseInfoList;
 	}
@@ -270,7 +272,7 @@ public class HbaseConnection {
 		} catch (IOException e) {
 			log.error("get tableName:{},,family:{}", tableName, family, e);
 		} finally {
-			destroy(conn);
+			// destroy(conn);
 		}
 		return hBaseInfoList;
 	}
@@ -301,7 +303,7 @@ public class HbaseConnection {
 		} catch (IOException e) {
 			log.error("get tableName:{},rowKey:{}", tableName, rowKey, e);
 		} finally {
-			destroy(conn);
+			// destroy(conn);
 		}
 		return hBaseInfoList;
 	}
@@ -322,12 +324,12 @@ public class HbaseConnection {
 		} catch (IOException e) {
 			log.error("get tableName:{},rowKey:{}", tableName, rowKey, e);
 		} finally {
-			destroy(conn);
+			// destroy(conn);
 		}
 		return null;
 	}
-	
-	public JSONObject getCellValueByRowKey(String tableName, String rowKey, String family,String column) {
+
+	public JSONObject getCellValueByRowKey(String tableName, String rowKey, String family, String column) {
 		JSONObject cell = null;
 		Connection conn = getHbaseConn();
 		try {
@@ -338,14 +340,14 @@ public class HbaseConnection {
 				Result res = table.get(get);
 				byte[] resByte = res.getValue(Bytes.toBytes(family), Bytes.toBytes(column));
 				String value = new String(resByte);
-				cell = new JSONObject(value);				
+				cell = new JSONObject(value);
 				log.info("tableName:{},family:{},column:{},value:{} ", tableName, family, column, cell.toString());
 				return cell;
 			}
 		} catch (IOException e) {
 			log.error("get tableName:{},rowKey:{}", tableName, rowKey, e);
 		} finally {
-			destroy(conn);
+			// destroy(conn);
 		}
 		return null;
 	}
@@ -364,7 +366,7 @@ public class HbaseConnection {
 		} catch (IOException e) {
 			log.error("insert table{},rowKey:{}", tableName, rowKey, e);
 		}
-		destroy(conn);
+		// destroy(conn);
 	}
 
 	public void insertAndUpdateOneRowOneColumnFamilyMoreClumnValue(String tableName, String rowKey, String family,
@@ -390,7 +392,7 @@ public class HbaseConnection {
 		} catch (IOException e) {
 			log.error("insert table{},rowKey:{}", tableName, rowKey, e);
 		}
-		destroy(conn);
+		// destroy(conn);
 	}
 
 	public void insertAndUpdateMoreRowMoreColumnFamilyMoreClumnValue(String tableName, Put put) {
@@ -404,7 +406,7 @@ public class HbaseConnection {
 		} catch (IOException e) {
 			log.error("insert tableName:{}", tableName + ",put:" + put, e);
 		}
-		destroy(conn);
+		// destroy(conn);
 	}
 
 	public void deleteColumnFamily(String tableName, String family) {
@@ -416,7 +418,7 @@ public class HbaseConnection {
 		} catch (IOException e) {
 			log.error("delete tableName:{},family:{}", tableName, family, e);
 		}
-		destroy(conn);
+		// destroy(conn);
 	}
 
 	public void deleteOneRowAll(String tableName, String rowKey) {
@@ -428,7 +430,7 @@ public class HbaseConnection {
 		} catch (IOException e) {
 			log.error("delete tableName:{},rowkey:{}", tableName, rowKey, e);
 		}
-		destroy(conn);
+		// destroy(conn);
 	}
 
 	public void deleteOneRowOneColumnFamilyOneCloumn(String tableName, String rowKey, String family, String column) {
@@ -442,7 +444,7 @@ public class HbaseConnection {
 		} catch (IOException e) {
 			log.error("delete tableName:{},Row:{},family:{},Cloumn:{}", tableName, rowKey, family, column, e);
 		}
-		destroy(conn);
+		// destroy(conn);
 	}
 
 	public void deleteOneRowOneColumnFamilyMoreCloumn(String tableName, String rowKey, String family,
@@ -460,7 +462,7 @@ public class HbaseConnection {
 		} catch (IOException e) {
 			log.error("delete tableName:{},Row:{},family:{},Cloumn:{}", tableName, rowKey, family, columns, e);
 		}
-		destroy(conn);
+		// destroy(conn);
 	}
 
 	public void deleteOneRowMoreColumnFamilyMoreCloumn(String tableName, Delete delete) {
@@ -472,7 +474,7 @@ public class HbaseConnection {
 		} catch (IOException e) {
 			log.error("delete tableName:{},delete", tableName, delete, e);
 		}
-		destroy(conn);
+		// destroy(conn);
 	}
 
 	public void deleteTable(String tableName) {
@@ -486,7 +488,7 @@ public class HbaseConnection {
 		} catch (IOException e) {
 			log.error("delete tableName:{}", tableName, e);
 		}
-		destroy(conn);
+		// destroy(conn);
 	}
 
 	public void truncateTable(String tableName) {
@@ -498,7 +500,7 @@ public class HbaseConnection {
 		} catch (IOException e) {
 			log.error("truncate tableName:{}", tableName, e);
 		}
-		destroy(conn);
+		// destroy(conn);
 	}
 
 	public void enableTable(String tableName) {
@@ -513,7 +515,7 @@ public class HbaseConnection {
 		} catch (IOException e) {
 			log.error("enable tableName:{}", tableName, e);
 		}
-		destroy(conn);
+		// destroy(conn);
 	}
 
 	public void disableTable(String tableName) {
@@ -530,7 +532,7 @@ public class HbaseConnection {
 		} catch (IOException e) {
 			log.error("disable Table:{}", tableName, e);
 		}
-		destroy(conn);
+		// destroy(conn);
 	}
 
 	public boolean tableExists(String tableName) {
@@ -547,7 +549,7 @@ public class HbaseConnection {
 		} catch (IOException e) {
 			log.error("table Exists:{}", tableName, e);
 		}
-		destroy(conn);
+		// destroy(conn);
 		return tableExists;
 	}
 
@@ -563,7 +565,7 @@ public class HbaseConnection {
 		} catch (IOException e) {
 			log.error("list TableDescriptor error", e);
 		}
-		destroy(conn);
+		// destroy(conn);
 		return list;
 	}
 
@@ -577,7 +579,7 @@ public class HbaseConnection {
 		} catch (IOException e) {
 			log.error("list TableDescriptor error", e);
 		}
-		destroy(conn);
+		// destroy(conn);
 		return desc;
 	}
 
@@ -593,7 +595,7 @@ public class HbaseConnection {
 		} catch (IOException e) {
 			log.error("list TableName error", e);
 		}
-		destroy(conn);
+		// destroy(conn);
 		return list;
 	}
 
@@ -609,7 +611,7 @@ public class HbaseConnection {
 		} catch (IOException e) {
 			log.error("list TableName error", e);
 		}
-		destroy(conn);
+		// destroy(conn);
 		return list;
 	}
 
@@ -626,7 +628,7 @@ public class HbaseConnection {
 		} catch (IOException e) {
 			log.error("Table Available:{}", tableName, e);
 		}
-		destroy(conn);
+		// destroy(conn);
 		return isTableAvailable;
 	}
 

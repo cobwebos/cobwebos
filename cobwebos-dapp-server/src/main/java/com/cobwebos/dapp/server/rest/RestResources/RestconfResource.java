@@ -38,8 +38,11 @@ public class RestconfResource {
 			String topic = DappServerCfg.getInstance().getKafkaTopic();
 			String key = json.getJSONObject("data").getString("key");
 			value = new JSONObject(json.toString());
-			MessageProducer.getInstance().SendMessage(topic, key, value.toString());
-
+			//异步方案 异步方案高并发有问题数据库删除操作早于创建通知
+//			MessageProducer.getInstance().SendMessage(topic, key, value.toString());
+			//同步方案/
+			HbaseConnection.getInstance().insertAndUpdateOneRowOneColumnFamilyOneClumnValue("inv", key, "tp", "source", value.toString());
+			
 		}
 		return json.toString();
 	}
@@ -73,7 +76,11 @@ public class RestconfResource {
 			String topic = DappServerCfg.getInstance().getKafkaTopic();
 			String key = json.getJSONObject("data").getString("key");
 			value = new JSONObject(json.toString());
-			MessageProducer.getInstance().SendMessage(topic, key, value.toString());
+			//异步方案 异步方案高并发有问题数据库删除操作早于创建通知
+//			MessageProducer.getInstance().SendMessage(topic, key, value.toString());
+			//同步方案
+			HbaseConnection.getInstance().insertAndUpdateOneRowOneColumnFamilyOneClumnValue("inv", key, "tp", "source", value.toString());
+			
 
 		}
 		return json.toString();
