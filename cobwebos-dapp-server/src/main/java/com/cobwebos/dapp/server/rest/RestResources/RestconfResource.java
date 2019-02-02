@@ -92,46 +92,51 @@ public class RestconfResource {
 		JSONObject result = new JSONObject();
 		result.put("errorCode", 200);
 		result.put("errorDesc", "success");
+		String key = input.getString("key");
 
 		JSONObject masterNode = null;
 		JSONObject slaveNode = null;
 		if (path != null && data != null && input.getString("cmd").equalsIgnoreCase("get")) {
 			get = getBlockNodeValueByPath(path).toString();
 			masterNode = new JSONObject(get);
-			slaveNode = getBlockNodeValueByRowKey(input.getString("key"));
-			nodes.put("master", masterNode);
-			nodes.put("slave", slaveNode);
+			nodes.put("master", masterNode);	
+			if(!key.contains("/")) {
+				slaveNode = getBlockNodeValueByRowKey(input.getString("key"));
+				nodes.put("slave", slaveNode);
+			}				
 			output.put("input", input);
 			output.put("output", nodes);
 			output.put("result", result);
-		} else if ((path.equalsIgnoreCase("") && data != null && input.getString("cmd").equalsIgnoreCase("get"))
-				|| (path.isEmpty() && data != null && input.getString("cmd").equalsIgnoreCase("get"))
-				|| (path == null && data != null && input.getString("cmd").equalsIgnoreCase("get"))) {
-			get = getBlockNodeValueByPath(path).toString();
-			masterNode = new JSONObject(get);
-			slaveNode = getBlockNodeValueByRowKey(input.getString("key"));
-			nodes.put("master", masterNode);
-			nodes.put("slave", slaveNode);
-			output.put("input", input);
-			output.put("output", nodes);
-			output.put("result", result);
-		} else if (path != null && data != null && input.getString("cmd").equalsIgnoreCase("ls")) {
+		}
+//		else if ((path.equalsIgnoreCase("") && data != null && input.getString("cmd").equalsIgnoreCase("get"))
+//				|| (path.isEmpty() && data != null && input.getString("cmd").equalsIgnoreCase("get"))
+//				|| (path == null && data != null && input.getString("cmd").equalsIgnoreCase("get"))) {
+//			get = getBlockNodeValueByPath(path).toString();
+//			masterNode = new JSONObject(get);
+//			nodes.put("master", masterNode);
+//			output.put("input", input);
+//			output.put("output", nodes);
+//			output.put("result", result);
+//		}
+		else if (path != null && data != null && input.getString("cmd").equalsIgnoreCase("ls")) {
 			get = lsBlockNodeByPath(path).toString();
 			masterNode = new JSONObject(get);
 			nodes.put("master", masterNode);
 			output.put("input", input);
 			output.put("output", nodes);
 			output.put("result", result);
-		} else if ((path.equalsIgnoreCase("") && data != null && input.getString("cmd").equalsIgnoreCase("ls"))
-				|| (path.isEmpty() && data != null && input.getString("cmd").equalsIgnoreCase("ls"))
-				|| (path == null && data != null && input.getString("cmd").equalsIgnoreCase("ls"))) {
-			get = lsBlockNodeByPath(path).toString();
-			masterNode = new JSONObject(get);
-			nodes.put("master", masterNode);
-			output.put("input", input);
-			output.put("output", nodes);
-			output.put("result", result);
-		} else {
+		} 
+//		else if ((path.equalsIgnoreCase("") && data != null && input.getString("cmd").equalsIgnoreCase("ls"))
+//				|| (path.isEmpty() && data != null && input.getString("cmd").equalsIgnoreCase("ls"))
+//				|| (path == null && data != null && input.getString("cmd").equalsIgnoreCase("ls"))) {
+//			get = lsBlockNodeByPath(path).toString();
+//			masterNode = new JSONObject(get);
+//			nodes.put("master", masterNode);
+//			output.put("input", input);
+//			output.put("output", nodes);
+//			output.put("result", result);
+//		}
+		else {
 			log.warn(" path is error!!!");
 		}
 
