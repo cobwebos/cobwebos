@@ -43,11 +43,26 @@ public class BlockChainResource {
 				
 		if(null == ZookeeperUtils.isExistsNode(schema)) {
 			//写入主链
-			ZookeeperUtils.createNode("/"+which, which);
+			if(null == ZookeeperUtils.isExistsNode("/"+which)) {
+				ZookeeperUtils.createNode("/"+which, which);
+			}			
 			ZookeeperUtils.createNode(schema, what.toString());
 			//写入从链
-			HbaseConnection.getInstance().createTable(which, why);
-			HbaseConnection.getInstance().insertAndUpdateOneRowOneColumnFamilyOneClumnValue(which, who, why, where, what.toString());
+			if(!HbaseConnection.getInstance().tableExists(which)) {
+				HbaseConnection.getInstance().createTable(which, why);
+			}else {
+				HbaseConnection.getInstance().insertAndUpdateOneRowOneColumnFamilyOneClumnValue(which, who, why, where, what.toString());
+			}			
+			
+		}else {
+			//写入主链						
+			ZookeeperUtils.setNodeValue(schema, what.toString());
+			//写入从链
+			if(!HbaseConnection.getInstance().tableExists(which)) {
+				HbaseConnection.getInstance().createTable(which, why);
+			}else {
+				HbaseConnection.getInstance().insertAndUpdateOneRowOneColumnFamilyOneClumnValue(which, who, why, where, what.toString());
+			}			
 			
 		}				
 		//校验数据		
@@ -137,19 +152,27 @@ public class BlockChainResource {
 		String howMuch = input.getString("node-how-much");		
 		
 		if(ZookeeperUtils.isExistsNode(schema)!=null) {
-			//写入主链
+			//写入主链			
 			ZookeeperUtils.setNodeValue(schema, what.toString());
 			//写入从链
-			HbaseConnection.getInstance().createTable(which, why);
-			HbaseConnection.getInstance().insertAndUpdateOneRowOneColumnFamilyOneClumnValue(which, who, why, where, what.toString());
-
+			if(!HbaseConnection.getInstance().tableExists(which)) {
+				HbaseConnection.getInstance().createTable(which, why);
+			}else {
+				HbaseConnection.getInstance().insertAndUpdateOneRowOneColumnFamilyOneClumnValue(which, who, why, where, what.toString());
+			}			
+			
 		}else {
 			//写入主链
-			ZookeeperUtils.createNode("/"+which, which);
+			if(null == ZookeeperUtils.isExistsNode("/"+which)) {
+				ZookeeperUtils.createNode("/"+which, which);
+			}			
 			ZookeeperUtils.createNode(schema, what.toString());
 			//写入从链
-			HbaseConnection.getInstance().createTable(which, why);
-			HbaseConnection.getInstance().insertAndUpdateOneRowOneColumnFamilyOneClumnValue(which, who, why, where, what.toString());
+			if(!HbaseConnection.getInstance().tableExists(which)) {
+				HbaseConnection.getInstance().createTable(which, why);
+			}else {
+				HbaseConnection.getInstance().insertAndUpdateOneRowOneColumnFamilyOneClumnValue(which, who, why, where, what.toString());					
+			}			
 			
 		}			
 		

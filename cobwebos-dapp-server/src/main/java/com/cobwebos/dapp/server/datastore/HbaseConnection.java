@@ -541,11 +541,11 @@ public class HbaseConnection {
 		try {
 			Admin admin = conn.getAdmin();
 			tableExists = admin.tableExists(TableName.valueOf(tableName));
-			if (!tableExists) {
-				admin.disableTable(TableName.valueOf(tableName));
+			if (!tableExists) {				
 				log.info("table:{},tableExists:{}", tableName, tableExists);
 			}
-			log.info("table:{},tableExists:{}", tableName, tableExists);
+			log.warn("table not exists!");
+			
 		} catch (IOException e) {
 			log.error("table Exists:{}", tableName, e);
 		}
