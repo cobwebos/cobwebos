@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import com.cobwebos.dapp.server.common.ZookeeperUtils;
 import com.cobwebos.dapp.server.config.DappServerCfg;
+import com.cobwebos.dapp.server.rest.RestResources.BlockChainResource;
 import com.cobwebos.dapp.server.rest.RestResources.Hello;
 import com.cobwebos.dapp.server.rest.RestResources.RestconfResource;
 
@@ -67,7 +68,8 @@ public class RestServer {
 		public AppResource() {
 			log.info("startting register restconf resource...");
 			this.register(Hello.class);
-			this.register(RestconfResource.class);
+//			this.register(RestconfResource.class);
+			this.register(BlockChainResource.class);
 			log.info("started register restconf resource...");
 		}
 

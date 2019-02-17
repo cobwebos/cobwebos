@@ -2,9 +2,14 @@ package com.cobwebos.dapp.server.common;
 
 public class Constants {
 
-    public static final String DAPP_SERVER_REST_PATH_HELLO = "hello";
-    public static final String DAPP_SERVER_REST_BASE_PATH = "cobwebos/v1";
-    public static final String DAPP_SERVER_REST_APP_PATH = DAPP_SERVER_REST_BASE_PATH +"{path: /.*}";
-//    public static final String DAPP_SERVER_REST_APP_PATH = DAPP_SERVER_REST_BASE_PATH +"{path: [a-zA-Z][a-zA-Z_0-9]}";//@Path("znodes/v1{path: /.*}")
+	public static final String DAPP_SERVER_REST_BASE_HELLO = "hello";
+	private static final String DAPP_SERVER_REST_BASE = "cobwebos/v1";
+	public static final String DAPP_SERVER_REST_APP_PATH = DAPP_SERVER_REST_BASE + "{path: /.*}";
+	private static final String BLOCK_CHAIN_RESOURCE = "blockchain";
+	public static final String BLOCK_CHAIN_RESOURCE_URI = BLOCK_CHAIN_RESOURCE + "{schema: /.*}";
+	public static final String SCHEMA = "inventory";
+	public static final String CF = "cf";
+	public static final String col = "inv";
+
 
 }

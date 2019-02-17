@@ -4,14 +4,11 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.cobwebos.dapp.server.rest.RestServer;
-
 public class BlockNode {
    
     private String BlockNodeHashId;
 
     private String BlockNodeNextHashId;
-
    
     private String BlockNodeLastHashId;
    
@@ -52,8 +49,7 @@ public class BlockNode {
     
     public BlockNode(String path,String data){
         this.path =path;
-        this.data = data;
-        RestServer.zk.createNode(path, data);
+        this.data = data;      
     }
     
    
