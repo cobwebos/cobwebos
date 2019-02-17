@@ -51,7 +51,7 @@ public class MessageProducer {
 		producer = new KafkaProducer<>(props);
 		producer.send(new ProducerRecord<String, String>(topic, msgBody));
 		log.info("producer record topic:{},msgBody:{} ", topic, msgBody);
-//		producer.close();
+		producer.close();
 
 	}
 
@@ -60,7 +60,7 @@ public class MessageProducer {
 		producer = new KafkaProducer<>(props);
 		producer.send(new ProducerRecord<String, String>(topic, msgHeader, msgBody));
 		log.info("message producer record topic:{},msgHeader:{},msgBody:{} ", topic, msgHeader, msgBody);
-//		producer.close();
+		producer.close();
 
 	}
 	
