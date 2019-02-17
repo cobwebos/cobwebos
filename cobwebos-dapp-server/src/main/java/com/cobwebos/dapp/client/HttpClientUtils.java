@@ -88,12 +88,12 @@ public class HttpClientUtils {
 		HttpPost httpPost = null;
 		CloseableHttpClient httpClient = null;
 		try {
-			httpClient = HttpClients.createDefault();
-			log.info("getRequestLine:{}", httpPost.getRequestLine());
-			httpPost = new HttpPost(url);
+			httpClient = HttpClients.createDefault();			
+			httpPost = new HttpPost(url);			
 			intputEntity = new StringEntity(input, ContentType.create("text/plain", "UTF-8"));
-			httpPost.setEntity(intputEntity);
+			httpPost.setEntity(intputEntity);			
 			httpResponse = httpClient.execute(httpPost);
+			log.info("getRequestLine:{}", httpPost.getRequestLine());
 			log.info("getStatusLine:{}", httpResponse.getStatusLine());
 			int status = httpResponse.getStatusLine().getStatusCode();
 			if (status >= 200 && status < 300) {
@@ -117,13 +117,13 @@ public class HttpClientUtils {
 		} catch (IOException e) {
 			log.error(e.getMessage(), e);
 		} finally {
-//			try {
-//				instrem.close();
-//				httpResponse.close();
-//				httpClient.close();
-//			} catch (IOException e) {
-//				log.error(e.getMessage(), e);
-//			}
+			try {
+				instrem.close();
+				httpResponse.close();
+				httpClient.close();
+			} catch (IOException e) {
+				log.error(e.getMessage(), e);
+			}
 		}
 
 		return response;
@@ -138,12 +138,12 @@ public class HttpClientUtils {
 		HttpPut httpPut = null;
 		CloseableHttpClient httpClient = null;
 		try {
-			httpClient = HttpClients.createDefault();
-			log.info("getRequestLine:{}", httpPut.getRequestLine());
-			httpPut = new HttpPut(url);
+			httpClient = HttpClients.createDefault();			
+			httpPut = new HttpPut(url);			
 			intputEntity = new StringEntity(input, ContentType.create("text/plain", "UTF-8"));
 			httpPut.setEntity(intputEntity);
 			httpResponse = httpClient.execute(httpPut);
+			log.info("getRequestLine:{}", httpPut.getRequestLine());
 			log.info("getStatusLine:{}", httpResponse.getStatusLine());
 			int status = httpResponse.getStatusLine().getStatusCode();
 			if (status >= 200 && status < 300) {
@@ -188,12 +188,13 @@ public class HttpClientUtils {
 		HttpPatch httpPatch = null;
 		CloseableHttpClient httpClient = null;
 		try {
-			httpClient = HttpClients.createDefault();
-			log.info("getRequestLine:{}", httpPatch.getRequestLine());
+			httpClient = HttpClients.createDefault();			
 			httpPatch = new HttpPatch(url);
+			
 			intputEntity = new StringEntity(input, ContentType.create("text/plain", "UTF-8"));
 			httpPatch.setEntity(intputEntity);
 			httpResponse = httpClient.execute(httpPatch);
+			log.info("getRequestLine:{}", httpPatch.getRequestLine());
 			log.info("getStatusLine:{}", httpResponse.getStatusLine());
 			int status = httpResponse.getStatusLine().getStatusCode();
 			if (status >= 200 && status < 300) {
@@ -238,12 +239,13 @@ public class HttpClientUtils {
 		HttpDelete httpDelete = null;
 		CloseableHttpClient httpClient = null;
 		try {
-			httpClient = HttpClients.createDefault();
-			log.info("getRequestLine:{}", httpDelete.getRequestLine());
+			httpClient = HttpClients.createDefault();			
 			httpDelete = new HttpDelete(url);
+			
 			intputEntity = new StringEntity(input, ContentType.create("text/plain", "UTF-8"));
 //			httpDelete.setEntity(intputEntity);
 			httpResponse = httpClient.execute(httpDelete);
+			log.info("getRequestLine:{}", httpDelete.getRequestLine());
 			log.info("getStatusLine:{}", httpResponse.getStatusLine());
 			int status = httpResponse.getStatusLine().getStatusCode();
 			if (status >= 200 && status < 300) {
