@@ -59,7 +59,7 @@ public class TestResource {
 			nodeWhatObj.put("node-id", "" + i);
 			nodeWhatObj.put("node-name", "" + i);
 			inputObj.put("node-who", "" + i);
-			inputObj.put("node-which", input.getString("node-whitch"));
+			inputObj.put("node-which", input.getString("node-which"));
 			inputObj.put("node-where", input.getString("node-where"));
 			inputObj.put("node-why", input.getString("node-why"));
 			inputObj.put("node-what", nodeWhatObj);
@@ -85,7 +85,7 @@ public class TestResource {
 			nodeWhatObj.put("node-id", "" + i);
 			nodeWhatObj.put("node-name", "" + i);
 			inputObj.put("node-who", "" + i);
-			inputObj.put("node-which", input.getString("node-whitch"));
+			inputObj.put("node-which", input.getString("node-which"));
 			inputObj.put("node-where", input.getString("node-where"));
 			inputObj.put("node-why", input.getString("node-why"));
 			inputObj.put("node-what", nodeWhatObj);
