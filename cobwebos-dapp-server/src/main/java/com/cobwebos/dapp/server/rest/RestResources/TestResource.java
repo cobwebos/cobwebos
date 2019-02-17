@@ -68,7 +68,7 @@ public class TestResource {
 			inputObj.put("node-how-much", input.getString("node-how-much"));
 			inputObj.put("node-from", input.getInt("node-from"));
 			inputObj.put("node-to", input.getInt("node-to"));			
-			HttpClientUtils.getClientInstance().doPost("http://192.168.0.2:2019/blockchain/"+input.getString("node-whitch")+"/"+i, inputObj.toString());
+			HttpClientUtils.getClientInstance().doPost("http://192.168.0.2:2019/blockchain/"+input.getString("node-which")+"/"+i, inputObj.toString());
 			log.info("inputObj:{}",inputObj.toString());
 		}
 		
@@ -94,7 +94,7 @@ public class TestResource {
 			inputObj.put("node-how-much", input.getString("node-how-much"));
 			inputObj.put("node-from", input.getInt("node-from"));
 			inputObj.put("node-to", input.getInt("node-to"));			
-			HttpClientUtils.getClientInstance().doPost("http://192.168.0.2:2019/blockchain/inventory/"+i, inputObj.toString());
+			HttpClientUtils.getClientInstance().doPost("http://192.168.0.2:2019/blockchain/"+input.getString("node-which")+"/"+i, inputObj.toString());
 			log.info("inputObj:{}",inputObj.toString());
 		}
 	
