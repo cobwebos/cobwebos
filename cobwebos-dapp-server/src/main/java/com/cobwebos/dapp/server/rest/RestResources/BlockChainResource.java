@@ -50,6 +50,8 @@ public class BlockChainResource {
 			// 写入从链
 			if (!HbaseConnection.getInstance().tableExists(which)) {
 				HbaseConnection.getInstance().createTable(which, why);
+				HbaseConnection.getInstance().insertAndUpdateOneRowOneColumnFamilyOneClumnValue(which, who, why, where,
+						what.toString());
 			} else {
 				HbaseConnection.getInstance().insertAndUpdateOneRowOneColumnFamilyOneClumnValue(which, who, why, where,
 						what.toString());
@@ -61,6 +63,8 @@ public class BlockChainResource {
 			// 写入从链
 			if (!HbaseConnection.getInstance().tableExists(which)) {
 				HbaseConnection.getInstance().createTable(which, why);
+				HbaseConnection.getInstance().insertAndUpdateOneRowOneColumnFamilyOneClumnValue(which, who, why, where,
+						what.toString());
 			} else {
 				HbaseConnection.getInstance().insertAndUpdateOneRowOneColumnFamilyOneClumnValue(which, who, why, where,
 						what.toString());
@@ -170,6 +174,8 @@ public class BlockChainResource {
 			// 写入从链
 			if (!HbaseConnection.getInstance().tableExists(which)) {
 				HbaseConnection.getInstance().createTable(which, why);
+				HbaseConnection.getInstance().insertAndUpdateOneRowOneColumnFamilyOneClumnValue(which, who, why, where,
+						what.toString());
 			} else {
 				HbaseConnection.getInstance().insertAndUpdateOneRowOneColumnFamilyOneClumnValue(which, who, why, where,
 						what.toString());
@@ -184,6 +190,8 @@ public class BlockChainResource {
 			// 写入从链
 			if (!HbaseConnection.getInstance().tableExists(which)) {
 				HbaseConnection.getInstance().createTable(which, why);
+				HbaseConnection.getInstance().insertAndUpdateOneRowOneColumnFamilyOneClumnValue(which, who, why, where,
+						what.toString());
 			} else {
 				HbaseConnection.getInstance().insertAndUpdateOneRowOneColumnFamilyOneClumnValue(which, who, why, where,
 						what.toString());
