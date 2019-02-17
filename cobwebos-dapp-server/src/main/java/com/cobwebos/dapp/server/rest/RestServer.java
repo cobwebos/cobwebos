@@ -12,6 +12,7 @@ import com.cobwebos.dapp.server.config.DappServerCfg;
 import com.cobwebos.dapp.server.rest.RestResources.BlockChainResource;
 import com.cobwebos.dapp.server.rest.RestResources.Hello;
 import com.cobwebos.dapp.server.rest.RestResources.RestconfResource;
+import com.cobwebos.dapp.server.rest.RestResources.TestResource;
 
 import io.netty.channel.Channel;
 
@@ -70,6 +71,7 @@ public class RestServer {
 			this.register(Hello.class);
 			this.register(RestconfResource.class);
 			this.register(BlockChainResource.class);
+			this.register(TestResource.class);
 			log.info("started register restconf resource...");
 		}
 
