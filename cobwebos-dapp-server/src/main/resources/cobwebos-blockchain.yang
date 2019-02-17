@@ -1,0 +1,218 @@
+module cobwebos-blockchain {   
+    yang-version "1";
+    namespace "http://www.cobwebos.com/blockchain";
+    prefix "cobs";
+    
+    description "www.cobwebos.com";
+    contact "cobwebos@163.com";   
+    organization "www.cobwebos.com";  
+    
+    
+    
+    
+    
+    
+    
+    
+    container block-chain-nodes {        list block-chain-node {
+            description "";
+            key node-key;            leaf node-key {
+                description "";
+                type string;
+            }leaf node-value {
+                description "";
+                type string;
+            }            leaf node-url {
+                description "";
+                type string;
+            }                                    
+            
+
+
+
+
+
+        }
+
+        description "";
+    }
+    grouping node-header {        leaf version {
+            description "";
+            type string;
+        }        leaf parentHash {
+            description "";
+            type string;
+        }        leaf mySelfHash {
+            description "";
+            type string;
+        }        leaf merkleRootHash {
+            description "";
+            type string;
+        }        leaf time {
+            description "";
+            type string;
+        }        leaf number {
+            description "";
+            type string;
+        }        leaf nonce {
+            description "";
+            type string;
+        }
+
+
+
+
+
+
+        
+
+        description "";
+    }
+    
+    
+    grouping node-body {        leaf node-who {
+            description "";
+            type string;
+        }        leaf node-which {
+            description "";
+            type string;
+        }leaf node-what {
+            description "";
+            type string;
+        }        leaf node-where {
+            description "";
+            type string;
+        }leaf node-when {
+            description "";
+            type string;
+        }                                                leaf node-why {
+            description "";
+            type string;
+        }leaf node-how-to-do {
+            description "";
+            type string;
+        }
+leaf node-how-much {
+            description "";
+            type string;
+        }
+        
+        
+
+
+
+
+
+
+
+
+        description "";
+    }
+    
+    grouping errors {        list error {
+            description "";
+            key error-code;
+            leaf error-code {
+                description "";
+                type string;
+            }
+            leaf error-tag {
+                description "";
+                type string;
+            }
+            leaf error-desc {
+                description "";
+                type string;
+            }
+            leaf error-level {
+                description "";
+                type string;
+            }
+            leaf error-message {
+                description "";
+                type string;
+            }
+            leaf error-info {
+                description "";
+                type string;
+            }            leaf error-result {
+                description "";
+                type string;
+            }            leaf error-status {
+                description "";
+                type string;
+            }
+
+
+        }
+
+        description "";
+    }
+    container transactions {
+        list transaction {
+            description "";
+            key txid;
+            leaf txid {
+                description "";
+                type string;
+            }
+            leaf producerFromAddress {
+                description "";
+                type string;
+            }
+            leaf consumerToAddress {
+                description "";
+                type string;
+            }
+            leaf value {
+                description "";
+                type string;
+            }
+            list input {
+                description "";
+                key key;
+                leaf key {
+                    description "";
+                    type string;
+                }
+                leaf value {
+                    description "";
+                    type string;
+                }
+                leaf signature {
+                    description "";
+                    type string;
+                }
+                leaf publicKey {
+                    description "";
+                    type string;
+                }
+                leaf data {
+                    description "";
+                    type string;
+                }
+                list output {
+                    description "";
+                    key key;
+                    leaf value {
+                        description "";
+                        type string;
+                    }
+                    leaf publicKeyHash {
+                        description "";
+                        type string;
+                    }
+
+                    leaf data {
+                        description "";
+                        type string;
+                    }
+                }
+            }
+        }
+
+        description "";
+    }
+    
+    
+}
