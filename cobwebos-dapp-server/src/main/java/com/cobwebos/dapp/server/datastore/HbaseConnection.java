@@ -339,9 +339,16 @@ public class HbaseConnection {
 				get.addColumn(Bytes.toBytes(family), Bytes.toBytes(column));
 				Result res = table.get(get);
 				byte[] resByte = res.getValue(Bytes.toBytes(family), Bytes.toBytes(column));
-				String value = new String(resByte);
-				cell = new JSONObject(value);
-				log.info("tableName:{},family:{},column:{},value:{} ", tableName, family, column, cell.toString());
+				if(resByte!=null) {
+					String value = new String(resByte);
+					cell = new JSONObject(value);
+					log.info("tableName:{},family:{},column:{},value:{} ", tableName, family, column, cell.toString());
+					
+				}else {
+					log.warn("tableName:{},family:{},column:{},value:{} ", tableName, family, column, cell);
+					
+				}		
+				
 				return cell;
 			}
 		} catch (IOException e) {
