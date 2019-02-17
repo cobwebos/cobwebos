@@ -68,7 +68,7 @@ public class RestServer {
 		public AppResource() {
 			log.info("startting register restconf resource...");
 			this.register(Hello.class);
-//			this.register(RestconfResource.class);
+			this.register(RestconfResource.class);
 			this.register(BlockChainResource.class);
 			log.info("started register restconf resource...");
 		}
