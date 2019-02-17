@@ -51,32 +51,31 @@ public class TestResource {
 		output.put("node-from", from);
 		output.put("node-to", to);
 
+		doPost(input);
 		obj.put("input", input);
 		obj.put("output", output);
 
 		return obj.toString();
 	}
 	
-	public void doPost(int from,int to) {
-		String input = null;
+	public void doPost(JSONObject input) {		
 		JSONObject inputObj = new JSONObject();		
-		for (int i = from; i < to; i++) {
+		for (int i = input.getInt("node-from"); i < input.getInt("node-to"); i++) {
 			JSONObject nodeWhatObj = new JSONObject();
 			nodeWhatObj.put("node-id", "" + i);
 			nodeWhatObj.put("node-name", "" + i);
 			inputObj.put("node-who", "" + i);
-			inputObj.put("node-which", "inventory");
-			inputObj.put("node-where", "node");
-			inputObj.put("node-why", "cf");
+			inputObj.put("node-which", input.getString("node-whitch"));
+			inputObj.put("node-where", input.getString("node-where"));
+			inputObj.put("node-why", input.getString("node-why"));
 			inputObj.put("node-what", nodeWhatObj);
-			inputObj.put("node-when", "when");
-			inputObj.put("node-how-to-do", "post");
-			inputObj.put("node-how-much", "hash much");
-			inputObj.put("node-from", from);
-			inputObj.put("node-to", to);
-			input = inputObj.toString();
-			HttpClientUtils.getClientInstance().doPost("http://192.168.0.2:2019/blockchain/inventory/"+i, input);
-			log.info("input:{}",input);
+			inputObj.put("node-when", input.getString("node-when"));
+			inputObj.put("node-how-to-do", input.getString("node-how-to-do"));
+			inputObj.put("node-how-much", input.getString("node-how-much"));
+			inputObj.put("node-from", input.getInt("node-from"));
+			inputObj.put("node-to", input.getInt("node-to"));			
+			HttpClientUtils.getClientInstance().doPost("http://192.168.0.2:2019/blockchain/inventory/"+i, inputObj.toString());
+			log.info("inputObj:{}",inputObj.toString());
 		}
 	
 	}
