@@ -9,8 +9,7 @@ import com.cobwebos.dapp.server.rest.RestServer;
 public class DappServerMain {
 
 	public void startHbase() {
-		HbaseConnection.getInstance().listTableDescriptor();
-		HbaseConnection.getInstance().createTable("inv", "tp");
+		HbaseConnection.getInstance().listTableDescriptor();		
 	}
 
 	public void startZKClient() {

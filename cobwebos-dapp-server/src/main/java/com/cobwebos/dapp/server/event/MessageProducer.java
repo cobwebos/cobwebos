@@ -5,6 +5,7 @@ import java.util.Properties;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,23 +46,25 @@ public class MessageProducer {
 
 	}
 
-	public void SendMessage(String topic, String value) {
+	public void SendMessage(String topic, String msgBody) {
 		Thread.currentThread().setContextClassLoader(null);
 		producer = new KafkaProducer<>(props);
-		producer.send(new ProducerRecord<String, String>(topic, value));
-		log.info("producer record topic:{},value:{} ", topic, value);
+		producer.send(new ProducerRecord<String, String>(topic, msgBody));
+		log.info("producer record topic:{},msgBody:{} ", topic, msgBody);
 //		producer.close();
 
 	}
 
-	public void SendMessage(String topic, String key, String value) {
+	public void SendMessage(String topic, String msgHeader, String msgBody) {
 		Thread.currentThread().setContextClassLoader(null);
 		producer = new KafkaProducer<>(props);
-		producer.send(new ProducerRecord<String, String>(topic, key, value));
-		log.info("producer record topic:{},key:{},value:{} ", topic, key, value);
+		producer.send(new ProducerRecord<String, String>(topic, msgHeader, msgBody));
+		log.info("message producer record topic:{},msgHeader:{},msgBody:{} ", topic, msgHeader, msgBody);
 //		producer.close();
 
 	}
+	
+	
 	
 	public void shutdown() {
 		producer.close();

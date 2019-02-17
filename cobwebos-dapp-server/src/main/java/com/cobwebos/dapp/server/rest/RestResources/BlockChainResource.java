@@ -18,7 +18,9 @@ import org.slf4j.LoggerFactory;
 
 import com.cobwebos.dapp.server.common.Constants;
 import com.cobwebos.dapp.server.common.ZookeeperUtils;
+import com.cobwebos.dapp.server.config.DappServerCfg;
 import com.cobwebos.dapp.server.datastore.HbaseConnection;
+import com.cobwebos.dapp.server.event.MessageProducer;
 
 @Path(Constants.BLOCK_CHAIN_RESOURCE_URI)
 public class BlockChainResource {
@@ -47,28 +49,42 @@ public class BlockChainResource {
 				ZookeeperUtils.createNode("/" + which, which);
 			}
 			ZookeeperUtils.createNode(schema, what.toString());
-			// 写入从链
+			// 写入从链 同步方案
+//			if (!HbaseConnection.getInstance().tableExists(which)) {
+//				HbaseConnection.getInstance().createTable(which, why);
+//				HbaseConnection.getInstance().insertAndUpdateOneRowOneColumnFamilyOneClumnValue(which, who, why, where,
+//						what.toString());
+//			} else {
+//				HbaseConnection.getInstance().insertAndUpdateOneRowOneColumnFamilyOneClumnValue(which, who, why, where,
+//						what.toString());
+//			}
+
+			// 写入从链 异步方案
 			if (!HbaseConnection.getInstance().tableExists(which)) {
 				HbaseConnection.getInstance().createTable(which, why);
-				HbaseConnection.getInstance().insertAndUpdateOneRowOneColumnFamilyOneClumnValue(which, who, why, where,
-						what.toString());
-			} else {
-				HbaseConnection.getInstance().insertAndUpdateOneRowOneColumnFamilyOneClumnValue(which, who, why, where,
-						what.toString());
 			}
+			MessageProducer.getInstance().SendMessage(DappServerCfg.getInstance().getKafkaTopic(), input.toString(),
+					what.toString());
 
 		} else {
 			// 写入主链
 			ZookeeperUtils.setNodeValue(schema, what.toString());
 			// 写入从链
+//			if (!HbaseConnection.getInstance().tableExists(which)) {
+//				HbaseConnection.getInstance().createTable(which, why);
+//				HbaseConnection.getInstance().insertAndUpdateOneRowOneColumnFamilyOneClumnValue(which, who, why, where,
+//						what.toString());
+//			} else {
+//				HbaseConnection.getInstance().insertAndUpdateOneRowOneColumnFamilyOneClumnValue(which, who, why, where,
+//						what.toString());
+//			}
+
+			// 写入从链 异步方案
 			if (!HbaseConnection.getInstance().tableExists(which)) {
 				HbaseConnection.getInstance().createTable(which, why);
-				HbaseConnection.getInstance().insertAndUpdateOneRowOneColumnFamilyOneClumnValue(which, who, why, where,
-						what.toString());
-			} else {
-				HbaseConnection.getInstance().insertAndUpdateOneRowOneColumnFamilyOneClumnValue(which, who, why, where,
-						what.toString());
 			}
+			MessageProducer.getInstance().SendMessage(DappServerCfg.getInstance().getKafkaTopic(), input.toString(),
+					what.toString());
 
 		}
 		// 校验数据
@@ -100,12 +116,12 @@ public class BlockChainResource {
 			whatObj.put("slave-chain-node", whatSlaveObj);
 		}
 
-		output.put("who", who);
-		output.put("which", which);
-		output.put("where", where);
-		output.put("what", whatObj);
-		output.put("when", when);
-		output.put("why", why);
+		output.put("node-who", who);
+		output.put("node-which", which);
+		output.put("node-where", where);
+		output.put("node-what", whatObj);
+		output.put("node-when", when);
+		output.put("node-why", why);
 		output.put("node-how-to-do", howToDo);
 		output.put("node-how-much", howMuch);
 
@@ -133,15 +149,18 @@ public class BlockChainResource {
 		String howMuch = input.getString("node-how-much");
 		// 删除主链
 		ZookeeperUtils.rmrNode(schema);
-		// 删除从链
-		HbaseConnection.getInstance().deleteOneRowAll(which, who);
+		// 删除从链同步方案
+//		HbaseConnection.getInstance().deleteOneRowAll(which, who);
+		// 删除从链异步方案
+		MessageProducer.getInstance().SendMessage(DappServerCfg.getInstance().getKafkaTopic(), input.toString(),
+				what.toString());
 
-		output.put("who", "");
-		output.put("which", which);
-		output.put("where", where);
-		output.put("what", "{}");
-		output.put("when", when);
-		output.put("why", why);
+		output.put("node-who", "");
+		output.put("node-which", which);
+		output.put("node-where", where);
+		output.put("node-what", "{}");
+		output.put("node-when", when);
+		output.put("node-why", why);
 		output.put("node-how-to-do", howToDo);
 		output.put("node-how-much", howMuch);
 
@@ -171,15 +190,22 @@ public class BlockChainResource {
 		if (ZookeeperUtils.isExistsNode(schema) != null) {
 			// 写入主链
 			ZookeeperUtils.setNodeValue(schema, what.toString());
-			// 写入从链
+			// 写入从链同步方案
+//			if (!HbaseConnection.getInstance().tableExists(which)) {
+//				HbaseConnection.getInstance().createTable(which, why);
+//				HbaseConnection.getInstance().insertAndUpdateOneRowOneColumnFamilyOneClumnValue(which, who, why, where,
+//						what.toString());
+//			} else {
+//				HbaseConnection.getInstance().insertAndUpdateOneRowOneColumnFamilyOneClumnValue(which, who, why, where,
+//						what.toString());
+//			}
+
+			// 写入从链 异步方案
 			if (!HbaseConnection.getInstance().tableExists(which)) {
 				HbaseConnection.getInstance().createTable(which, why);
-				HbaseConnection.getInstance().insertAndUpdateOneRowOneColumnFamilyOneClumnValue(which, who, why, where,
-						what.toString());
-			} else {
-				HbaseConnection.getInstance().insertAndUpdateOneRowOneColumnFamilyOneClumnValue(which, who, why, where,
-						what.toString());
 			}
+			MessageProducer.getInstance().SendMessage(DappServerCfg.getInstance().getKafkaTopic(), input.toString(),
+					what.toString());
 
 		} else {
 			// 写入主链
@@ -187,15 +213,22 @@ public class BlockChainResource {
 				ZookeeperUtils.createNode("/" + which, which);
 			}
 			ZookeeperUtils.createNode(schema, what.toString());
-			// 写入从链
+			// 写入从链同步方案
+//			if (!HbaseConnection.getInstance().tableExists(which)) {
+//				HbaseConnection.getInstance().createTable(which, why);
+//				HbaseConnection.getInstance().insertAndUpdateOneRowOneColumnFamilyOneClumnValue(which, who, why, where,
+//						what.toString());
+//			} else {
+//				HbaseConnection.getInstance().insertAndUpdateOneRowOneColumnFamilyOneClumnValue(which, who, why, where,
+//						what.toString());
+//			}
+
+			// 写入从链 异步方案
 			if (!HbaseConnection.getInstance().tableExists(which)) {
 				HbaseConnection.getInstance().createTable(which, why);
-				HbaseConnection.getInstance().insertAndUpdateOneRowOneColumnFamilyOneClumnValue(which, who, why, where,
-						what.toString());
-			} else {
-				HbaseConnection.getInstance().insertAndUpdateOneRowOneColumnFamilyOneClumnValue(which, who, why, where,
-						what.toString());
 			}
+			MessageProducer.getInstance().SendMessage(DappServerCfg.getInstance().getKafkaTopic(), input.toString(),
+					what.toString());
 
 		}
 
@@ -231,12 +264,12 @@ public class BlockChainResource {
 			whatObj.put("slave-chain-node", whatSlaveObj);
 		}
 
-		output.put("who", who);
-		output.put("which", which);
-		output.put("where", where);
-		output.put("what", whatObj);
-		output.put("when", when);
-		output.put("why", why);
+		output.put("node-who", who);
+		output.put("node-which", which);
+		output.put("node-where", where);
+		output.put("node-what", whatObj);
+		output.put("node-when", when);
+		output.put("node-why", why);
 		output.put("node-how-to-do", howToDo);
 		output.put("node-how-much", howMuch);
 
@@ -293,12 +326,12 @@ public class BlockChainResource {
 			whatObj.put("slave-chain-node", whatSlaveObj);
 		}
 
-		output.put("who", who);
-		output.put("which", which);
-		output.put("where", where);
-		output.put("what", whatObj);
-		output.put("when", when);
-		output.put("why", why);
+		output.put("node-who", who);
+		output.put("node-which", which);
+		output.put("node-where", where);
+		output.put("node-what", whatObj);
+		output.put("node-when", when);
+		output.put("node-why", why);
 		output.put("node-how-to-do", howToDo);
 		output.put("node-how-much", howMuch);
 
