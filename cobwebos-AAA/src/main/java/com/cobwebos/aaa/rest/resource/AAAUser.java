@@ -26,9 +26,8 @@ public class AAAUser {
 	@Produces({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Consumes({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public String postCreateUser(@PathParam("path") String path, String data) {
-		log.info("path:{},data:{}", path, data);
-		HttpClientUtils.getClientInstance().doPost(AAACfg.getInstance().getDappServerUrl(), data);
-		return data;
+		log.info("path:{},data:{}", path, data);		
+		return HttpClientUtils.getClientInstance().doPost(AAACfg.getInstance().getDappServerUrl(), data);
 	}
 
 	@DELETE
@@ -37,7 +36,7 @@ public class AAAUser {
 	public String deleteUser(@PathParam("path") String path, String data) {
 		log.info("path:{},data:{}", path, data);
 
-		return data;
+		return HttpClientUtils.getClientInstance().doDelete(AAACfg.getInstance().getDappServerUrl(), data);
 	}
 
 	@PUT
@@ -55,7 +54,7 @@ public class AAAUser {
 	public String patchUser(@PathParam("path") String path, String data) {
 		log.info("path:{},data:{}", path, data);
 
-		return data;
+		return HttpClientUtils.getClientInstance().doPatch(AAACfg.getInstance().getDappServerUrl(), data);
 	}
 
 	@GET
@@ -64,6 +63,6 @@ public class AAAUser {
 	public String getUser(@PathParam("path") String path, String data) {
 		log.info("path:{},data:{}", path, data);
 
-		return data;
+		return HttpClientUtils.getClientInstance().doGet(AAACfg.getInstance().getDappServerUrl(), data);
 	}
 }
