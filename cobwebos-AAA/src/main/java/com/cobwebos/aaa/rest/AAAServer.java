@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import com.cobwebos.aaa.common.AAACfg;
 import com.cobwebos.aaa.common.ZookeeperUtils;
 import com.cobwebos.aaa.rest.resource.AAAGroup;
+import com.cobwebos.aaa.rest.resource.AAAHello;
 import com.cobwebos.aaa.rest.resource.AAAPermission;
 import com.cobwebos.aaa.rest.resource.AAAResource;
 import com.cobwebos.aaa.rest.resource.AAARole;
@@ -69,6 +70,7 @@ public class AAAServer {
 			this.register(AAARole.class);
 			this.register(AAAPermission.class);
 			this.register(AAAResource.class);
+			this.register(AAAHello.class);
 			log.info("started register AAA resource...");
 		}
 
