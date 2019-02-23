@@ -2,9 +2,9 @@ package com.cobwebos.aaa.common;
 
 public class AAAConstants {
 	/**
-	 * AAA-身份认证(Authentication)、授权 (Authorization)和统计 (Accounting)
-	 * 是一个cobwebos的数字身份认证网络安全系统
 	 * 
+	 * AAA-身份认证(Authentication)、授权 (Authorization)和统计 (Accounting)
+	   *    是一个cobwebos的数字身份认证网络安全系统
 	 */
 	private static final String AAA_BASE = "aaa/";
 	private static final String AAA_USER = AAA_BASE + "user";

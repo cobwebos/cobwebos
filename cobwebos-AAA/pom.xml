@@ -124,8 +124,8 @@
 					<instructions>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Version>${project.version}</Bundle-Version>
-						<Bundle-Activator>org.cobwebos.aaa.Activator</Bundle-Activator>
-						<Export-Package>org.cobwebos.aaa*;version=${project.version}</Export-Package>						
+						<Bundle-Activator>com.cobwebos.aaa.Activator</Bundle-Activator>
+						<Export-Package>com.cobwebos.aaa*;version=${project.version}</Export-Package>						
 						<Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
 						<Embed-Directory>target/dependency</Embed-Directory>
 						<Embed-Transitive>true</Embed-Transitive>
