@@ -45,7 +45,7 @@ public class AAAUser {
 	public String putUser(@PathParam("path") String path, String data) {
 		log.info("path:{},data:{}", path, data);
 
-		return data;
+		return HttpClientUtils.getClientInstance().doPut(AAACfg.getInstance().getDappServerUrl(), data);
 	}
 
 	@PATCH
