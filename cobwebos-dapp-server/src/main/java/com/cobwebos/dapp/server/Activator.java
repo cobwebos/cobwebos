@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
 public class Activator implements BundleActivator {
 
 	public static String logPath = System.getProperty("user.dir") + File.separator + "etc" + File.separator
-			+ "log4j.properties";
+			+ "DappServer-log4j.properties";
 	public static Logger log = LoggerFactory.getLogger(Activator.class);
 
 	private DappServerMain main = new DappServerMain();

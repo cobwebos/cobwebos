@@ -1,4 +1,4 @@
-package com.cobwebos.dapp.server.config;
+package com.cobwebos.aaa.common;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -7,8 +7,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class DappServerCfg {
+import org.apache.log4j.PropertyConfigurator;
 
+public class AAACfg {
+	public static String logPath = System.getProperty("user.dir") + File.separator + "etc" + File.separator
+			+ "AAA-log4j.properties";
 	private Properties p = new Properties();
 	private String zkServerUrl;
 	private String zkServerIP;
@@ -61,20 +64,24 @@ public class DappServerCfg {
 	private int autoCommitIntervalMs;
 	private int sessionTimeoutMs;
 	
-	private static final DappServerCfg cfg = new DappServerCfg();
+	private static final AAACfg cfg = new AAACfg();
 	
 	
-	private DappServerCfg() {	
-		initDappServerCfg();
+	private AAACfg() {	
+		initAAACfg();
 	}
 	
-	public static synchronized DappServerCfg getInstance() {
+	public static synchronized AAACfg getInstance() {
 		return cfg;		
 	}
+	
+	public void initAAALog() {
+		PropertyConfigurator.configure(logPath);
+	}
 
-	public void initDappServerCfg() {
+	public void initAAACfg() {
 		String cfgPath = System.getProperty("user.dir") + File.separator + "etc" + File.separator
-				+ "DappServer-Cfg.properties";
+				+ "AAA-Server-Cfg.properties";
 		InputStream io = null;
 		try {
 			io = new FileInputStream(cfgPath);
