@@ -41,7 +41,7 @@ public class HttpClientUtils {
 		log.info("getRequestLine:{}", httpGet.getRequestLine());
 		CloseableHttpResponse httpResponse = null;
 		HttpEntity httpEntity = null;
-		InputStream instrem = null;
+//		InputStream instrem = null;
 		try {
 			httpResponse = httpClient.execute(httpGet);
 			log.info("getStatusLine:{}", httpResponse.getStatusLine());
@@ -49,11 +49,11 @@ public class HttpClientUtils {
 			if (status >= 200 && status < 300) {
 				httpEntity = httpResponse.getEntity();
 				if (httpEntity != null) {
-					instrem = httpEntity.getContent();
-					if (instrem != null) {
-						String entity = inputStreamToString(instrem);
-						log.info("httpEntity:{}", entity);
-					}
+//					instrem = httpEntity.getContent();
+//					if (instrem != null) {
+//						String entity = inputStreamToString(instrem);
+//						log.info("httpEntity:{}", entity);
+//					}
 
 					response = EntityUtils.toString(httpEntity, "UTF-8");
 					log.info("httpEntity:{}", response);
@@ -68,7 +68,7 @@ public class HttpClientUtils {
 			log.error(e.getMessage(), e);
 		} finally {
 			try {
-				instrem.close();
+//				instrem.close();
 				httpResponse.close();
 				httpClient.close();
 			} catch (IOException e) {
@@ -81,7 +81,7 @@ public class HttpClientUtils {
 
 	public String doPost(String url, String input) {
 		String response = null;
-		InputStream instrem = null;
+//		InputStream instrem = null;
 		StringEntity intputEntity = null;
 		CloseableHttpResponse httpResponse = null;
 		HttpEntity httpEntity = null;
@@ -99,11 +99,11 @@ public class HttpClientUtils {
 			if (status >= 200 && status < 300) {
 				httpEntity = httpResponse.getEntity();
 				if (httpEntity != null) {
-					instrem = httpEntity.getContent();
-					if (instrem != null) {
-						String entity = inputStreamToString(instrem);
-						log.info("httpEntity:{}", entity);
-					}
+//					instrem = httpEntity.getContent();
+//					if (instrem != null) {
+//						String entity = inputStreamToString(instrem);
+//						log.info("httpEntity:{}", entity);
+//					}
 
 					response = EntityUtils.toString(httpEntity, "UTF-8");
 					log.info("httpEntity:{}", response);
@@ -118,7 +118,7 @@ public class HttpClientUtils {
 			log.error(e.getMessage(), e);
 		} finally {
 			try {
-				instrem.close();
+//				instrem.close();
 				httpResponse.close();
 				httpClient.close();
 			} catch (IOException e) {
@@ -131,7 +131,7 @@ public class HttpClientUtils {
 
 	public String doPut(String url, String input) {
 		String response = null;
-		InputStream instrem = null;
+//		InputStream instrem = null;
 		StringEntity intputEntity = null;
 		CloseableHttpResponse httpResponse = null;
 		HttpEntity httpEntity = null;
@@ -149,11 +149,11 @@ public class HttpClientUtils {
 			if (status >= 200 && status < 300) {
 				httpEntity = httpResponse.getEntity();
 				if (httpEntity != null) {
-					instrem = httpEntity.getContent();
-					if (instrem != null) {
-						String entity = inputStreamToString(instrem);
-						log.info("httpEntity:{}", entity);
-					}
+//					instrem = httpEntity.getContent();
+//					if (instrem != null) {
+//						String entity = inputStreamToString(instrem);
+//						log.info("httpEntity:{}", entity);
+//					}
 
 					response = EntityUtils.toString(httpEntity, "UTF-8");
 					log.info("httpEntity:{}", response);
@@ -168,7 +168,7 @@ public class HttpClientUtils {
 			log.error(e.getMessage(), e);
 		} finally {
 			try {
-				instrem.close();
+//				instrem.close();
 				httpResponse.close();
 				httpClient.close();
 			} catch (IOException e) {
@@ -181,7 +181,7 @@ public class HttpClientUtils {
 
 	public String doPatch(String url, String input) {
 		String response = null;
-		InputStream instrem = null;
+//		InputStream instrem = null;
 		StringEntity intputEntity = null;
 		CloseableHttpResponse httpResponse = null;
 		HttpEntity httpEntity = null;
@@ -200,11 +200,11 @@ public class HttpClientUtils {
 			if (status >= 200 && status < 300) {
 				httpEntity = httpResponse.getEntity();
 				if (httpEntity != null) {
-					instrem = httpEntity.getContent();
-					if (instrem != null) {
-						String entity = inputStreamToString(instrem);
-						log.info("httpEntity:{}", entity);
-					}
+//					instrem = httpEntity.getContent();
+//					if (instrem != null) {
+//						String entity = inputStreamToString(instrem);
+//						log.info("httpEntity:{}", entity);
+//					}
 
 					response = EntityUtils.toString(httpEntity, "UTF-8");
 					log.info("httpEntity:{}", response);
@@ -219,7 +219,7 @@ public class HttpClientUtils {
 			log.error(e.getMessage(), e);
 		} finally {
 			try {
-				instrem.close();
+//				instrem.close();
 				httpResponse.close();
 				httpClient.close();
 			} catch (IOException e) {
@@ -232,7 +232,7 @@ public class HttpClientUtils {
 
 	public String doDelete(String url, String input) {
 		String response = null;
-		InputStream instrem = null;
+//		InputStream instrem = null;
 		StringEntity intputEntity = null;
 		CloseableHttpResponse httpResponse = null;
 		HttpEntity httpEntity = null;
@@ -251,11 +251,11 @@ public class HttpClientUtils {
 			if (status >= 200 && status < 300) {
 				httpEntity = httpResponse.getEntity();
 				if (httpEntity != null) {
-					instrem = httpEntity.getContent();
-					if (instrem != null) {
-						String entity = inputStreamToString(instrem);
-						log.info("httpEntity:{}", entity);
-					}
+//					instrem = httpEntity.getContent();
+//					if (instrem != null) {
+//						String entity = inputStreamToString(instrem);
+//						log.info("httpEntity:{}", entity);
+//					}
 
 					response = EntityUtils.toString(httpEntity, "UTF-8");
 					log.info("httpEntity:{}", response);
@@ -270,7 +270,7 @@ public class HttpClientUtils {
 			log.error(e.getMessage(), e);
 		} finally {
 			try {
-				instrem.close();
+//				instrem.close();
 				httpResponse.close();
 				httpClient.close();
 			} catch (IOException e) {
