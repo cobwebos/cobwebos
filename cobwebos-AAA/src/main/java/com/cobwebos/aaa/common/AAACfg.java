@@ -28,6 +28,12 @@ public class AAACfg {
 	private String AAAServerIP;
 	private int AAAServerPort;
 	private int AAAClientPort;
+	
+	private String dappServerUrl;
+	private String dappServerIP;
+	private int dappServerPort;
+	private int dappClientPort;
+	
 
 	private String juteMaxBuffer;
 		
@@ -174,6 +180,23 @@ public class AAACfg {
 	public int getAAAClientPort() {
 		return Integer.parseInt(p.getProperty("AAAClientPort"));
 	}
+	
+	public String getDappServerUrl() {
+		return p.getProperty("dappServerUrl");
+	}
+
+	public String getDappServerIP() {
+		return p.getProperty("dappServerIP");
+	}
+
+	public int getDappServerPort() {
+		return Integer.parseInt(p.getProperty("dappServerPort"));
+	}
+
+	public int getDappClientPort() {
+		return Integer.parseInt(p.getProperty("dappClientPort"));
+	}
+	
 	
 	public String getJuteMaxBuffer() {
 		return p.getProperty("jute.maxbuffer");

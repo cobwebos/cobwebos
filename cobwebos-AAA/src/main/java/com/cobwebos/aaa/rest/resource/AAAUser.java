@@ -14,7 +14,9 @@ import javax.ws.rs.core.MediaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.cobwebos.aaa.common.AAACfg;
 import com.cobwebos.aaa.common.AAAConstants;
+import com.cobwebos.aaa.common.HttpClientUtils;
 
 @Path(AAAConstants.AAA_USER_PATH)
 public class AAAUser {
@@ -25,7 +27,7 @@ public class AAAUser {
 	@Consumes({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public String postCreateUser(@PathParam("path") String path, String data) {
 		log.info("path:{},data:{}", path, data);
-
+		HttpClientUtils.getClientInstance().doPost(AAACfg.getInstance().getDappServerUrl(), data);
 		return data;
 	}
 
