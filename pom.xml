@@ -10,5 +10,7 @@
   <modules>
     <module>cobwebos-dapp-server</module>
     <module>cobwebos-dapp-server-feature</module>
+    <module>cobwebos-AAA</module>
+    <module>cobwebos-AAA-feature</module>
   </modules>
 </project>
