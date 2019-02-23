@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import com.cobwebos.aaa.common.AAACfg;
 import com.cobwebos.aaa.common.AAAConstants;
 import com.cobwebos.aaa.common.HttpClientUtils;
+import com.cobwebos.aaa.common.UserLogin;
 
 @Path(AAAConstants.AAA_LOGIN_PATH)
 public class AAALogin {
@@ -27,6 +28,12 @@ public class AAALogin {
 		JSONObject input = new JSONObject(data);
 		String who = input.getString("node-who");
 		String which = input.getString("node-which");
+		// login
+		UserLogin userLogin = new UserLogin();
+		userLogin.doPermission(who, input.getJSONObject("node-what").getJSONObject("user").getString("passowrd"),
+				input.getJSONObject("node-what").getJSONObject("user").getString("url"));
+
+		// login end
 		return HttpClientUtils.getClientInstance().doPost(AAACfg.getInstance().getDappServerUrl() + which + "/" + who,
 				data);
 	}
