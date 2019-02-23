@@ -9,6 +9,8 @@ import com.cobwebos.aaa.common.AAACfg;
 import com.cobwebos.aaa.common.ZookeeperUtils;
 import com.cobwebos.aaa.rest.resource.AAAGroup;
 import com.cobwebos.aaa.rest.resource.AAAHello;
+import com.cobwebos.aaa.rest.resource.AAALogin;
+import com.cobwebos.aaa.rest.resource.AAALogout;
 import com.cobwebos.aaa.rest.resource.AAAPermission;
 import com.cobwebos.aaa.rest.resource.AAAResource;
 import com.cobwebos.aaa.rest.resource.AAARole;
@@ -69,7 +71,9 @@ public class AAAServer {
 			this.register(AAAGroup.class);
 			this.register(AAARole.class);
 			this.register(AAAPermission.class);
-			this.register(AAAResource.class);
+			this.register(AAAResource.class);			
+			this.register(AAALogin.class);
+			this.register(AAALogout.class);
 			this.register(AAAHello.class);
 			log.info("started register AAA resource...");
 		}

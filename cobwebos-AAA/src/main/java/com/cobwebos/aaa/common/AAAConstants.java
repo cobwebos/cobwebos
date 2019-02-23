@@ -12,6 +12,8 @@ public class AAAConstants {
 	private static final String AAA_ROLE = AAA_BASE + "role";
 	private static final String AAA_PERMISSION = AAA_BASE + "permission";
 	private static final String AAA_RESOURCE = AAA_BASE + "resource";
+	private static final String AAA_LOGIN = AAA_BASE + "login";
+	private static final String AAA_LOGOUT = AAA_BASE + "logout";
 
 	public static final String AAA_HELLO = AAA_BASE + "hello";
 	public static final String AAA_USER_PATH = AAA_USER + "{path: /.*}";
@@ -19,5 +21,7 @@ public class AAAConstants {
 	public static final String AAA_ROLE_PATH = AAA_ROLE + "{path: /.*}";
 	public static final String AAA_PERMISSION_PATH = AAA_PERMISSION + "{path: /.*}";
 	public static final String AAA_RESOURCE_PATH = AAA_RESOURCE + "{path: /.*}";
+	public static final String AAA_LOGIN_PATH = AAA_LOGIN + "{path: /.*}";
+	public static final String AAA_LOGOUT_PATH = AAA_LOGOUT + "{path: /.*}";
 
 }

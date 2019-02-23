@@ -11,6 +11,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,8 +27,12 @@ public class AAAUser {
 	@Produces({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Consumes({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public String postCreateUser(@PathParam("path") String path, String data) {
-		log.info("path:{},data:{}", path, data);		
-		return HttpClientUtils.getClientInstance().doPost(AAACfg.getInstance().getDappServerUrl(), data);
+		log.info("path:{},data:{}", path, data);
+		JSONObject input = new JSONObject(data);
+		String who = input.getString("node-who");
+		String which = input.getString("node-which");
+		return HttpClientUtils.getClientInstance().doPost(AAACfg.getInstance().getDappServerUrl() + which + "/" + who,
+				data);
 	}
 
 	@DELETE
@@ -35,8 +40,11 @@ public class AAAUser {
 	@Consumes({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public String deleteUser(@PathParam("path") String path, String data) {
 		log.info("path:{},data:{}", path, data);
-
-		return HttpClientUtils.getClientInstance().doDelete(AAACfg.getInstance().getDappServerUrl(), data);
+		JSONObject input = new JSONObject(data);
+		String who = input.getString("node-who");
+		String which = input.getString("node-which");
+		return HttpClientUtils.getClientInstance().doPost(AAACfg.getInstance().getDappServerUrl() + which + "/" + who,
+				data);
 	}
 
 	@PUT
@@ -44,8 +52,11 @@ public class AAAUser {
 	@Consumes({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public String putUser(@PathParam("path") String path, String data) {
 		log.info("path:{},data:{}", path, data);
-
-		return HttpClientUtils.getClientInstance().doPut(AAACfg.getInstance().getDappServerUrl(), data);
+		JSONObject input = new JSONObject(data);
+		String who = input.getString("node-who");
+		String which = input.getString("node-which");
+		return HttpClientUtils.getClientInstance().doPost(AAACfg.getInstance().getDappServerUrl() + which + "/" + who,
+				data);
 	}
 
 	@PATCH
@@ -53,8 +64,11 @@ public class AAAUser {
 	@Consumes({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public String patchUser(@PathParam("path") String path, String data) {
 		log.info("path:{},data:{}", path, data);
-
-		return HttpClientUtils.getClientInstance().doPatch(AAACfg.getInstance().getDappServerUrl(), data);
+		JSONObject input = new JSONObject(data);
+		String who = input.getString("node-who");
+		String which = input.getString("node-which");
+		return HttpClientUtils.getClientInstance().doPost(AAACfg.getInstance().getDappServerUrl() + which + "/" + who,
+				data);
 	}
 
 	@GET
@@ -62,7 +76,10 @@ public class AAAUser {
 	@Consumes({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public String getUser(@PathParam("path") String path, String data) {
 		log.info("path:{},data:{}", path, data);
-
-		return HttpClientUtils.getClientInstance().doGet(AAACfg.getInstance().getDappServerUrl(), data);
+		JSONObject input = new JSONObject(data);
+		String who = input.getString("node-who");
+		String which = input.getString("node-which");
+		return HttpClientUtils.getClientInstance().doPost(AAACfg.getInstance().getDappServerUrl() + which + "/" + who,
+				data);
 	}
 }
