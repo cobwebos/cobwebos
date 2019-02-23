@@ -10,7 +10,7 @@ import java.util.Properties;
 import org.apache.log4j.PropertyConfigurator;
 
 public class AAACfg {
-	public static String logPath = System.getProperty("user.dir") + File.separator + "etc" + File.separator
+	private String logPath = System.getProperty("user.dir") + File.separator + "etc" + File.separator
 			+ "AAA-log4j.properties";
 	private Properties p = new Properties();
 	private String zkServerUrl;
@@ -24,10 +24,10 @@ public class AAACfg {
 	private int hbaseServerPort;
 	private int hbaseClientPort;
 
-	private String dappServerUrl;
-	private String dappServerIP;
-	private int dappServerPort;
-	private int dappClientPort;
+	private String AAAServerUrl;
+	private String AAAServerIP;
+	private int AAAServerPort;
+	private int AAAClientPort;
 
 	private String juteMaxBuffer;
 		
@@ -159,20 +159,20 @@ public class AAACfg {
 		return Integer.parseInt(p.getProperty("hbaseClientPort"));
 	}
 
-	public String getDappServerUrl() {
-		return p.getProperty("dappServerUrl");
+	public String getAAAServerUrl() {
+		return p.getProperty("AAAServerUrl");
 	}
 
-	public String getDappServerIP() {
-		return p.getProperty("dappServerIP");
+	public String getAAAServerIP() {
+		return p.getProperty("AAAServerIP");
 	}
 
-	public int getDappServerPort() {
-		return Integer.parseInt(p.getProperty("dappServerPort"));
+	public int getAAAServerPort() {
+		return Integer.parseInt(p.getProperty("AAAServerPort"));
 	}
 
-	public int getDappClientPort() {
-		return Integer.parseInt(p.getProperty("dappClientPort"));
+	public int getAAAClientPort() {
+		return Integer.parseInt(p.getProperty("AAAClientPort"));
 	}
 	
 	public String getJuteMaxBuffer() {

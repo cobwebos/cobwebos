@@ -19,14 +19,22 @@ package com.cobwebos.aaa;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
-public class Activator implements BundleActivator {
+import com.cobwebos.aaa.common.AAACfg;
+import com.cobwebos.aaa.rest.AAAServer;
 
+public class Activator implements BundleActivator {
+	AAAServer aaa = new AAAServer();
     public void start(BundleContext context) {
-        System.out.println("Starting the bundle");
+    	AAACfg.getInstance().initAAALog();
+        System.out.println("Starting the AAA bundle...");
+        aaa.startRestServer();
+        System.out.println("Started the AAA bundle...");
     }
 
     public void stop(BundleContext context) {
-        System.out.println("Stopping the bundle");
+        System.out.println("Stopping the AAA bundle...");
+        aaa.stopRestServer();
+        System.out.println("Stoped the AAA bundle...");
     }
 
 }
