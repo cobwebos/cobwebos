@@ -32,8 +32,8 @@ public class CustomRealm extends AuthorizingRealm {
     	log.info("do GetAuthentication Info!");
         // token是用户输入的
         // 第一步从token中取出身份信息（token代表用户输入的传下来的信息）
-        String userCode = (String) token.getPrincipal();
-
+        String user = (String) token.getPrincipal();
+        String password = new String((char[])token.getCredentials()); 
         // 第二步：根据用户输入的userCode从数据库查询
         // ....从数据库查数据
         // 如果查询不到返回null
@@ -45,7 +45,7 @@ public class CustomRealm extends AuthorizingRealm {
         // 模拟从数据库查询到密码
         
         JSONObject inputObj = new JSONObject();       
-        inputObj.put("node-who", userCode);
+        inputObj.put("node-who", user);
         inputObj.put("node-which", "user");
         inputObj.put("node-where", "info");
         inputObj.put("node-what", "{}");
@@ -57,10 +57,19 @@ public class CustomRealm extends AuthorizingRealm {
         log.info("output:{}",output);
         
         JSONObject outputObj = new JSONObject(output);
-        String password = outputObj.getJSONObject("node-what").getString("passowrd");
-
+        password = outputObj.getJSONObject("node-what").getString("passowrd");
+        String dBUserName = outputObj.getJSONObject("node-who").getString("user");
+        String dBUserPassword = outputObj.getJSONObject("node-what").getString("passowrd");
+        
+        if(!user.equalsIgnoreCase(dBUserName)) {
+        	log.error("user name:{}  is error!",user);
+        }
+        if(!password.equalsIgnoreCase(dBUserPassword)) {
+        	log.error("user password:{}  is error!",password);
+        }       
+        
         // 如果查询到返回认证信息AuthenticationInfo
-        SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(userCode, password,
+        SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(user, password,
                 this.getName());
 
         return simpleAuthenticationInfo;
@@ -72,7 +81,7 @@ public class CustomRealm extends AuthorizingRealm {
     	log.info("do GetAuthorization Info!");
         // 从 principals获取主身份信息
         // 将getPrimaryPrincipal方法返回值转为真实身份类型（在上边的doGetAuthenticationInfo认证通过填充到SimpleAuthenticationInfo中身份类型），
-        String userCode = (String) principals.getPrimaryPrincipal();
+        String user = (String) principals.getPrimaryPrincipal();
 
         // 根据身份信息获取权限信息
         // 连接数据库...
@@ -91,7 +100,7 @@ public class CustomRealm extends AuthorizingRealm {
         // ....
         
         JSONObject inputObj = new JSONObject();       
-        inputObj.put("node-who", userCode);
+        inputObj.put("node-who", user);
         inputObj.put("node-which", "user");
         inputObj.put("node-where", "info");
         inputObj.put("node-what", "{}");

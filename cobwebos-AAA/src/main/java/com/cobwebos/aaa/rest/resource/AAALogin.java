@@ -28,10 +28,11 @@ public class AAALogin {
 		JSONObject input = new JSONObject(data);
 		String who = input.getString("node-who");
 		String which = input.getString("node-which");
+		String password = input.getJSONObject("node-what").getJSONObject("user").getString("passowrd");
+		String url = input.getJSONObject("node-what").getJSONObject("user").getString("url");
 		// login
 		UserLogin userLogin = new UserLogin();
-		userLogin.doPermission(who, input.getJSONObject("node-what").getJSONObject("user").getString("passowrd"),
-				input.getJSONObject("node-what").getJSONObject("user").getString("url"));
+		userLogin.doPermission(who,password,url );
 
 		// login end
 		return HttpClientUtils.getClientInstance().doPost(AAACfg.getInstance().getDappServerUrl() + which + "/" + who,

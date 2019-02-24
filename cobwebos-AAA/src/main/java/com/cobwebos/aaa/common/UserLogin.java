@@ -18,7 +18,7 @@ public class UserLogin {
 
 		// 创建SecurityManager工厂
 //		Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:AAA-Custom-Cfg.properties");
-		Factory<SecurityManager> factory = new IniSecurityManagerFactory(AAACfg.getInstance().AAACfgPath);
+		Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:AAA-Custom-Cfg.properties");
 		// 创建SecurityManager
 		SecurityManager securityManager = factory.getInstance();
 
@@ -34,7 +34,7 @@ public class UserLogin {
 		// 执行认证
 		try {
 			subject.login(token);
-			isLogin = false;
+			isLogin = true;
 		} catch (AuthenticationException e) {
 			// TODO Auto-generated catch block
 			log.error("认证状态失败");
@@ -51,7 +51,7 @@ public class UserLogin {
 	public boolean doAuthorization(String user, String password) {
 		boolean isAuthorization = false;
 		// 创建SecurityManager工厂
-		Factory<SecurityManager> factory = new IniSecurityManagerFactory(AAACfg.getInstance().AAACfgPath);
+		Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:AAA-Custom-Cfg.properties");
 
 		// 创建SecurityManager
 		SecurityManager securityManager = factory.getInstance();
@@ -100,8 +100,8 @@ public class UserLogin {
 
 	public boolean doPermission(String user, String password, String url) {
 		boolean isPermission = false;
-		// 创建SecurityManager工厂
-		Factory<SecurityManager> factory = new IniSecurityManagerFactory(AAACfg.getInstance().AAACfgPath);
+		// 创建SecurityManager工厂 
+		Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:AAA-Custom-Cfg.properties");//AAACfg.getInstance().AAACfgPath
 
 		// 创建SecurityManager
 		SecurityManager securityManager = factory.getInstance();
