@@ -31,9 +31,14 @@ public class AAALogin {
 		String password = input.getJSONObject("node-what").getJSONObject("user").getString("passowrd");
 		String url = input.getJSONObject("node-what").getJSONObject("user").getString("url");
 		// login
-		UserLogin userLogin = new UserLogin();
-		userLogin.doPermission(who,password,url );
-
+		try {
+			UserLogin userLogin = new UserLogin();
+			userLogin.doPermission(who,password,url );
+		} catch (Exception e) {
+			log.error(e.getMessage()+"认证失败！！！",e);
+		}
+		
+		
 		// login end
 		return HttpClientUtils.getClientInstance().doPost(AAACfg.getInstance().getDappServerUrl() + which + "/" + who,
 				data);
