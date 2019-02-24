@@ -15,6 +15,8 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.cobwebos.aaa.common.HttpClientUtils;
+
 public class CustomRealm extends AuthorizingRealm {
 
 	Logger log = LoggerFactory.getLogger(CustomRealm.class);
