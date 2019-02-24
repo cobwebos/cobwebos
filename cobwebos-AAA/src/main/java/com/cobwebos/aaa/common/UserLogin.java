@@ -34,18 +34,13 @@ public class UserLogin {
 		// 执行认证
 		try {
 			subject.login(token);
-			isLogin = true;
-		} catch (AuthenticationException e) {
-			// TODO Auto-generated catch block
-			log.error("认证状态失败");
+			isLogin = subject.isAuthenticated();
+		} catch (AuthenticationException e) {		
+			log.error("认证状态失败",e);
 			isLogin = false;
-//			e.printStackTrace();
 		}
-
-		log.error("认证状态：", subject.isAuthenticated());
-		// 认证通过后执行授权
+		log.info("认证结果:{}",isLogin );		
 		return isLogin;
-
 	}
 
 	public boolean doAuthorization(String user, String password) {
@@ -69,7 +64,7 @@ public class UserLogin {
 		try {
 			subject.login(token);
 			isAuthorization = subject.isAuthenticated();
-			log.info("认证状态：", isAuthorization);
+			log.info("认证状态：{}", isAuthorization);
 		} catch (AuthenticationException e) {
 			// TODO Auto-generated catch block
 			log.error("认证状态：失败");
@@ -124,25 +119,25 @@ public class UserLogin {
 //			e.printStackTrace();
 		}
 
-		log.error("认证状态：", subject.isAuthenticated());
+		log.error("认证状态：{}", subject.isAuthenticated());
 		// 认证通过后执行授权
 
 		// 基于资源的授权，调用isPermitted方法会调用CustomRealm从数据库查询正确权限数据
 		// isPermitted传入权限标识符，判断user:create:1是否在CustomRealm查询到权限数据之内
 		isPermission = subject.isPermitted(url);
-//		log.info("单个权限判断：" , isPermitted);
+		log.info("单个权限判断：{}" , isPermission);
 //
 //		boolean isPermittedAll = subject.isPermittedAll("user:create", "user:update", "items:add");
 //		log.info("多个权限判断：" + isPermittedAll);
 
 		// 使用check方法进行授权，如果授权不通过会抛出异常
-//		try {
-//			subject.checkPermission("user:delete");
-//			log.info("有权限！！！");
-//		} catch (Exception e) {
-//			// TODO: handle exception
-//			log.error("无权限！！！");
-//		}
+		try {
+			subject.checkPermission(url);
+			log.info("有权限！！！");
+		} catch (Exception e) {
+			// TODO: handle exception
+			log.error("无权限！！！");
+		}
 		return isPermission;
 
 	}
