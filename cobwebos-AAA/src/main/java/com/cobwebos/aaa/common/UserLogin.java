@@ -3,6 +3,7 @@ package com.cobwebos.aaa.common;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.config.Ini;
 import org.apache.shiro.config.IniSecurityManagerFactory;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.subject.Subject;
@@ -18,7 +19,9 @@ public class UserLogin {
 
 		// 创建SecurityManager工厂
 //		Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:AAA-Custom-Cfg.properties");
-		Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:AAA-Custom-Cfg.properties");
+		Ini ini = new Ini();
+		ini.loadFromPath(AAACfg.getInstance().AAACfgPath);
+		Factory<SecurityManager> factory = new IniSecurityManagerFactory(ini);
 		// 创建SecurityManager
 		SecurityManager securityManager = factory.getInstance();
 
@@ -45,8 +48,12 @@ public class UserLogin {
 
 	public boolean doAuthorization(String user, String password) {
 		boolean isAuthorization = false;
-		// 创建SecurityManager工厂
-		Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:AAA-Custom-Cfg.properties");
+		// 创建SecurityManager工厂 "classpath:AAA-Custom-Cfg.properties"
+		Ini ini = new Ini();
+		ini.loadFromPath(AAACfg.getInstance().AAACfgPath);
+		Factory<SecurityManager> factory = new IniSecurityManagerFactory(ini);
+		
+//		Factory<SecurityManager> factory = new IniSecurityManagerFactory(AAACfg.getInstance().AAACfgPath);
 
 		// 创建SecurityManager
 		SecurityManager securityManager = factory.getInstance();
@@ -96,8 +103,10 @@ public class UserLogin {
 	public boolean doPermission(String user, String password, String url) {
 		boolean isPermission = false;
 		// 创建SecurityManager工厂 
-		Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:AAA-Custom-Cfg.properties");//AAACfg.getInstance().AAACfgPath
-
+//		Factory<SecurityManager> factory = new IniSecurityManagerFactory(AAACfg.getInstance().AAACfgPath);//
+		Ini ini = new Ini();
+		ini.loadFromPath(AAACfg.getInstance().AAACfgPath);
+		Factory<SecurityManager> factory = new IniSecurityManagerFactory(ini);
 		// 创建SecurityManager
 		SecurityManager securityManager = factory.getInstance();
 
