@@ -18,23 +18,39 @@ package com.cobwebos.aaa;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import com.cobwebos.aaa.common.AAA;
 import com.cobwebos.aaa.common.AAACfg;
 import com.cobwebos.aaa.rest.AAAServer;
 
 public class Activator implements BundleActivator {
+	Logger log = LoggerFactory.getLogger(Activator.class);
 	AAAServer aaa = new AAAServer();
     public void start(BundleContext context) {
     	AAACfg.getInstance().initAAALog();
         System.out.println("Starting the AAA bundle...");
-        aaa.startRestServer();
+        log.info("Starting the AAA bundle...");
+        aaa.startRestServer();       
         System.out.println("Started the AAA bundle...");
+        log.info("Started the AAA bundle...");
     }
 
     public void stop(BundleContext context) {
         System.out.println("Stopping the AAA bundle...");
+        log.info("Stopping the AAA bundle...");
         aaa.stopRestServer();
         System.out.println("Stoped the AAA bundle...");
+        log.info("Stoped the AAA bundle...");
     }
-
+    
+    public static void main(String []args) {
+//    	 boolean login = AAA.getInstance().doLogin("user4", "123456");
+//         System.out.println("Starting login "+ login);
+//         boolean doAuthorization = AAA.getInstance().doAuthorization("user4", "123456");
+//         System.out.println("Starting doAuthorization "+ doAuthorization);
+//         boolean doPermission = AAA.getInstance().doPermission("user4", "123456", "user4:create");
+//         System.out.println("Starting doAuthorization "+ doPermission);
+    }
 }

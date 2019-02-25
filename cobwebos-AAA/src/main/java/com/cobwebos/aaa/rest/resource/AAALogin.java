@@ -11,8 +11,8 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.cobwebos.aaa.common.AAA;
 import com.cobwebos.aaa.common.AAAConstants;
-import com.cobwebos.aaa.common.UserLogin;
 
 @Path(AAAConstants.AAA_LOGIN_PATH)
 public class AAALogin {
@@ -21,49 +21,47 @@ public class AAALogin {
 	@POST
 	@Produces({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Consumes({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public void postLogin(@PathParam("path") String path, String data) {
-		log.info("path:{},data:{}", path, data);
-		UserLogin userLogin = new UserLogin();
+	public String postLogin(@PathParam("path") String path, String data) {
+		log.info("path:{},data:{}", path, data);		
 		JSONObject input = new JSONObject(data);
 		String who = input.getString("node-who");
 		String which = input.getString("node-which");
 		String password = input.getJSONObject("node-what").getJSONObject("user").getString("passowrd");
 		String url = input.getJSONObject("node-what").getJSONObject("user").getString("url");
-		// login
-		boolean login = false;
-		boolean authorization = false;
+//		boolean login = false;
+//		boolean authorization = false;
 		boolean permission = false;
 		try {
 
-			login = userLogin.doLogin(who, password);
-			log.info(">>>>>>do login:{}", login);
-			authorization = userLogin.doAuthorization(who, password);
-			log.info(">>>>>>do authorization:{}", authorization);
-			permission = userLogin.doPermission(who, password, url);
+//			login = AAA.getInstance().doLogin(who, password);
+//			log.info(">>>>>>do login:{}", login);
+//			authorization = AAA.getInstance().doAuthorization(who, password);
+//			log.info(">>>>>>do authorization:{}", authorization);
+			permission = AAA.getInstance().doPermission(who, password, url);
 			log.info(">>>>>>do Permission:{}", permission);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			log.error("login failed!");
 		} finally {
 			
-			if (login) {
-				log.info(">>>>>>do login:{}", login);
-				log.info("login successed!");
-				
-			} else {
-				log.info(">>>>>>do login:{}", login);
-				log.info("login failed!");
-			}
-
-			if (authorization) {
-				log.info(">>>>>>do authorization:{}", authorization);
-				log.info("user authorization successed!");
-				
-			} else {
-				log.info(">>>>>>do authorization:{}", authorization);
-				log.info("user authorization failed!");
-			
-			}
+//			if (login) {
+//				log.info(">>>>>>do login:{}", login);
+//				log.info("login successed!");
+//				
+//			} else {
+//				log.info(">>>>>>do login:{}", login);
+//				log.info("login failed!");
+//			}
+//
+//			if (authorization) {
+//				log.info(">>>>>>do authorization:{}", authorization);
+//				log.info("user authorization successed!");
+//				
+//			} else {
+//				log.info(">>>>>>do authorization:{}", authorization);
+//				log.info("user authorization failed!");
+//			
+//			}
 			if (permission) {
 				log.info(">>>>>>do permission:{}", permission);
 				log.info("user permission successed!");
@@ -72,9 +70,12 @@ public class AAALogin {
 				log.info("user permission failed!");
 			}
 
+			
 		}
+		input.put("permission", permission);
 
-		// login end
-//		return data;
+		return input.toString();
 	}
+	
+	
 }

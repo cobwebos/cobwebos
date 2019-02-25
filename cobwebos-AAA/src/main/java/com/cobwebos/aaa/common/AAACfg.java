@@ -11,10 +11,7 @@ import org.apache.log4j.PropertyConfigurator;
 
 public class AAACfg {
 	private String logPath = System.getProperty("user.dir") + File.separator + "etc" + File.separator
-			+ "AAA-log4j.properties";
-	public String AAACfgPath = System.getProperty("user.dir") + File.separator + "etc" + File.separator
-			+ "AAA-Custom-Cfg.properties";
-	
+			+ "AAA-log4j.properties";	
 	private Properties p = new Properties();
 	private String zkServerUrl;
 	private String zkServerIP;
