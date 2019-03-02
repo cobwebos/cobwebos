@@ -29,9 +29,9 @@ public class AAAUser {
 	public String postCreateUser(@PathParam("path") String path, String data) {
 		log.info("path:{},data:{}", path, data);
 		JSONObject input = new JSONObject(data);
-		String who = input.getString("node-who");
-		String which = input.getString("node-which");
-		return HttpClientUtils.getClientInstance().doPost(AAACfg.getInstance().getDappServerUrl() + which + "/" + who,
+		String who = input.getString("who");
+		String where = input.getString("where");
+		return HttpClientUtils.getClientInstance().doPost(AAACfg.getInstance().getDappServerUrl() + where + "/" + who,
 				data);
 	}
 
@@ -41,9 +41,9 @@ public class AAAUser {
 	public String deleteUser(@PathParam("path") String path, String data) {
 		log.info("path:{},data:{}", path, data);
 		JSONObject input = new JSONObject(data);
-		String who = input.getString("node-who");
-		String which = input.getString("node-which");
-		return HttpClientUtils.getClientInstance().doPost(AAACfg.getInstance().getDappServerUrl() + which + "/" + who,
+		String who = input.getString("who");
+		String where = input.getString("where");
+		return HttpClientUtils.getClientInstance().doDelete(AAACfg.getInstance().getDappServerUrl() + where + "/" + who,
 				data);
 	}
 
@@ -53,9 +53,9 @@ public class AAAUser {
 	public String putUser(@PathParam("path") String path, String data) {
 		log.info("path:{},data:{}", path, data);
 		JSONObject input = new JSONObject(data);
-		String who = input.getString("node-who");
-		String which = input.getString("node-which");
-		return HttpClientUtils.getClientInstance().doPost(AAACfg.getInstance().getDappServerUrl() + which + "/" + who,
+		String who = input.getString("who");
+		String where = input.getString("where");
+		return HttpClientUtils.getClientInstance().doPut(AAACfg.getInstance().getDappServerUrl() + where + "/" + who,
 				data);
 	}
 
@@ -65,9 +65,9 @@ public class AAAUser {
 	public String patchUser(@PathParam("path") String path, String data) {
 		log.info("path:{},data:{}", path, data);
 		JSONObject input = new JSONObject(data);
-		String who = input.getString("node-who");
-		String which = input.getString("node-which");
-		return HttpClientUtils.getClientInstance().doPost(AAACfg.getInstance().getDappServerUrl() + which + "/" + who,
+		String who = input.getString("who");
+		String where = input.getString("where");
+		return HttpClientUtils.getClientInstance().doPatch(AAACfg.getInstance().getDappServerUrl() + where + "/" + who,
 				data);
 	}
 
@@ -77,9 +77,9 @@ public class AAAUser {
 	public String getUser(@PathParam("path") String path, String data) {
 		log.info("path:{},data:{}", path, data);
 		JSONObject input = new JSONObject(data);
-		String who = input.getString("node-who");
-		String which = input.getString("node-which");
-		return HttpClientUtils.getClientInstance().doPost(AAACfg.getInstance().getDappServerUrl() + which + "/" + who,
+		String who = input.getString("who");
+		String where = input.getString("where");
+		return HttpClientUtils.getClientInstance().doGet(AAACfg.getInstance().getDappServerUrl() + where + "/" + who,
 				data);
 	}
 }

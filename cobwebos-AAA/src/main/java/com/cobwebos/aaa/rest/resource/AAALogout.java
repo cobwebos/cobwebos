@@ -25,9 +25,9 @@ public class AAALogout {
 	public String postLogin(@PathParam("path") String path, String data) {
 		log.info("path:{},data:{}", path, data);
 		JSONObject input = new JSONObject(data);
-		String who = input.getString("node-who");
-		String which = input.getString("node-which");
-		return HttpClientUtils.getClientInstance().doPost(AAACfg.getInstance().getDappServerUrl() + which + "/" + who,
+		String who = input.getString("who");
+		String where = input.getString("where");
+		return HttpClientUtils.getClientInstance().doPost(AAACfg.getInstance().getDappServerUrl() + where + "/" + who,
 				data);
 	}
 }

@@ -27,48 +27,51 @@ public class TestResource {
 		JSONObject input = new JSONObject(data);
 		JSONObject output = new JSONObject();
 		JSONObject obj = new JSONObject();
-		String who = input.getString("node-who");
-		String which = input.getString("node-which");
-		String where = input.getString("node-where");
-		String when = input.getString("node-which");
-		JSONObject what = input.getJSONObject("node-what");
-		String why = input.getString("node-why");
-		String howToDo = input.getString("node-how-to-do");
-		String howMuch = input.getString("node-how-much");
-		int from = input.getInt("node-from");
-		int to = input.getInt("node-to");
+		String who = input.getString("who");
+		String which = input.getString("which");
+		String where = input.getString("where");
+		String when = input.getString("which");
+		JSONObject what = input.getJSONObject("what");
+		String why = input.getString("why");
+		String howToDo = input.getString("howToDo");
+		String howMuch = input.getString("howMuch");
+		String howMany = input.getString("howMany");
+		int from = input.getInt("from");
+		int to = input.getInt("to");
 		
 		JSONObject whatObj = new JSONObject(what);
 		
-		output.put("node-who", who);
-		output.put("node-which", which);
-		output.put("node-where", where);
-		output.put("node-what", whatObj);
-		output.put("node-when", when);
-		output.put("node-why", why);
-		output.put("node-how-to-do", howToDo);
-		output.put("node-how-much", howMuch);
-		output.put("node-from", from);
-		output.put("node-to", to);
+		output.put("who", who);
+		output.put("which", which);
+		output.put("where", where);
+		output.put("what", whatObj);
+		output.put("when", when);
+		output.put("why", why);
+		output.put("howToDo", howToDo);
+		output.put("howMuch", howMuch);
+		output.put("howMany", howMany);
+		output.put("from", from);
+		output.put("to", to);
 
 //		doPost(input);
 		
 		JSONObject inputObj = new JSONObject();		
-		for (int i = input.getInt("node-from"); i < input.getInt("node-to"); i++) {
+		for (int i = input.getInt("from"); i < input.getInt("to"); i++) {
 			JSONObject nodeWhatObj = new JSONObject();
-			nodeWhatObj.put("node-id", "" + i);
-			nodeWhatObj.put("node-name", "" + i);
-			inputObj.put("node-who", "" + i);
-			inputObj.put("node-which", input.getString("node-which"));
-			inputObj.put("node-where", input.getString("node-where"));
-			inputObj.put("node-why", input.getString("node-why"));
-			inputObj.put("node-what", nodeWhatObj);
-			inputObj.put("node-when", input.getString("node-when"));
-			inputObj.put("node-how-to-do", input.getString("node-how-to-do"));
-			inputObj.put("node-how-much", input.getString("node-how-much"));
-			inputObj.put("node-from", input.getInt("node-from"));
-			inputObj.put("node-to", input.getInt("node-to"));			
-			String reponse = HttpClientUtils.getClientInstance().doPost("http://192.168.0.2:2019/blockchain/"+input.getString("node-which")+"/"+i, inputObj.toString());
+			nodeWhatObj.put("id", "" + i);
+			nodeWhatObj.put("name", "" + i);
+			inputObj.put("who", "" + i);
+			inputObj.put("which", input.getString("which"));
+			inputObj.put("where", input.getString("where"));
+			inputObj.put("why", input.getString("why"));
+			inputObj.put("what", nodeWhatObj);
+			inputObj.put("when", input.getString("when"));
+			inputObj.put("howToDo", input.getString("howToDo"));
+			inputObj.put("howMuch", input.getString("howMuch"));
+			inputObj.put("howMany", input.getString("howMany"));
+			inputObj.put("from", input.getInt("from"));
+			inputObj.put("to", input.getInt("to"));			
+			String reponse = HttpClientUtils.getClientInstance().doPost("http://192.168.0.2:2019/blockchain/"+input.getString("where")+"/"+i, inputObj.toString());
 			log.info("inputObj:{},reponse:{}",inputObj.toString(),reponse);
 		}
 		
@@ -80,21 +83,22 @@ public class TestResource {
 	
 	public void doPost(JSONObject input) {		
 		JSONObject inputObj = new JSONObject();		
-		for (int i = input.getInt("node-from"); i < input.getInt("node-to"); i++) {
+		for (int i = input.getInt("from"); i < input.getInt("to"); i++) {
 			JSONObject nodeWhatObj = new JSONObject();
-			nodeWhatObj.put("node-id", "" + i);
-			nodeWhatObj.put("node-name", "" + i);
-			inputObj.put("node-who", "" + i);
-			inputObj.put("node-which", input.getString("node-which"));
-			inputObj.put("node-where", input.getString("node-where"));
-			inputObj.put("node-why", input.getString("node-why"));
-			inputObj.put("node-what", nodeWhatObj);
-			inputObj.put("node-when", input.getString("node-when"));
-			inputObj.put("node-how-to-do", input.getString("node-how-to-do"));
-			inputObj.put("node-how-much", input.getString("node-how-much"));
-			inputObj.put("node-from", input.getInt("node-from"));
-			inputObj.put("node-to", input.getInt("node-to"));			
-			HttpClientUtils.getClientInstance().doPost("http://192.168.0.2:2019/blockchain/"+input.getString("node-which")+"/"+i, inputObj.toString());
+			nodeWhatObj.put("id", "" + i);
+			nodeWhatObj.put("name", "" + i);
+			inputObj.put("who", "" + i);
+			inputObj.put("which", input.getString("which"));
+			inputObj.put("where", input.getString("where"));
+			inputObj.put("why", input.getString("why"));
+			inputObj.put("what", nodeWhatObj);
+			inputObj.put("when", input.getString("when"));
+			inputObj.put("howToDo", input.getString("howToDo"));
+			inputObj.put("howMuch", input.getString("howMuch"));
+			inputObj.put("howMany", input.getString("howMany"));
+			inputObj.put("from", input.getInt("from"));
+			inputObj.put("to", input.getInt("to"));			
+			HttpClientUtils.getClientInstance().doPost("http://192.168.0.2:2019/blockchain/"+input.getString("where")+"/"+i, inputObj.toString());
 			log.info("inputObj:{}",inputObj.toString());
 		}
 	

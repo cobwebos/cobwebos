@@ -82,18 +82,18 @@ class MessageConsumerImpl implements Runnable {
 //					if (body != null) {
 //						bodyObj = new JSONObject(body);
 //					}
-					String todo = headerObj.getString("node-how-to-do");
+					String todo = headerObj.getString("howToDo");
 					if (todo != null) {
 						if (todo.equalsIgnoreCase("merge") || todo.equalsIgnoreCase("post")
 								|| todo.equalsIgnoreCase("put") || todo.equalsIgnoreCase("patch")) {
 							HbaseConnection.getInstance().insertAndUpdateOneRowOneColumnFamilyOneClumnValue(
-									headerObj.getString("node-which"), headerObj.getString("node-who"),
-									headerObj.getString("node-why"), headerObj.getString("node-where"),
+									headerObj.getString("where"),headerObj.getString("who"), headerObj.getString("which"),
+									headerObj.getString("why"),
 									body);
 						} else if (todo.equalsIgnoreCase("delete") || todo.equalsIgnoreCase("remove")
 								|| todo.equalsIgnoreCase("rmr")) {
-							HbaseConnection.getInstance().deleteOneRowAll(headerObj.getString("node-which"),
-									headerObj.getString("node-who"));
+							HbaseConnection.getInstance().deleteOneRowAll(headerObj.getString("where"),
+									headerObj.getString("who"));
 						}
 						log.info("message consumer record topic:{},offset:{}, msgHeader:{}, msgBody:{}", topic,
 								record.offset(), headerObj.toString(), body);

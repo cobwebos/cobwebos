@@ -34,21 +34,22 @@ public class BlockChainResource {
 		JSONObject input = new JSONObject(data);
 		JSONObject output = new JSONObject();
 		JSONObject obj = new JSONObject();
-		String who = input.getString("node-who");
-		String which = input.getString("node-which");
-		String where = input.getString("node-where");
-		String when = input.getString("node-which");
-		JSONObject what = input.getJSONObject("node-what");
-		String why = input.getString("node-why");
-		String howToDo = input.getString("node-how-to-do");
-		String howMuch = input.getString("node-how-much");
+		String who = input.getString("who");
+		String which = input.getString("which");
+		String where = input.getString("where");
+		String when = input.getString("when");
+		JSONObject what = input.getJSONObject("what");
+		String why = input.getString("why");
+		String howToDo = input.getString("howToDo");
+		String howMuch = input.getString("howMuch");
+		String howMany = input.getString("howMany");
 
-		if (null == ZookeeperUtils.isExistsNode(schema)) {
+		if (null == ZookeeperUtils.isExistsNode("/" + where + "/" + who)) {
 			// 写入主链
-			if (null == ZookeeperUtils.isExistsNode("/" + which)) {
-				ZookeeperUtils.createNode("/" + which, which);
+			if (null == ZookeeperUtils.isExistsNode("/" + where)) {
+				ZookeeperUtils.createNode("/" + where, where);
 			}
-			ZookeeperUtils.createNode(schema, what.toString());
+			ZookeeperUtils.createNode("/" + where + "/" + who, what.toString());
 			// 写入从链 同步方案
 //			if (!HbaseConnection.getInstance().tableExists(which)) {
 //				HbaseConnection.getInstance().createTable(which, why);
@@ -60,15 +61,15 @@ public class BlockChainResource {
 //			}
 
 			// 写入从链 异步方案
-			if (!HbaseConnection.getInstance().tableExists(which)) {
-				HbaseConnection.getInstance().createTable(which, why);
+			if (!HbaseConnection.getInstance().tableExists(where)) {
+				HbaseConnection.getInstance().createTable(where, which);
 			}
 			MessageProducer.getInstance().SendMessage(DappServerCfg.getInstance().getKafkaTopic(), input.toString(),
 					what.toString());
 
 		} else {
 			// 写入主链
-			ZookeeperUtils.setNodeValue(schema, what.toString());
+			ZookeeperUtils.setNodeValue("/" + where + "/" + who, what.toString());
 			// 写入从链
 //			if (!HbaseConnection.getInstance().tableExists(which)) {
 //				HbaseConnection.getInstance().createTable(which, why);
@@ -80,8 +81,8 @@ public class BlockChainResource {
 //			}
 
 			// 写入从链 异步方案
-			if (!HbaseConnection.getInstance().tableExists(which)) {
-				HbaseConnection.getInstance().createTable(which, why);
+			if (!HbaseConnection.getInstance().tableExists(where)) {
+				HbaseConnection.getInstance().createTable(where, which);
 			}
 			MessageProducer.getInstance().SendMessage(DappServerCfg.getInstance().getKafkaTopic(), input.toString(),
 					what.toString());
@@ -92,12 +93,12 @@ public class BlockChainResource {
 		// 校验主链数据
 		JSONObject whatMasterObj = null;
 		try {
-			if (null == ZookeeperUtils.getNodeValue(schema) || null == ZookeeperUtils.isExistsNode(schema)) {
+			if (null == ZookeeperUtils.getNodeValue("/" + where + "/" + who) || null == ZookeeperUtils.isExistsNode("/" + where + "/" + who)) {
 				whatMasterObj = new JSONObject();
 			} else {
-				whatMasterObj = new JSONObject(ZookeeperUtils.getNodeValue(schema));
+				whatMasterObj = new JSONObject(ZookeeperUtils.getNodeValue("/" + where + "/" + who));
 			}
-			whatObj.put("master-chain-node", whatMasterObj);
+			whatObj.put("master-chain", whatMasterObj);
 		} catch (JSONException e) {
 			log.error(e.getMessage(), e);
 		} catch (InterruptedException e) {
@@ -108,23 +109,24 @@ public class BlockChainResource {
 
 		// 校验从链数据
 		JSONObject whatSlaveObj = null;
-		if (null == HbaseConnection.getInstance().getCellValueByRowKey(which, who, why, where)) {
+		if (null == HbaseConnection.getInstance().getCellValueByRowKey(where, who, which, why)) {
 			whatSlaveObj = new JSONObject();
-			whatObj.put("slave-chain-node", whatSlaveObj);
+			whatObj.put("slave-chain", whatSlaveObj);
 		} else {
-			whatSlaveObj = HbaseConnection.getInstance().getCellValueByRowKey(which, who, why, where);
-			whatObj.put("slave-chain-node", whatSlaveObj);
+			whatSlaveObj = HbaseConnection.getInstance().getCellValueByRowKey(where, who, which, why);
+			whatObj.put("slave-chain", whatSlaveObj);
 		}
 
-		output.put("node-who", who);
-		output.put("node-which", which);
-		output.put("node-where", where);
-		output.put("node-what", whatObj);
-		output.put("node-when", when);
-		output.put("node-why", why);
-		output.put("node-how-to-do", howToDo);
-		output.put("node-how-much", howMuch);
-
+		output.put("who", who);
+		output.put("which", which);
+		output.put("where", where);
+		output.put("what", whatObj);
+		output.put("when", when);
+		output.put("why", why);
+		output.put("howToDo", howToDo);
+		output.put("howMuch", howMuch);
+		output.put("howMany", howMany);
+		
 		obj.put("input", input);
 		obj.put("output", output);
 
@@ -139,31 +141,33 @@ public class BlockChainResource {
 		JSONObject input = new JSONObject(data);
 		JSONObject output = new JSONObject();
 		JSONObject obj = new JSONObject();
-		String who = input.getString("node-who");
-		String which = input.getString("node-which");
-		String where = input.getString("node-where");
-		String when = input.getString("node-which");
-		JSONObject what = input.getJSONObject("node-what");
-		String why = input.getString("node-why");
-		String howToDo = input.getString("node-how-to-do");
-		String howMuch = input.getString("node-how-much");
+		String who = input.getString("who");
+		String which = input.getString("which");
+		String where = input.getString("where");
+		String when = input.getString("which");
+		JSONObject what = input.getJSONObject("what");
+		String why = input.getString("why");
+		String howToDo = input.getString("howToDo");
+		String howMuch = input.getString("howMuch");
+		String howMany = input.getString("howMany");
+		
 		// 删除主链
-		ZookeeperUtils.rmrNode(schema);
+		ZookeeperUtils.rmrNode("/" + where + "/" + who);
 		// 删除从链同步方案
 //		HbaseConnection.getInstance().deleteOneRowAll(which, who);
 		// 删除从链异步方案
 		MessageProducer.getInstance().SendMessage(DappServerCfg.getInstance().getKafkaTopic(), input.toString(),
 				what.toString());
 
-		output.put("node-who", "");
-		output.put("node-which", which);
-		output.put("node-where", where);
-		output.put("node-what", "{}");
-		output.put("node-when", when);
-		output.put("node-why", why);
-		output.put("node-how-to-do", howToDo);
-		output.put("node-how-much", howMuch);
-
+		output.put("who", "");
+		output.put("which", which);
+		output.put("where", where);
+		output.put("what", "{}");
+		output.put("when", when);
+		output.put("why", why);
+		output.put("howToDo", howToDo);
+		output.put("howMuch", howMuch);
+		output.put("howMany", howMany);
 		obj.put("input", input);
 		obj.put("output", output);
 
@@ -178,18 +182,19 @@ public class BlockChainResource {
 		JSONObject input = new JSONObject(data);
 		JSONObject output = new JSONObject();
 		JSONObject obj = new JSONObject();
-		String who = input.getString("node-who");
-		String which = input.getString("node-which");
-		String where = input.getString("node-where");
-		String when = input.getString("node-which");
-		JSONObject what = input.getJSONObject("node-what");
-		String why = input.getString("node-why");
-		String howToDo = input.getString("node-how-to-do");
-		String howMuch = input.getString("node-how-much");
-
-		if (ZookeeperUtils.isExistsNode(schema) != null) {
+		String who = input.getString("who");
+		String which = input.getString("which");
+		String where = input.getString("where");
+		String when = input.getString("when");
+		JSONObject what = input.getJSONObject("what");
+		String why = input.getString("why");
+		String howToDo = input.getString("howToDo");
+		String howMuch = input.getString("howMuch");
+		String howMany = input.getString("howMany");
+		
+		if (ZookeeperUtils.isExistsNode("/" + where + "/" + who) != null) {
 			// 写入主链
-			ZookeeperUtils.setNodeValue(schema, what.toString());
+			ZookeeperUtils.setNodeValue("/" + where + "/" + who, what.toString());
 			// 写入从链同步方案
 //			if (!HbaseConnection.getInstance().tableExists(which)) {
 //				HbaseConnection.getInstance().createTable(which, why);
@@ -201,18 +206,18 @@ public class BlockChainResource {
 //			}
 
 			// 写入从链 异步方案
-			if (!HbaseConnection.getInstance().tableExists(which)) {
-				HbaseConnection.getInstance().createTable(which, why);
+			if (!HbaseConnection.getInstance().tableExists(where)) {
+				HbaseConnection.getInstance().createTable(where, which);
 			}
 			MessageProducer.getInstance().SendMessage(DappServerCfg.getInstance().getKafkaTopic(), input.toString(),
 					what.toString());
 
 		} else {
 			// 写入主链
-			if (null == ZookeeperUtils.isExistsNode("/" + which)) {
-				ZookeeperUtils.createNode("/" + which, which);
+			if (null == ZookeeperUtils.isExistsNode("/" + where)) {
+				ZookeeperUtils.createNode("/" + where, where);
 			}
-			ZookeeperUtils.createNode(schema, what.toString());
+			ZookeeperUtils.createNode("/" + where + "/" + who, what.toString());
 			// 写入从链同步方案
 //			if (!HbaseConnection.getInstance().tableExists(which)) {
 //				HbaseConnection.getInstance().createTable(which, why);
@@ -224,8 +229,8 @@ public class BlockChainResource {
 //			}
 
 			// 写入从链 异步方案
-			if (!HbaseConnection.getInstance().tableExists(which)) {
-				HbaseConnection.getInstance().createTable(which, why);
+			if (!HbaseConnection.getInstance().tableExists(where)) {
+				HbaseConnection.getInstance().createTable(where, which);
 			}
 			MessageProducer.getInstance().SendMessage(DappServerCfg.getInstance().getKafkaTopic(), input.toString(),
 					what.toString());
@@ -238,13 +243,13 @@ public class BlockChainResource {
 		JSONObject whatMasterObj = null;
 		try {
 
-			if (null == ZookeeperUtils.getNodeValue(schema) || null == ZookeeperUtils.isExistsNode(schema)) {
+			if (null == ZookeeperUtils.getNodeValue("/" + where + "/" + who) || null == ZookeeperUtils.isExistsNode("/" + where + "/" + who)) {
 				whatMasterObj = new JSONObject();
 			} else {
-				whatMasterObj = new JSONObject(ZookeeperUtils.getNodeValue(schema));
+				whatMasterObj = new JSONObject(ZookeeperUtils.getNodeValue("/" + where + "/" + who));
 			}
 
-			whatObj.put("master-chain-node", whatMasterObj);
+			whatObj.put("master-chain", whatMasterObj);
 
 		} catch (JSONException e) {
 			log.error(e.getMessage(), e);
@@ -256,23 +261,23 @@ public class BlockChainResource {
 
 		// 校验从链数据
 		JSONObject whatSlaveObj = null;
-		if (null == HbaseConnection.getInstance().getCellValueByRowKey(which, who, why, where)) {
+		if (null == HbaseConnection.getInstance().getCellValueByRowKey(where, who, which, why)) {
 			whatSlaveObj = new JSONObject();
-			whatObj.put("slave-chain-node", whatSlaveObj);
+			whatObj.put("slave-chain", whatSlaveObj);
 		} else {
-			whatSlaveObj = HbaseConnection.getInstance().getCellValueByRowKey(which, who, why, where);
-			whatObj.put("slave-chain-node", whatSlaveObj);
+			whatSlaveObj = HbaseConnection.getInstance().getCellValueByRowKey(where, who, which, why);
+			whatObj.put("slave-chain", whatSlaveObj);
 		}
 
-		output.put("node-who", who);
-		output.put("node-which", which);
-		output.put("node-where", where);
-		output.put("node-what", whatObj);
-		output.put("node-when", when);
-		output.put("node-why", why);
-		output.put("node-how-to-do", howToDo);
-		output.put("node-how-much", howMuch);
-
+		output.put("who", who);
+		output.put("which", which);
+		output.put("where", where);
+		output.put("what", whatObj);
+		output.put("when", when);
+		output.put("why", why);
+		output.put("howToDo", howToDo);
+		output.put("howMuch", howMuch);
+		output.put("howMany", howMany);
 		obj.put("input", input);
 		obj.put("output", output);
 
@@ -287,26 +292,26 @@ public class BlockChainResource {
 		JSONObject input = new JSONObject(data);
 		JSONObject output = new JSONObject();
 		JSONObject obj = new JSONObject();
-		String who = input.getString("node-who");
-		String which = input.getString("node-which");
-		String where = input.getString("node-where");
-		String when = input.getString("node-which");
-		JSONObject what = input.getJSONObject("node-what");
-		String why = input.getString("node-why");
-		String howToDo = input.getString("node-how-to-do");
-		String howMuch = input.getString("node-how-much");
-
+		String who = input.getString("who");
+		String which = input.getString("which");
+		String where = input.getString("where");
+		String when = input.getString("when");
+		JSONObject what = input.getJSONObject("what");
+		String why = input.getString("why");
+		String howToDo = input.getString("howToDo");
+		String howMuch = input.getString("howMuch");
+		String howMany = input.getString("howMany");
 		// 校验数据
 		JSONObject whatObj = new JSONObject();
 		// 校验主链数据
 		JSONObject whatMasterObj = null;
 		try {
-			if (null == ZookeeperUtils.getNodeValue(schema) || null == ZookeeperUtils.isExistsNode(schema)) {
+			if (null == ZookeeperUtils.getNodeValue("/" + where + "/" + who) || null == ZookeeperUtils.isExistsNode("/" + where + "/" + who)) {
 				whatMasterObj = new JSONObject();
 			} else {
-				whatMasterObj = new JSONObject(ZookeeperUtils.getNodeValue(schema));
+				whatMasterObj = new JSONObject(ZookeeperUtils.getNodeValue("/" + where + "/" + who));
 			}
-			whatObj.put("master-chain-node", whatMasterObj);
+			whatObj.put("master-chain", whatMasterObj);
 
 		} catch (JSONException e) {
 			log.error(e.getMessage(), e);
@@ -318,23 +323,24 @@ public class BlockChainResource {
 
 		// 校验从链数据
 		JSONObject whatSlaveObj = null;
-		if (null == HbaseConnection.getInstance().getCellValueByRowKey(which, who, why, where)) {
+		if (null == HbaseConnection.getInstance().getCellValueByRowKey(where, who, which, why)) {
 			whatSlaveObj = new JSONObject();
-			whatObj.put("slave-chain-node", whatSlaveObj);
+			whatObj.put("slave-chain", whatSlaveObj);
 		} else {
-			whatSlaveObj = HbaseConnection.getInstance().getCellValueByRowKey(which, who, why, where);
-			whatObj.put("slave-chain-node", whatSlaveObj);
+			whatSlaveObj = HbaseConnection.getInstance().getCellValueByRowKey(where, who, which, why);
+			whatObj.put("slave-chain", whatSlaveObj);
 		}
 
-		output.put("node-who", who);
-		output.put("node-which", which);
-		output.put("node-where", where);
-		output.put("node-what", whatObj);
-		output.put("node-when", when);
-		output.put("node-why", why);
-		output.put("node-how-to-do", howToDo);
-		output.put("node-how-much", howMuch);
-
+		output.put("who", who);
+		output.put("which", which);
+		output.put("where", where);
+		output.put("what", whatObj);
+		output.put("when", when);
+		output.put("why", why);
+		output.put("howToDo", howToDo);
+		output.put("howMuch", howMuch);
+		output.put("howMany", howMany);
+		
 		obj.put("input", input);
 		obj.put("output", output);
 

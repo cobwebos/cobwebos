@@ -34,9 +34,9 @@ public class CustomRealm extends AuthorizingRealm {
 		String password = new String((char[]) token.getCredentials());
 		SimpleAuthenticationInfo simpleAuthenticationInfo = null;
 		JSONObject inputObj = new JSONObject();
-		inputObj.put("node-who", user);
-		inputObj.put("node-which", "user");
-		inputObj.put("node-where", "info");
+		inputObj.put("who", user);
+		inputObj.put("which", "user");
+		inputObj.put("where", "info");
 		JSONObject whatObj = new JSONObject();
 		JSONObject userObj = new JSONObject();
 		userObj.put("name", user);
@@ -44,19 +44,20 @@ public class CustomRealm extends AuthorizingRealm {
 		userObj.put("mail", user+"@163.com");
 		userObj.put("url", user+":create");
 		whatObj.put("user", userObj);
-		inputObj.put("node-what", whatObj);
-		inputObj.put("node-why", "cf");
-		inputObj.put("node-when", "node-when");
-		inputObj.put("node-how-to-do", "get");
-		inputObj.put("node-how-much", "how-much");
+		inputObj.put("what", whatObj);
+		inputObj.put("why", "cf");
+		inputObj.put("when", "when");
+		inputObj.put("howToDo", "get");
+		inputObj.put("howMuch", "1");
+		inputObj.put("howMany", "1");
 		String output = HttpClientUtils.getClientInstance().doPost(AAACfg.getInstance().getDappServerUrl(),
 				inputObj.toString());
 		log.info("output:{}", output);
 		if (null != output) {
 			JSONObject outputObj = new JSONObject(output);
-			String dBUserName = outputObj.getJSONObject("output").getJSONObject("node-what")
+			String dBUserName = outputObj.getJSONObject("output").getJSONObject("what")
 					.getJSONObject("slave-chain-node").getJSONObject("user").getString("name");
-			String dBUserPassword = outputObj.getJSONObject("output").getJSONObject("node-what")
+			String dBUserPassword = outputObj.getJSONObject("output").getJSONObject("what")
 					.getJSONObject("slave-chain-node").getJSONObject("user").getString("passowrd");
 
 			if (!user.equalsIgnoreCase(dBUserName)) {
@@ -85,9 +86,9 @@ public class CustomRealm extends AuthorizingRealm {
 		String user = (String) principals.getPrimaryPrincipal();		
 		SimpleAuthorizationInfo simpleAuthorizationInfo = null;
 		JSONObject inputObj = new JSONObject();
-		inputObj.put("node-who", user);
-		inputObj.put("node-which", "user");
-		inputObj.put("node-where", "info");
+		inputObj.put("who", user);
+		inputObj.put("which", "cf");
+		inputObj.put("where", "user");
 		JSONObject whatObj = new JSONObject();
 		JSONObject userObj = new JSONObject();
 		userObj.put("name", user);
@@ -95,18 +96,19 @@ public class CustomRealm extends AuthorizingRealm {
 		userObj.put("mail", user+"@163.com");
 		userObj.put("url", user+":create");
 		whatObj.put("user", userObj);
-		inputObj.put("node-what", whatObj);
-		inputObj.put("node-why", "cf");
-		inputObj.put("node-when", "node-when");
-		inputObj.put("node-how-to-do", "get");
-		inputObj.put("node-how-much", "how-much");
+		inputObj.put("what", whatObj);
+		inputObj.put("why", "cf");
+		inputObj.put("when", "when");
+		inputObj.put("howToDo", "get");
+		inputObj.put("howMuch", "1");
+		inputObj.put("howMany", "1");
 		String output = HttpClientUtils.getClientInstance().doPost(AAACfg.getInstance().getDappServerUrl(),
 				inputObj.toString());
 		log.info("output:{}", output);
 		if(null!=output) {
 			JSONObject outputObj = new JSONObject(output);
 			
-			String url = outputObj.getJSONObject("output").getJSONObject("node-what").getJSONObject("slave-chain-node")
+			String url = outputObj.getJSONObject("output").getJSONObject("what").getJSONObject("slave-chain-node")
 					.getJSONObject("user").getString("url");
 
 			List<String> permissions = new ArrayList<String>();

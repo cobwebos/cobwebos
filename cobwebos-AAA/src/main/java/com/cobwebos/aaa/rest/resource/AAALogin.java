@@ -24,10 +24,10 @@ public class AAALogin {
 	public String postLogin(@PathParam("path") String path, String data) {
 		log.info("path:{},data:{}", path, data);		
 		JSONObject input = new JSONObject(data);
-		String who = input.getString("node-who");
-		String which = input.getString("node-which");
-		String password = input.getJSONObject("node-what").getJSONObject("user").getString("passowrd");
-		String url = input.getJSONObject("node-what").getJSONObject("user").getString("url");
+		String who = input.getString("who");
+		String where = input.getString("where");
+		String password = input.getJSONObject("what").getJSONObject("user").getString("passowrd");
+		String url = input.getJSONObject("what").getJSONObject("user").getString("url");
 //		boolean login = false;
 //		boolean authorization = false;
 		boolean permission = false;

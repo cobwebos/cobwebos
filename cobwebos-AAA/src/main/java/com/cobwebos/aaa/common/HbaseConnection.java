@@ -31,7 +31,6 @@ import org.slf4j.LoggerFactory;
 import com.cobwebos.aaa.common.HBaseInfo;
 import com.cobwebos.aaa.common.AAACfg;
 
-
 public class HbaseConnection {
 	private static final HbaseConnection hbase = new HbaseConnection();
 	private static final Logger log = LoggerFactory.getLogger(HbaseConnection.class.getName());
@@ -166,6 +165,40 @@ public class HbaseConnection {
 		return hBaseInfoList;
 	}
 
+	public List<HBaseInfo> getTableByTableName(DataNode dataNode) {
+		Connection conn = getHbaseConn();
+		List<HBaseInfo> hBaseInfoList = new ArrayList<>();
+		Scan scan = new Scan();
+		try {
+			HTable hTable = (HTable) conn.getTable(TableName.valueOf(dataNode.getWhere()));
+			ResultScanner scann = hTable.getScanner(scan);
+			for (Result rs : scann) {
+				String rowKey = new String(rs.getRow());
+				for (Cell cell : rs.rawCells()) {
+					HBaseInfo hBaseInfo = new HBaseInfo();
+					String family = new String(CellUtil.cloneFamily(cell));
+					String column = new String(CellUtil.cloneQualifier(cell));
+					String value = new String(CellUtil.cloneValue(cell));
+					long timestamp = cell.getTimestamp();
+					log.info("tableName:{},rowKey:{},family:{},column:{},value:{} ,timestamp:{}", dataNode.getWhere(), rowKey,
+							family, column, value, timestamp);
+					hBaseInfo.setRowKey(rowKey);
+					hBaseInfo.setFamily(family);
+					hBaseInfo.setColumn(column);
+					hBaseInfo.setValue(value);
+					hBaseInfo.setTimestamp(timestamp);
+					hBaseInfoList.add(hBaseInfo);
+				}
+			}
+			return hBaseInfoList;
+		} catch (IOException e) {
+			log.error("query faild, tableName:{}", dataNode.getWhere(), e);
+		} finally {
+			// destroy(conn);
+		}
+		return hBaseInfoList;
+	}
+
 	public List<HBaseInfo> scanTable(String tableName) {
 		Connection conn = getHbaseConn();
 		List<HBaseInfo> hBaseInfoList = new ArrayList<>();
@@ -195,6 +228,41 @@ public class HbaseConnection {
 			return hBaseInfoList;
 		} catch (IOException e) {
 			log.error("query faild, tableName:{}", tableName, e);
+		} finally {
+			// destroy(conn);
+		}
+		return hBaseInfoList;
+	}
+
+	public List<HBaseInfo> scanTable(DataNode dataNode) {
+		Connection conn = getHbaseConn();
+		List<HBaseInfo> hBaseInfoList = new ArrayList<>();
+		Scan scan = new Scan();
+		try {
+			HTable hTable = (HTable) conn.getTable(TableName.valueOf(dataNode.getWhere()));
+			ResultScanner scann = hTable.getScanner(scan);
+			for (Result rs : scann) {
+				String rowKey = new String(rs.getRow());
+
+				for (Cell cell : rs.rawCells()) {
+					HBaseInfo hBaseInfo = new HBaseInfo();
+					String family = new String(CellUtil.cloneFamily(cell));
+					String column = new String(CellUtil.cloneQualifier(cell));
+					String value = new String(CellUtil.cloneValue(cell));
+					long timestamp = cell.getTimestamp();
+					log.info("tableName:{},rowKey:{},family:{},column:{},value:{} ,timestamp:{}", dataNode.getWhere(), rowKey,
+							family, column, value, timestamp);
+					hBaseInfo.setRowKey(rowKey);
+					hBaseInfo.setFamily(family);
+					hBaseInfo.setColumn(column);
+					hBaseInfo.setValue(value);
+					hBaseInfo.setTimestamp(timestamp);
+					hBaseInfoList.add(hBaseInfo);
+				}
+			}
+			return hBaseInfoList;
+		} catch (IOException e) {
+			log.error("query faild, tableName:{}", dataNode.getWhere(), e);
 		} finally {
 			// destroy(conn);
 		}
@@ -338,20 +406,52 @@ public class HbaseConnection {
 				get.addColumn(Bytes.toBytes(family), Bytes.toBytes(column));
 				Result res = table.get(get);
 				byte[] resByte = res.getValue(Bytes.toBytes(family), Bytes.toBytes(column));
-				if(resByte!=null) {
+				if (resByte != null) {
 					String value = new String(resByte);
 					cell = new JSONObject(value);
 					log.info("tableName:{},family:{},column:{},value:{} ", tableName, family, column, cell.toString());
-					
-				}else {
+
+				} else {
 					log.warn("tableName:{},family:{},column:{},value:{} ", tableName, family, column, cell);
-					
-				}		
-				
+
+				}
+
 				return cell;
 			}
 		} catch (IOException e) {
 			log.error("get tableName:{},rowKey:{}", tableName, rowKey, e);
+		} finally {
+			// destroy(conn);
+		}
+		return null;
+	}
+
+	public JSONObject getCellValueByRowKey(DataNode dataNode) {
+		JSONObject cell = null;
+		Connection conn = getHbaseConn();
+		try {
+			Table table = conn.getTable(TableName.valueOf(dataNode.getWhere()));
+			Get get = new Get(dataNode.getWho().getBytes());
+			if (!get.isCheckExistenceOnly()) {
+				get.addColumn(Bytes.toBytes(dataNode.getWhich()), Bytes.toBytes(dataNode.getWhy()));
+				Result res = table.get(get);
+				byte[] resByte = res.getValue(Bytes.toBytes(dataNode.getWhich()), Bytes.toBytes(dataNode.getWhy()));
+				if (resByte != null) {
+					String value = new String(resByte);
+					cell = new JSONObject(value);
+					log.info("tableName:{},family:{},column:{},value:{} ", dataNode.getWhere(), dataNode.getWhich(),
+							dataNode.getWhy(), cell.toString());
+
+				} else {
+					log.warn("tableName:{},family:{},column:{},value:{} ", dataNode.getWhere(), dataNode.getWhich(),
+							dataNode.getWhy(), cell);
+
+				}
+
+				return cell;
+			}
+		} catch (IOException e) {
+			log.error("get tableName:{},rowKey:{}", dataNode.getWhere(), dataNode.getWho(), e);
 		} finally {
 			// destroy(conn);
 		}
@@ -371,6 +471,24 @@ public class HbaseConnection {
 			log.info("tableName:{},rowKey:{},family:{},column:{},value: {}", tableName, rowKey, family, column, value);
 		} catch (IOException e) {
 			log.error("insert table{},rowKey:{}", tableName, rowKey, e);
+		}
+		// destroy(conn);
+	}
+
+	public void insertAndUpdateOneRowOneColumnFamilyOneClumnValue(DataNode dataNode) {
+		Connection conn = getHbaseConn();
+		try {
+			HTable hTable = (HTable) conn.getTable(TableName.valueOf(dataNode.getWhich()));
+			Put p = new Put(Bytes.toBytes(dataNode.getWho()));
+			p.addColumn(Bytes.toBytes(dataNode.getWhere()), Bytes.toBytes(dataNode.getWhy()),
+					Bytes.toBytes(dataNode.getWhat()));
+			if (!p.isEmpty()) {
+				hTable.put(p);
+			}
+			log.info("tableName:{},rowKey:{},family:{},column:{},value: {}", dataNode.getWhere(), dataNode.getWho(),
+					dataNode.getWhich(), dataNode.getWhy(), dataNode.getDataNode());
+		} catch (IOException e) {
+			log.error("insert table{},rowKey:{}", dataNode.getWhere(), dataNode.getWho(), e);
 		}
 		// destroy(conn);
 	}
@@ -547,11 +665,11 @@ public class HbaseConnection {
 		try {
 			Admin admin = conn.getAdmin();
 			tableExists = admin.tableExists(TableName.valueOf(tableName));
-			if (!tableExists) {				
+			if (!tableExists) {
 				log.info("table:{},tableExists:{}", tableName, tableExists);
 			}
 			log.warn("table not exists!");
-			
+
 		} catch (IOException e) {
 			log.error("table Exists:{}", tableName, e);
 		}
