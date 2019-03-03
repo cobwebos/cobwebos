@@ -18,9 +18,7 @@ import org.slf4j.LoggerFactory;
 
 import com.cobwebos.dapp.server.common.Constants;
 import com.cobwebos.dapp.server.common.ZookeeperUtils;
-import com.cobwebos.dapp.server.config.DappServerCfg;
 import com.cobwebos.dapp.server.datastore.HbaseConnection;
-import com.cobwebos.dapp.server.event.MessageProducer;
 
 @Path(Constants.BLOCK_CHAIN_RESOURCE_URI)
 public class BlockChainResource {
