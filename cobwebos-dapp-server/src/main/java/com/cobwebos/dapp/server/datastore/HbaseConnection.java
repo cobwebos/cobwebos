@@ -491,9 +491,9 @@ public class HbaseConnection {
 
 			admin.disableTable(TableName.valueOf(tableName));
 			admin.deleteTable(TableName.valueOf(tableName));
-			log.info("delete tableName:{}", tableName);
+			log.info("drop table name:{}", tableName);
 		} catch (IOException e) {
-			log.error("delete tableName:{}", tableName, e);
+			log.error("drop table name:{}", tableName, e);
 		}
 		// destroy(conn);
 	}

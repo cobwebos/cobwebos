@@ -33,7 +33,11 @@ public class AAAServer {
 			Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 				@Override
 				public void run() {
-					server.close();
+					if(server.isOpen()||server.isActive()) {
+						server.disconnect();
+						server.close();
+					}
+					
 				}
 			}));
 

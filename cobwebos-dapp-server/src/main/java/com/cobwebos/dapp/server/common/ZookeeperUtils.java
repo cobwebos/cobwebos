@@ -103,6 +103,22 @@ public class ZookeeperUtils {
 
 		return result;
 	}
+	
+	public static JSONObject deleteBlockNodeByPath(String path) {
+		JSONObject blockNode = null;
+		blockNode = new JSONObject();
+		blockNode.put("path", path);
+		blockNode.put("data", ZookeeperUtils.deleteNode(path));
+		return blockNode;
+	}
+
+	public static JSONObject rmrBlockNodeByPath(String path) {
+		JSONObject blockNode = null;
+		blockNode = new JSONObject();
+		blockNode.put("path", path);
+		blockNode.put("data", ZookeeperUtils.rmrNode(path));
+		return blockNode;
+	}
 
 	public static boolean setNodeValue(String path, byte[] data) {
 		boolean result = false;

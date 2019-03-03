@@ -90,10 +90,11 @@ class MessageConsumerImpl implements Runnable {
 									headerObj.getString("where"),headerObj.getString("who"), headerObj.getString("which"),
 									headerObj.getString("why"),
 									body);
-						} else if (todo.equalsIgnoreCase("delete") || todo.equalsIgnoreCase("remove")
-								|| todo.equalsIgnoreCase("rmr")) {
+						} else if (todo.equalsIgnoreCase("delete")) {
 							HbaseConnection.getInstance().deleteOneRowAll(headerObj.getString("where"),
 									headerObj.getString("who"));
+						}else if (todo.equalsIgnoreCase("drop")){
+							HbaseConnection.getInstance().deleteTable(headerObj.getString("where"));
 						}
 						log.info("message consumer record topic:{},offset:{}, msgHeader:{}, msgBody:{}", topic,
 								record.offset(), headerObj.toString(), body);
