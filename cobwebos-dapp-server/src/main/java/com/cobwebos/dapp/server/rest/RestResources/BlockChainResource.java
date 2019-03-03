@@ -157,7 +157,7 @@ public class BlockChainResource {
 			// 删除主链
 //			ZookeeperUtils.rmrNode("/" + where + "/" + who);
 			// 删除从链同步方案
-			HbaseConnection.getInstance().deleteOneRowAll(where, who);
+			HbaseConnection.getInstance().deleteTable(where);
 			// 删除从链异步方案
 //			MessageProducer.getInstance().SendMessage(DappServerCfg.getInstance().getKafkaTopic(), input.toString(),
 //					what.toString());

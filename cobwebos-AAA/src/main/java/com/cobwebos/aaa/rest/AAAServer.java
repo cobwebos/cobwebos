@@ -50,7 +50,8 @@ public class AAAServer {
 
 	public static void stopRestServer() {
 		log.info("stoping the AAA Server...");
-		if (server.isOpen()) {
+		if(server.isOpen()||server.isActive()) {
+			server.disconnect();
 			server.close();
 		}
 		log.info("stoped the AAA Server...");
