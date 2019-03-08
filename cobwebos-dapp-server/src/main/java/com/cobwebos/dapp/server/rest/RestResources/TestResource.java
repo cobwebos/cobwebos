@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import com.cobwebos.dapp.client.HttpClientUtils;
 import com.cobwebos.dapp.server.common.Constants;
+import com.cobwebos.dapp.server.config.DappServerCfg;
 
 @Path(Constants.BLOCK_CHAIN_RESOURCE_TEST_URI)
 public class TestResource {
@@ -71,7 +72,7 @@ public class TestResource {
 			inputObj.put("howMany", input.getString("howMany"));
 			inputObj.put("from", input.getInt("from"));
 			inputObj.put("to", input.getInt("to"));			
-			String reponse = HttpClientUtils.getClientInstance().doPost("http://192.168.0.2:2019/blockchain/"+input.getString("where")+"/"+i, inputObj.toString());
+			String reponse = HttpClientUtils.getClientInstance().doPost(DappServerCfg.getInstance().getDappServerUrl()+input.getString("where")+"/"+i, inputObj.toString());
 			log.info("inputObj:{},reponse:{}",inputObj.toString(),reponse);
 		}
 		
@@ -98,7 +99,7 @@ public class TestResource {
 			inputObj.put("howMany", input.getString("howMany"));
 			inputObj.put("from", input.getInt("from"));
 			inputObj.put("to", input.getInt("to"));			
-			HttpClientUtils.getClientInstance().doPost("http://192.168.0.2:2019/blockchain/"+input.getString("where")+"/"+i, inputObj.toString());
+			HttpClientUtils.getClientInstance().doPost(DappServerCfg.getInstance().getDappServerUrl()+input.getString("where")+"/"+i, inputObj.toString());
 			log.info("inputObj:{}",inputObj.toString());
 		}
 	
