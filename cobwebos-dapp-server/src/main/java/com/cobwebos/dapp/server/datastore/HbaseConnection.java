@@ -43,6 +43,12 @@ public class HbaseConnection {
 		conf = HBaseConfiguration.create();
 		conf.set("hbase.zookeeper.quorum", DappServerCfg.getInstance().getHbaseServerIP());
 		conf.set("hbase.zookeeper.property.clientPort", DappServerCfg.getInstance().getHbaseClientPort() + "");
+		//hbase客户端的线程池变量 				
+		conf.setInt("hbase.hconnection.threads.max", 50);//最大线程数量改为50 
+		conf.setInt("hbase.hconnection.threads.core", 20);//核心线程数量改为20 
+		conf.setLong("hbase.hconnection.threads.keepalivetime", 300);//空闲时间300秒 
+		
+		
 	}
 
 	private HbaseConnection() {

@@ -3,6 +3,8 @@ package com.cobwebos.dapp.server.rest.RestResources;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.HEAD;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -23,7 +25,7 @@ import com.cobwebos.dapp.server.datastore.HbaseConnection;
 @Path(Constants.BLOCK_CHAIN_RESOURCE_URI)
 public class BlockChainResource {
 	public Logger log = LoggerFactory.getLogger(BlockChainResource.class);
-
+	
 	@Produces({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Consumes({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@POST
@@ -130,7 +132,7 @@ public class BlockChainResource {
 
 		return obj.toString();
 	}
-
+	
 	@Produces({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Consumes({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@DELETE
@@ -186,7 +188,7 @@ public class BlockChainResource {
 
 		return obj.toString();
 	}
-
+	
 	@Produces({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Consumes({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@PUT
@@ -296,7 +298,7 @@ public class BlockChainResource {
 
 		return obj.toString();
 	}
-
+	
 	@Produces({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Consumes({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@GET
